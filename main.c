@@ -27,9 +27,12 @@
 void creacionmap(void);
 void printmat(int arr[ALTURA][LARGO]);
 void control_mov(int arr[ALTURA][LARGO]);
+void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]);  /*Funcion que busca la posicion de mario en el mapa (Matriz), se le pasa el nivel y la cantidad de movimiento del mapa*/
+
 int reglas (int arr[ALTURA][LARGO]);
 /*Globales*/
- int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
+int pos[3];         /*es un arreglo que tiene en el primer elemento la fila , en el segundo la col(de la pos de mario) y en el ultimo la cantidad de movimineto del mapa*/
+int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
  /*int lvl_2 [ALTURA][LARGO];  
  int lvl_3 [ALTURA][LARGO];  
 /*
@@ -38,7 +41,11 @@ int reglas (int arr[ALTURA][LARGO]);
 int main() {
     
     creacionmap();          /*se crea el espacio donde van a escribirse los niveles*/
+    ctrl_posicion(lvl_1,pos);
     printmat(lvl_1);
+    printf("%d",pos[0]);
+    printf("%d",pos[1]);
+    printf("%d",pos[2]);
    /* control_mov();*/
     
     
@@ -47,7 +54,7 @@ int main() {
 
 void creacionmap(void){ /*creacion de los mapas */
         
-        lvl_1[7][0]=MARIO;
+        lvl_1[7][8]=MARIO;
 	for(int i=0;i<(LARGO-5);i++)
 	{
 		lvl_1[0][i]=SUPERFICIE;
@@ -220,22 +227,48 @@ void creacionmap(void){ /*creacion de los mapas */
 
 }
 /*CREO QUE ESTO TIENE QUE SER SI O SI UNA FUNCION THREAD...*/
-void control_mov(int arr[ALTURA][LARGO]){         /*necesito pasarle de alguna forma la posicion de mario*/
-    int i=0;
+/*void control_mov(int arr[ALTURA][LARGO]){         /*necesito pasarle de alguna forma la posicion de mario*/
+   /* int i=0;
     int valido=0;
     i= getchar();
     switch(i){
         case 'W':
             valido=reglas();
     }
+}*/
+
+void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]){  /*se le pasa la matriz nivel, y un arreglo en donde se va a guarda la posicion de mario*/
+                                   
+    if((16+pos[2])<LARGO){          /*en el ultimo elemento se guarda la cnatidad de movimiento del mapa*/
+        for (int col=pos[2];col<(16+pos[2]);col++){     /*se centra la busqueda de mario en un cuadrado de 16 por 16 que coincide con lo mostrado por printmat*/
+            for(int fil=0;fil<16;fil++){
+                if(arr[fil][col]==1){
+                    pos[0]=fil;
+                    pos[1]=col;
+                }    
+            }
+        }
+    }
+    else{
+        for (int col=pos[2];col<LARGO;col++){
+            for(int fil=0;fil<16;fil++){
+                if(arr[fil][col]==1){
+                    pos[0]=fil;
+                    pos[1]=col;
+                }
+            }      
+        }
+    }
 }
 
 void printmat(int arr[ALTURA][LARGO]){
+    if(pos[1]>=((16+pos[2])/2)){        /*se lee la columna en donde esta mario y se mueve le mapa si esta en la mitad*/
+        pos[2]=+4;                      /*la cantidad de este movimineto se guarda en el tercer elemento del arreglo, se elije por default que se mueva de a 4*/
+    }    
     for (int i=0;i<16;i++){
-        for(int p=0; p<16;p++){
+        for(int p=pos[2]; p<(16+pos[2]);p++){
             printf("%d",arr[i][p]);
         }
         printf("\n");
     }
-        
 }
