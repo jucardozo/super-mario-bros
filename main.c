@@ -22,14 +22,24 @@
 #define FINAL 5
 #define MONEDA 3
 #define PRECIPICIO 9
+#define PEZ 6
+#define PES 7
+#define FUEGO 10
+#define PULPO 11
 #define MARIO 1
+/*provisorio, solo para que quede escrite la funcion reglas*/
+#define up 100
+#define right 101
+#define left 102
+#define down 103
+
 /* prototipos*/
 void creacionmap(void);
-void printmat(int arr[ALTURA][LARGO]);
+void printmat(int arr[ALTURA][LARGO]); /*creo que no es necesario pasarle una arreglo*/
 void control_mov(int arr[ALTURA][LARGO]);
 void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]);  /*Funcion que busca la posicion de mario en el mapa (Matriz), se le pasa el nivel y la cantidad de movimiento del mapa*/
+int reglas (int arr[ALTURA][LARGO],int boton);
 
-int reglas (int arr[ALTURA][LARGO]);
 /*Globales*/
 int pos[3];         /*es un arreglo que tiene en el primer elemento la fila , en el segundo la col(de la pos de mario) y en el ultimo la cantidad de movimineto del mapa*/
 int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
@@ -41,11 +51,9 @@ int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
 int main() {
     
     creacionmap();          /*se crea el espacio donde van a escribirse los niveles*/
+    
     ctrl_posicion(lvl_1,pos);
     printmat(lvl_1);
-    printf("%d",pos[0]);
-    printf("%d",pos[1]);
-    printf("%d",pos[2]);
    /* control_mov();*/
     
     
@@ -272,3 +280,36 @@ void printmat(int arr[ALTURA][LARGO]){
         printf("\n");
     }
 }
+/*PROVISORIO , PROBABLEMENTE TENGA QUE HACER UN REGLAS PARA ALLEGRO Y PARA LA RASPI, PORQUE DEPENDE EL COMANDO DE MOVIMINETO */
+int reglas(int arr[ALTURA][LARGO],int boton){ /*se le pasa el nivel en el que se esta jugando, y el comando accionado*/
+                            /*se devuelve 1 si el movimiento no esta permitido,2 si agarro una moneda,3 si murio 4 si llego al final y 0 si el movimineto esta permitido*/
+    int i=pos[0];           /*copio la posicion de actual de mario*/
+    int j=pos[1];           /*i es fila y j es col*/
+    
+    if (boton==up){
+        i=+1;
+    }
+    else if (boton==down){
+        i=-1;
+    }
+    else if(boton ==right){
+        j=+1;
+    }
+    else if(boton==left){
+        j=-1;
+    }    
+    switch(int arr[i][j]){
+            case BLOQUE: 
+            case ALGA:
+            case SUPERFICIE:return 1; break;
+            case MONEDA: return 2; break;
+            case PULPO:
+            case PEZ:
+            case PES:
+            case FUEGO: return 3;break; /*suponiendo que el fuego mate a mario*/
+            case FINAL: return 4;break;
+            default: return 0;break;
+    }
+}
+    
+
