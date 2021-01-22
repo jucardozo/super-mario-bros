@@ -51,6 +51,8 @@ int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
 /*****************/
 
 int main() {
+    int puntaje=0;
+    int vida=3;
     printf("Bienvenido a la beta del super mario\n");
     creacionmap();          /*se genera el nivel*/
     printmat(lvl_1);
@@ -65,12 +67,32 @@ int main() {
                movimiento(lvl_1,boton); /*realza el movimiento efectivo, solo de Mario*/
                printmat(lvl_1);
            }
-           else if(val==1){
-               fin=0;
+           else if(val==2){             /*recogio una moneda*/
+               
+               puntaje+=10;
+               printf("PUNTAJE:%d\n",puntaje);
+               movimiento(lvl_1,boton);
+               printmat(lvl_1);
            }
+           else if(val==4){
+               puntaje+=100;
+               printf("Bien jugado,pasaste primer nivel\n");
+               printf("PUNTAJE: %d",puntaje);
+               return 0;
+           }
+           else if(val==3){
+               
+               vida-=1;
+               if(vida<0){
+                   printf("GAME OVER\n");
+                   printf("PUNTAJE: %d",puntaje);
+                   fin =0;
+               }
+           }
+          
        }
     }
-    printf("GAME OVER\n");
+    
     return (EXIT_SUCCESS);
 }
 
@@ -85,6 +107,7 @@ int main() {
 void creacionmap(void){ /*creacion de los mapas */
         
         lvl_1[7][0]=MARIO;
+        lvl_1[7][3]=PEZ;
 	for(int i=0;i<(LARGO-5);i++)
 	{
 		lvl_1[0][i]=SUPERFICIE;
@@ -256,7 +279,7 @@ void creacionmap(void){ /*creacion de los mapas */
 		lvl_1[12][LARGO-2]=FINAL;
 
 }
-/*CREO QUE ESTO TIENE QUE SER SI O SI UNA FUNCION THREAD...*/
+
 void movimiento(int arr[ALTURA][LARGO], int boton){         /*necesito pasarle de alguna forma la posicion de mario*/
    int i=pos[0];
    int j=pos[1];
@@ -305,9 +328,9 @@ void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]){  /*se le pasa la matriz n
 }
 
 void printmat(int arr[ALTURA][LARGO]){
-    if(pos[1]>=((16+pos[2])/2)){        /*se lee la columna en donde esta mario y se mueve le mapa si esta en la mitad*/
+    if(((16+pos[2])-pos[1])<=8){        /*se lee la columna en donde esta mario y se mueve le mapa si esta en la mitad*/
         pos[2]+=4;                      /*la cantidad de este movimineto se guarda en el tercer elemento del arreglo, se elije por default que se mueva de a 4*/
-    }    
+    }  
     for (int i=0;i<16;i++){
         for(int p=pos[2]; p<(16+pos[2]);p++){
             printf("%d",arr[i][p]);
@@ -341,13 +364,14 @@ int reglas(int arr[ALTURA][LARGO],int boton){ /*se le pasa el nivel en el que se
             case PULPO:
             case PEZ:
             case PES:
+            case PRECIPICIO:
             case FUEGO: return 3;break; /*suponiendo que el fuego mate a mario*/
             case FINAL: return 4;break;
             default: return 0;break;
     }
 }
     
-
+/*creo que tendria que ser una funcion thread*/
 int entrada(void) {
 
     printf("por favor introducir el movimiento deseado\n");
