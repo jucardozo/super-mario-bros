@@ -23,7 +23,7 @@
 #define MONEDA 3
 #define PRECIPICIO 9
 #define PEZ 6
-#define PES 7
+#define PES 8
 #define FUEGO 10
 #define PULPO 11
 #define MARIO 1
@@ -36,33 +36,55 @@
 /* prototipos*/
 void creacionmap(void);
 void printmat(int arr[ALTURA][LARGO]); /*creo que no es necesario pasarle una arreglo*/
-void control_mov(int arr[ALTURA][LARGO]);
+void movimiento(int arr[ALTURA][LARGO],int boton);
 void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]);  /*Funcion que busca la posicion de mario en el mapa (Matriz), se le pasa el nivel y la cantidad de movimiento del mapa*/
 int reglas (int arr[ALTURA][LARGO],int boton);
+int entrada(void);
 
 /*Globales*/
 int pos[3];         /*es un arreglo que tiene en el primer elemento la fila , en el segundo la col(de la pos de mario) y en el ultimo la cantidad de movimineto del mapa*/
 int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
+
  /*int lvl_2 [ALTURA][LARGO];  
- int lvl_3 [ALTURA][LARGO];  
-/*
- * 
- */
+ int lvl_3 [ALTURA][LARGO];  */
+
+/*****************/
+
 int main() {
-    
-    creacionmap();          /*se crea el espacio donde van a escribirse los niveles*/
-    
-    ctrl_posicion(lvl_1,pos);
+    printf("Bienvenido a la beta del super mario\n");
+    creacionmap();          /*se genera el nivel*/
     printmat(lvl_1);
-   /* control_mov();*/
-    
-    
+    int fin=1;
+    while (fin){
+       int boton=entrada(); /*se recoge el boton apretado*/
+
+       if(boton !=0){       /*si el boton es igual a cero , entonces hubo problema en la entrada*/
+           ctrl_posicion(lvl_1,pos);    /*busca a mario en el mapa y devuelve su posicion en pos */
+           int val=reglas(lvl_1,boton); /*val, guarda la evaluacion de reglas*/
+           if(val==0){                  /*si el movimiento esta permitido , lo mueve efectivamente*/
+               movimiento(lvl_1,boton); /*realza el movimiento efectivo, solo de Mario*/
+               printmat(lvl_1);
+           }
+           else if(val==1){
+               fin=0;
+           }
+       }
+    }
+    printf("GAME OVER\n");
     return (EXIT_SUCCESS);
 }
 
+
+/**************************/
+
+
+
+/*Funciones auxiliares*/
+
+
 void creacionmap(void){ /*creacion de los mapas */
         
-        lvl_1[7][8]=MARIO;
+        lvl_1[7][0]=MARIO;
 	for(int i=0;i<(LARGO-5);i++)
 	{
 		lvl_1[0][i]=SUPERFICIE;
@@ -235,15 +257,28 @@ void creacionmap(void){ /*creacion de los mapas */
 
 }
 /*CREO QUE ESTO TIENE QUE SER SI O SI UNA FUNCION THREAD...*/
-/*void control_mov(int arr[ALTURA][LARGO]){         /*necesito pasarle de alguna forma la posicion de mario*/
-   /* int i=0;
-    int valido=0;
-    i= getchar();
-    switch(i){
-        case 'W':
-            valido=reglas();
-    }
-}*/
+void movimiento(int arr[ALTURA][LARGO], int boton){         /*necesito pasarle de alguna forma la posicion de mario*/
+   int i=pos[0];
+   int j=pos[1];
+   switch(boton){
+       case up:
+           arr[i-1][j]=1;
+           arr[i][j]=0;
+           break;
+       case down:
+           arr[i+1][j]=1;
+           arr[i][j]=0;
+           break;
+       case right:
+           arr[i][j+1]=1;
+           arr[i][j]=0;
+           break;
+       case left:
+           arr[i][j-1]=1;
+           arr[i][j]=0;
+           break;
+   } 
+}
 
 void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]){  /*se le pasa la matriz nivel, y un arreglo en donde se va a guarda la posicion de mario*/
                                    
@@ -271,7 +306,7 @@ void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]){  /*se le pasa la matriz n
 
 void printmat(int arr[ALTURA][LARGO]){
     if(pos[1]>=((16+pos[2])/2)){        /*se lee la columna en donde esta mario y se mueve le mapa si esta en la mitad*/
-        pos[2]=+4;                      /*la cantidad de este movimineto se guarda en el tercer elemento del arreglo, se elije por default que se mueva de a 4*/
+        pos[2]+=4;                      /*la cantidad de este movimineto se guarda en el tercer elemento del arreglo, se elije por default que se mueva de a 4*/
     }    
     for (int i=0;i<16;i++){
         for(int p=pos[2]; p<(16+pos[2]);p++){
@@ -285,20 +320,20 @@ int reglas(int arr[ALTURA][LARGO],int boton){ /*se le pasa el nivel en el que se
                             /*se devuelve 1 si el movimiento no esta permitido,2 si agarro una moneda,3 si murio 4 si llego al final y 0 si el movimineto esta permitido*/
     int i=pos[0];           /*copio la posicion de actual de mario*/
     int j=pos[1];           /*i es fila y j es col*/
-    
+ 
     if (boton==up){
-        i=+1;
+        i-=1;
     }
     else if (boton==down){
-        i=-1;
+        i+=1;
     }
     else if(boton ==right){
-        j=+1;
+        j+=1;
     }
-    else if(boton==left){
-        j=-1;
+    else if(boton==left){       /*CONTROLAR QUE NO SEA NEGATIVO*/
+        j-=1;
     }    
-    switch(int arr[i][j]){
+    switch(arr[i][j]){
             case BLOQUE: 
             case ALGA:
             case SUPERFICIE:return 1; break;
@@ -313,3 +348,30 @@ int reglas(int arr[ALTURA][LARGO],int boton){ /*se le pasa el nivel en el que se
 }
     
 
+int entrada(void) {
+
+    printf("por favor introducir el movimiento deseado\n");
+    printf("tener en cuenta que w,a,d,s, son los movimientos permitidos\n");
+    printf("(Esto es una funcion de prueba, ya que el movimiento dependera del hardware)\n");
+    int i =getchar();
+    if(i=='W' || i=='w'){ /*up*/
+       getchar();       /*libero buffer*/
+       return up; 
+    }
+    else if(i=='D' || i=='d'){/*right*/
+        getchar();
+        return right;
+    }
+    else if(i=='S' || i=='s'){/*down*/
+        getchar();
+        return down;
+    }
+    else if(i=='A' || i=='a'){/*left*/
+        getchar();
+        return left;
+    }
+    else{
+        printf("introdujo un movimiento no permitido\n");
+        return 0;
+    }
+}
