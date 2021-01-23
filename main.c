@@ -27,7 +27,7 @@
 #define FUEGO 10
 #define PULPO 11
 #define MARIO 1
-/*provisorio, solo para que quede escrite la funcion reglas*/
+/*provisorio, solo para que quede escrita la funcion reglas*/
 #define up 100
 #define right 101
 #define left 102
@@ -399,3 +399,32 @@ int entrada(void) {
         return 0;
     }
 }
+
+/*INTENTO DE FUNCION THREAD , COMPILA CON EXTOS AFUERA DE NETBEANS , PERO EN NETBEANS ME TIRA ERROR*/
+/*#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+/*****/
+/******************/
+/*
+void * entrad();       /*funcion thread*/
+/*
+int main(void) {
+    pthread_t th1;
+    pthread_create(&th1,NULL,entrada,NULL);
+    printf("probadita funcion thread\n");
+    while(1){
+        printf("HOLA\n");
+        sleep(8);
+        printf("adios\n");
+        sleep(8);
+    }
+    pthread_join(th1,NULL);
+}
+
+void * entrad(){
+    char i;
+    i=getchar();
+    printf("usted apreto:%c\n",i);
+}*/
