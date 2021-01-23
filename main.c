@@ -13,6 +13,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
 /*define*/
 #define SUPERFICIE 7
 #define ALTURA 16
@@ -40,23 +42,31 @@ void movimiento(int arr[ALTURA][LARGO],int boton);
 void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]);  /*Funcion que busca la posicion de mario en el mapa (Matriz), se le pasa el nivel y la cantidad de movimiento del mapa*/
 int reglas (int arr[ALTURA][LARGO],int boton);
 int entrada(void);
+void * caida (int arr[ALTURA][LARGO]);
+
 
 /*Globales*/
+int puntaje=0;
+int vida=3;
 int pos[3];         /*es un arreglo que tiene en el primer elemento la fila , en el segundo la col(de la pos de mario) y en el ultimo la cantidad de movimineto del mapa*/
 int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
 
  /*int lvl_2 [ALTURA][LARGO];  
  int lvl_3 [ALTURA][LARGO];  */
-
-/*****************/
+/**********************************/
+/*OBSERVACIONES: el motor del juego , se podria hacer con un mutex, de esta manera , se escribiria menos codigo.
+/**********************************/
 
 int main() {
-    int puntaje=0;
-    int vida=3;
-    printf("Bienvenido a la beta del super mario\n");
+
+    pthread_t th1;
     creacionmap();          /*se genera el nivel*/
+    
+    printf("Bienvenido a la beta del super mario\n");
+   
     printmat(lvl_1);
     int fin=1;
+    pthread_create(&th1,NULL,caida(lvl_1),NULL);
     while (fin){
        int boton=entrada(); /*se recoge el boton apretado*/
 
@@ -399,32 +409,40 @@ int entrada(void) {
         return 0;
     }
 }
-
-/*INTENTO DE FUNCION THREAD , COMPILA CON EXTOS AFUERA DE NETBEANS , PERO EN NETBEANS ME TIRA ERROR*/
-/*#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <unistd.h>
-/*****/
-/******************/
-/*
-void * entrad();       /*funcion thread*/
-/*
-int main(void) {
-    pthread_t th1;
-    pthread_create(&th1,NULL,entrada,NULL);
-    printf("probadita funcion thread\n");
+void * caida (int arr[ALTURA][LARGO]){
+    int boton_aux=down;
+    int val;
+    
     while(1){
-        printf("HOLA\n");
-        sleep(8);
-        printf("adios\n");
-        sleep(8);
-    }
-    pthread_join(th1,NULL);
-}
+        sleep(2);
+        printf("entre al thread\n");
+        ctrl_posicion(arr,pos);
+        val=reglas(arr,boton_aux);
+        if(val==0){                  /*si el movimiento esta permitido , lo mueve efectivamente*/
+               movimiento(arr,boton_aux); /*realza el movimiento efectivo, solo de Mario*/
+               printmat(arr);
 
-void * entrad(){
-    char i;
-    i=getchar();
-    printf("usted apreto:%c\n",i);
-}*/
+        }
+        else if(val==2){             /*recogio una moneda*/
+               
+               puntaje+=10;
+               printf("PUNTAJE:%d\n",puntaje);
+               movimiento(arr,boton_aux);
+        }
+        /*else if(val==4){      NO SE BIEN COMO HACER ESTA PARTE, ES DECIR COMO TRANSMITIR AL MOTOR QUE SE TERMINO EL PRIMER NIVEL
+               puntaje+=100;
+               printf("Bien jugado,pasaste primer nivel\n");
+               printf("PUNTAJE: %d",puntaje);
+            
+        }*
+        else if(val==3){
+               
+            vida-=1;
+            if(vida<0){
+                   printf("GAME OVER\n");
+                   printf("PUNTAJE: %d",puntaje);
+            }
+        }*/
+        sleep(2);
+    }
+}
