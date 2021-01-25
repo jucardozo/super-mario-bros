@@ -42,8 +42,8 @@ void movimiento(int arr[ALTURA][LARGO],int boton);
 void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]);  /*Funcion que busca la posicion de mario en el mapa (Matriz), se le pasa el nivel y la cantidad de movimiento del mapa*/
 int reglas (int arr[ALTURA][LARGO],int boton);
 int entrada(void);
-void * caida (int arr[ALTURA][LARGO]);
-void * entrad(void);
+void * caida ();
+void * entrad();
 
 
 /*Globales*/
@@ -58,20 +58,23 @@ int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
 /**********************************/
 /*OBSERVACIONES: el motor del juego , se podria hacer con un mutex, de esta manera , se escribiria menos codigo.
 /**********************************/
+/*MUTEX Y THREAD*/
+pthread_t th1,th2;
+pthread_mutex_t lock1,lock2;
 
 int main() {
 
-    pthread_t th1,th2;
+    
     creacionmap();          /*se genera el nivel*/
     
     printf("Bienvenido a la beta del super mario\n");
    
     printmat(lvl_1);
-    int fin=1,boton=0;
+    int fin=1, boton=0;
     
     pthread_create(&th1,NULL,entrad,NULL);
     pthread_create(&th2,NULL,caida,NULL);
-
+    printf("hola perrito malvado\n");
     while(fin){
         if(tecla !=0){       /*si el boton es igual a cero , entonces hubo problema en la entrada*/
             
@@ -111,8 +114,10 @@ int main() {
             }
           
         }
-            
+      
     }
+    pthread_join(th1,NULL);
+    pthread_join(th2,NULL);
 }
     
     
@@ -307,7 +312,8 @@ void creacionmap(void){ /*creacion de los mapas */
 }
 
 void movimiento(int arr[ALTURA][LARGO], int boton){         /*necesito pasarle de alguna forma la posicion de mario*/
-
+    
+   pthread_mutex_lock(&lock1);
    int i=pos[0];
    int j=pos[1];
    switch(boton){
@@ -327,11 +333,13 @@ void movimiento(int arr[ALTURA][LARGO], int boton){         /*necesito pasarle d
            arr[i][j-1]=1;
            arr[i][j]=0;
            break;
-   } 
+   }
+   pthread_mutex_unlock(&lock1);
 }
 
 void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]){  /*se le pasa la matriz nivel, y un arreglo en donde se va a guarda la posicion de mario*/
-                                   
+    
+    pthread_mutex_lock(&lock2);                               
     if((16+pos[2])<LARGO){          /*en el ultimo elemento se guarda la cnatidad de movimiento del mapa*/
         for (int col=pos[2];col<(16+pos[2]);col++){     /*se centra la busqueda de mario en un cuadrado de 16 por 16 que coincide con lo mostrado por printmat*/
             for(int fil=0;fil<16;fil++){
@@ -352,6 +360,7 @@ void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]){  /*se le pasa la matriz n
             }      
         }
     }
+    pthread_mutex_unlock(&lock2);
 }
 
 void printmat(int arr[ALTURA][LARGO]){
@@ -426,43 +435,39 @@ int entrada(void) {
         return 0;
     }
 }
-void * caida (int arr[ALTURA][LARGO]){
+void*  caida ( ){
     int boton_aux=down;
     int val;
-    
     while(1){
-        sleep(2);
-        printf("entre al thread\n");
-        ctrl_posicion(arr,pos);
-        val=reglas(arr,boton_aux);
+        sleep(3);
+        ctrl_posicion(lvl_1,pos);
+        val=reglas(lvl_1,boton_aux);
         if(val==0){                  /*si el movimiento esta permitido , lo mueve efectivamente*/
-               movimiento(arr,boton_aux); /*realza el movimiento efectivo, solo de Mario*/
-               printmat(arr);
-
+            movimiento(lvl_1,boton_aux); /*realza el movimiento efectivo, solo de Mario*/
+            printmat(lvl_1);
         }
-        else if(val==2){             /*recogio una moneda*/
-               
-               puntaje+=10;
-               printf("PUNTAJE:%d\n",puntaje);
-               movimiento(arr,boton_aux);
+        else if(val==2){             /*recogio una moneda*/          
+            puntaje+=10;
+            printf("PUNTAJE:%d\n",puntaje);
+            movimiento(lvl_1,boton_aux);
         }
-        /*else if(val==4){      NO SE BIEN COMO HACER ESTA PARTE, ES DECIR COMO TRANSMITIR AL MOTOR QUE SE TERMINO EL PRIMER NIVEL
-               puntaje+=100;
-               printf("Bien jugado,pasaste primer nivel\n");
-               printf("PUNTAJE: %d",puntaje);
-            
-        }*
+        else if(val==4){     
+            puntaje+=100;
+            printf("Bien jugado,pasaste primer nivel\n");
+            printf("PUNTAJE: %d",puntaje);          
+        }
         else if(val==3){
                
             vida-=1;
             if(vida<0){
-                   printf("GAME OVER\n");
-                   printf("PUNTAJE: %d",puntaje);
+                printf("GAME OVER\n");
+                printf("PUNTAJE: %d",puntaje);
             }
-        }*/
-        sleep(2);
+        }
+        sleep(3);
     }
 }
+
 
 
 void *entrad(){
@@ -475,7 +480,7 @@ void *entrad(){
             
         }
         else if(i=='D' || i=='d'){/*right*/
-            getchar();
+           getchar();
            tecla=right;
         }
         else if(i=='S' || i=='s'){/*down*/
