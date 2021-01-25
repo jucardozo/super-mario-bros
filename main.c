@@ -74,7 +74,6 @@ int main() {
     
     pthread_create(&th1,NULL,entrad,NULL);
     pthread_create(&th2,NULL,caida,NULL);
-    printf("hola perrito malvado\n");
     while(fin){
         if(tecla !=0){       /*si el boton es igual a cero , entonces hubo problema en la entrada*/
             
@@ -139,6 +138,8 @@ void creacionmap(void){ /*creacion de los mapas */
         
         lvl_1[7][0]=MARIO;
         lvl_1[7][3]=PEZ;
+        lvl_1[9][5]=PULPO;
+        lvl_1[4][9]=PES;
 	for(int i=0;i<(LARGO-5);i++)
 	{
 		lvl_1[0][i]=SUPERFICIE;
@@ -406,35 +407,7 @@ int reglas(int arr[ALTURA][LARGO],int boton){ /*se le pasa el nivel en el que se
             default: return 0;break;
     }
 }
-    
-/*creo que tendria que ser una funcion thread*/
-int entrada(void) {
-
-    printf("por favor introducir el movimiento deseado\n");
-    printf("tener en cuenta que w,a,d,s, son los movimientos permitidos\n");
-    printf("(Esto es una funcion de prueba, ya que el movimiento dependera del hardware)\n");
-    int i =getchar();
-    if(i=='W' || i=='w'){ /*up*/
-       getchar();       /*libero buffer*/
-       return up; 
-    }
-    else if(i=='D' || i=='d'){/*right*/
-        getchar();
-        return right;
-    }
-    else if(i=='S' || i=='s'){/*down*/
-        getchar();
-        return down;
-    }
-    else if(i=='A' || i=='a'){/*left*/
-        getchar();
-        return left;
-    }
-    else{
-        printf("introdujo un movimiento no permitido\n");
-        return 0;
-    }
-}
+/*FUNCION THREAD*/
 void*  caida ( ){
     int boton_aux=down;
     int val;
@@ -450,6 +423,7 @@ void*  caida ( ){
             puntaje+=10;
             printf("PUNTAJE:%d\n",puntaje);
             movimiento(lvl_1,boton_aux);
+            printmat(lvl_1);
         }
         else if(val==4){     
             puntaje+=100;
@@ -469,7 +443,7 @@ void*  caida ( ){
 }
 
 
-
+/*FUNCION THREAD*/
 void *entrad(){
     int i=0;
     while(1){
@@ -497,3 +471,26 @@ void *entrad(){
         }
     }    
 }
+/*FUNCION THREAD*/
+
+void * enemigos(){
+    int i,j=3,c,f,a,l,aux;
+    lvl_1[7][3]=0;
+    while(1){
+        if(j>0){
+            aux=lvl_1[7][j-1];
+            lvl_1[7][j-1]=PES;   
+            j-=1;
+            lvl_1[7][j]=aux;
+        }
+        
+        
+    }
+}
+
+
+
+
+        lvl_1[7][3]=PEZ;
+        lvl_1[9][5]=PULPO;
+        lvl_1[4][9]=PES;
