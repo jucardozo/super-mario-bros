@@ -43,12 +43,14 @@ void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]);  /*Funcion que busca la p
 int reglas (int arr[ALTURA][LARGO],int boton);
 int entrada(void);
 void * caida (int arr[ALTURA][LARGO]);
+void * entrad(void);
 
 
 /*Globales*/
 int puntaje=0;
 int vida=3;
 int pos[3];         /*es un arreglo que tiene en el primer elemento la fila , en el segundo la col(de la pos de mario) y en el ultimo la cantidad de movimineto del mapa*/
+int tecla;
 int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
 
  /*int lvl_2 [ALTURA][LARGO];  
@@ -59,52 +61,66 @@ int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
 
 int main() {
 
-    pthread_t th1;
+    pthread_t th1,th2;
     creacionmap();          /*se genera el nivel*/
     
     printf("Bienvenido a la beta del super mario\n");
    
     printmat(lvl_1);
-    int fin=1;
-    pthread_create(&th1,NULL,caida(lvl_1),NULL);
-    while (fin){
-       int boton=entrada(); /*se recoge el boton apretado*/
-
-       if(boton !=0){       /*si el boton es igual a cero , entonces hubo problema en la entrada*/
-           ctrl_posicion(lvl_1,pos);    /*busca a mario en el mapa y devuelve su posicion en pos */
-           int val=reglas(lvl_1,boton); /*val, guarda la evaluacion de reglas*/
-           if(val==0){                  /*si el movimiento esta permitido , lo mueve efectivamente*/
-               movimiento(lvl_1,boton); /*realza el movimiento efectivo, solo de Mario*/
-               printmat(lvl_1);
-           }
-           else if(val==2){             /*recogio una moneda*/
-               
-               puntaje+=10;
-               printf("PUNTAJE:%d\n",puntaje);
-               movimiento(lvl_1,boton);
-               printmat(lvl_1);
-           }
-           else if(val==4){
-               puntaje+=100;
-               printf("Bien jugado,pasaste primer nivel\n");
-               printf("PUNTAJE: %d",puntaje);
-               return 0;
-           }
-           else if(val==3){
-               
-               vida-=1;
-               if(vida<0){
-                   printf("GAME OVER\n");
-                   printf("PUNTAJE: %d",puntaje);
-                   fin =0;
-               }
-           }
-          
-       }
-    }
+    int fin=1,boton=0;
     
-    return (EXIT_SUCCESS);
+    pthread_create(&th1,NULL,entrad,NULL);
+    pthread_create(&th2,NULL,caida,NULL);
+
+    while(fin){
+        if(tecla !=0){       /*si el boton es igual a cero , entonces hubo problema en la entrada*/
+            
+            ctrl_posicion(lvl_1,pos);    /*busca a mario en el mapa y devuelve su posicion en pos */
+            boton=tecla;
+            int val=reglas(lvl_1,boton); /*val, guarda la evaluacion de reglas*/
+            if(val==0){                  /*si el movimiento esta permitido , lo mueve efectivamente*/
+ 
+                movimiento(lvl_1,boton); /*realza el movimiento efectivo, solo de Mario*/
+                printmat(lvl_1);
+                tecla=0;
+            }
+            else if(val==2){             /*recogio una moneda*/
+                
+                puntaje+=10;
+                printf("PUNTAJE:%d\n",puntaje);
+                movimiento(lvl_1,boton);
+                printmat(lvl_1);
+                tecla=0;
+            }
+            else if(val==4){
+                puntaje+=100;
+                printf("Bien jugado,pasaste primer nivel\n");
+                printf("PUNTAJE: %d",puntaje);
+                tecla=0;
+                return 0;
+            }
+            else if(val==3){
+               
+                vida-=1;
+                if(vida<0){
+                    printf("GAME OVER\n");
+                    printf("PUNTAJE: %d",puntaje);
+                    fin =0;
+                    tecla=0;
+                }
+            }
+          
+        }
+            
+    }
 }
+    
+    
+    
+    
+    
+    
+   
 
 
 /**************************/
@@ -291,6 +307,7 @@ void creacionmap(void){ /*creacion de los mapas */
 }
 
 void movimiento(int arr[ALTURA][LARGO], int boton){         /*necesito pasarle de alguna forma la posicion de mario*/
+
    int i=pos[0];
    int j=pos[1];
    switch(boton){
@@ -445,4 +462,33 @@ void * caida (int arr[ALTURA][LARGO]){
         }*/
         sleep(2);
     }
+}
+
+
+void *entrad(){
+    int i=0;
+    while(1){
+        i=getchar();
+        if(i=='W' || i=='w'){ /*up*/
+            getchar();       /*libero buffer*/
+            tecla= up;
+            
+        }
+        else if(i=='D' || i=='d'){/*right*/
+            getchar();
+           tecla=right;
+        }
+        else if(i=='S' || i=='s'){/*down*/
+            getchar();
+            tecla =down;
+        }
+        else if(i=='A' || i=='a'){/*left*/
+            getchar();
+            tecla=left;
+        }
+        else{
+            printf("introdujo un movimiento no permitido\n");
+            return 0;
+        }
+    }    
 }
