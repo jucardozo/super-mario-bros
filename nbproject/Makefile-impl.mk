@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=super mario
+PROJECTNAME=super-mario-bro
 
 # Active Configuration
 DEFAULTCONF=Debug
