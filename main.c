@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
-#include <levels.h>
+#include "levels.h"
 
 /*define*/
 
@@ -27,19 +27,18 @@
 
 /* prototipos*/
 void printmat(int arr[ALTURA][LARGO]); /*creo que no es necesario pasarle una arreglo*/
-void movimiento(int arr[ALTURA][LARGO],int boton);
+void movimiento(int arr[ALTURA][LARGO],int boton);  /*realiza el movimiento efectivo de mario*/
 void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]);  /*Funcion que busca la posicion de mario en el mapa (Matriz), se le pasa el nivel y la cantidad de movimiento del mapa*/
-int reglas (int arr[ALTURA][LARGO],int boton);
-int entrada(void);
-void * caida ();
-void * entrad();
+int reglas (int arr[ALTURA][LARGO],int boton);      /*evalua la validez del movimietno del mario*/
+void * caida ();    /*caida de mario , impuesta por la gravedad */
+void * entrad();    /*recibe por comando el movimiento deseado por el jugador*/
 
 
 /*Globales*/
-int puntaje=0;
-int vida=3;
+int puntaje=0;      /*se lleva el conteo del puntaje*/
+int vida=3;         /*se lleva el conteo de las vidas*/
 int pos[3];         /*es un arreglo que tiene en el primer elemento la fila , en el segundo la col(de la pos de mario) y en el ultimo la cantidad de movimineto del mapa*/
-int tecla;
+int tecla;          /*guarda el valor de tecla apretado*/
 int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
 
  /*int lvl_2 [ALTURA][LARGO];  
@@ -48,8 +47,8 @@ int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
 /*OBSERVACIONES: el motor del juego , se podria hacer con un mutex, de esta manera , se escribiria menos codigo.
 /**********************************/
 /*MUTEX Y THREAD*/
-pthread_t th1,th2;
-pthread_mutex_t lock1,lock2;
+pthread_t th1,th2;                  /*se crean thread para funciones necesarias*/
+pthread_mutex_t lock1,lock2;        /*creo un candado para dos funciones que controlan el movimiento*/
 
 int main() {
 
@@ -130,10 +129,10 @@ int main() {
 
 
 
-void movimiento(int arr[ALTURA][LARGO], int boton){         /*necesito pasarle de alguna forma la posicion de mario*/
+void movimiento(int arr[ALTURA][LARGO], int boton){         /*realiza el movimiento efectivo de mario*/
     
-   pthread_mutex_lock(&lock1);
-   int i=pos[0];
+   pthread_mutex_lock(&lock1);      /*esta funcion tiene un candado , de tal manera que no se pisen con otra llamdada*/
+   int i=pos[0];                    /*es decir que trabaja solo con una llamda y luego atiende las siguientes*/
    int j=pos[1];
    switch(boton){
        case up:
@@ -158,7 +157,7 @@ void movimiento(int arr[ALTURA][LARGO], int boton){         /*necesito pasarle d
 
 void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]){  /*se le pasa la matriz nivel, y un arreglo en donde se va a guarda la posicion de mario*/
     
-    pthread_mutex_lock(&lock2);                               
+    pthread_mutex_lock(&lock2);     /*tambien posee un candado*/
     if((16+pos[2])<LARGO){          /*en el ultimo elemento se guarda la cnatidad de movimiento del mapa*/
         for (int col=pos[2];col<(16+pos[2]);col++){     /*se centra la busqueda de mario en un cuadrado de 16 por 16 que coincide con lo mostrado por printmat*/
             for(int fil=0;fil<16;fil++){
@@ -298,7 +297,7 @@ void * enemigos(){
         if(j>0){
             aux=lvl_1[7][j-1];
             lvl_1[7][j-1]=PES;   
-            j-=1;
+            j-=1;/*copia*/
             lvl_1[7][j]=aux;
         }
         
