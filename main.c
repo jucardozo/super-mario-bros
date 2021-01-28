@@ -291,6 +291,7 @@ void *entrad(){
 /*FUNCION THREAD*/
 
 void * enemigos(){
+    int enemig[20]={}
     int i,j=3,c,f,a,l,aux;
     lvl_1[7][3]=0;
     while(1){
@@ -305,11 +306,20 @@ void * enemigos(){
     }
 }
 
-
-
-
-      //  lvl_1[7][3]=PEZ;
-     //   lvl_1[9][5]=PULPO;
-     //   lvl_1[4][9]=PES;
-        
+/*NO ME BORREN ESTO POT FAVOR **/
+ /* int j = 7;
+    int aux;
+     while(1){
+        if(j>0){
+            aux=matriz[7][j-1];
+            matriz[7][j-1]=1;   
+            printf("\n");
+            
+            matriz[7][j]=aux;
+            printmat();
+            
+            j-=1;
+            sleep(2);
+        }
+    }/*
       
