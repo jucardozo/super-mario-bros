@@ -5,15 +5,24 @@
  */
 
 /* 
- * File:   newfile.h
- * Author: valentino
+ * File:   levels.h
+ * Author: jucardozo
  *
- * Created on 27 de enero de 2021, 15:43
+ * Created on 28 de enero de 2021, 09:58
  */
 
 #ifndef LEVELS_H
 #define LEVELS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+#include "levels.h"
 
 #define SUPERFICIE 7
 #define ALTURA 16
@@ -30,8 +39,11 @@
 #define MARIO 1
 
 
-void creacionmap(void);    
-    
+void creacionmap(void);   
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* LEVELS_H */
 

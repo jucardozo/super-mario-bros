@@ -13,9 +13,19 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>input.c</itemPath>
       <itemPath>levels.c</itemPath>
       <itemPath>main.c</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -38,9 +48,13 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerOptionItem>`pkg-config --libs gthread-2.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs pthread-stubs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
-      <item path="input.c" ex="false" tool="0" flavor2="0">
-      </item>
       <item path="levels.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="levels.h" ex="false" tool="3" flavor2="0">
@@ -68,8 +82,6 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="input.c" ex="false" tool="0" flavor2="0">
-      </item>
       <item path="levels.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="levels.h" ex="false" tool="3" flavor2="0">
