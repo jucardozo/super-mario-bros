@@ -8,8 +8,8 @@
 #include "levels.h"
 extern int lvl_1[ALTURA][LARGO];
 
-void creacionmap(void){ //creacion de los mapas 
-        
+void creacionmap(void){ //creacion de los mapas     
+                               //hay arreglar esta funcion para que sea la misma la que cree todos los mapas
         lvl_1[7][0]=MARIO;
         lvl_1[7][3]=PEZ;
         lvl_1[9][5]=PULPO;

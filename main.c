@@ -32,9 +32,11 @@ void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]);  /*Funcion que busca la p
 int reglas (int arr[ALTURA][LARGO],int boton);      /*evalua la validez del movimietno del mario*/
 void * caida ();    /*caida de mario , impuesta por la gravedad */
 void * entrad();    /*recibe por comando el movimiento deseado por el jugador*/
+void * elvl_1();
 
 
 /*Globales*/
+int nivel=1;
 int puntaje=0;      /*se lleva el conteo del puntaje*/
 int vida=3;         /*se lleva el conteo de las vidas*/
 int pos[3];         /*es un arreglo que tiene en el primer elemento la fila , en el segundo la col(de la pos de mario) y en el ultimo la cantidad de movimineto del mapa*/
@@ -47,69 +49,87 @@ int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
 /*OBSERVACIONES: el motor del juego , se podria hacer con un mutex, de esta manera , se escribiria menos codigo.
 /**********************************/
 /*MUTEX Y THREAD*/
-pthread_t th1,th2;                  /*se crean thread para funciones necesarias*/
+pthread_t th1,th2,th3,th4,th5;                  /*se crean thread para funciones necesarias*/
 pthread_mutex_t lock1,lock2;        /*creo un candado para dos funciones que controlan el movimiento*/
 
 int main() {
 
-    
+    int(*niveles[2])[ALTURA][LARGO];        // es un arreglo de 3 punteros que apuntan a una matriz  
+    niveles[0]=lvl_1;
+    //nivel[1]=lvl_2;
+    //nivel[3]=lvl_3;
     creacionmap();          /*se genera el nivel*/
     
     printf("Bienvenido a la beta del super mario\n");
    
-    printmat(lvl_1);
-    int fin=1, boton=0;
+    printmat(*niveles[0]);  //
+    int fin, boton=0 ,i;
+    
     
     pthread_create(&th1,NULL,entrad,NULL);
     pthread_create(&th2,NULL,caida,NULL);
-    while(fin){
-        if(tecla !=0){       /*si el boton es igual a cero , entonces hubo problema en la entrada*/
+    while(vida>0){
+        switch(nivel){          //habilita el control, automatico, de cada enemigo en cada nivel//
+            case 1 :
+                    pthread_create(&th3,NULL,elvl_1,NULL);i=0;fin=1; break;
+            case 2 :
+                    pthread_create(&th4,NULL,entrad,NULL);i=1;fin=1;break;
+            case 3 :
+                    pthread_create(&th5,NULL,entrad,NULL);i=2;fin=1;break;
+        }
+        
+        while(fin){
+            if(tecla !=0){       /*si el boton es igual a cero , entonces hubo problema en la entrada*/
             
-            ctrl_posicion(lvl_1,pos);    /*busca a mario en el mapa y devuelve su posicion en pos */
-            boton=tecla;
-            int val=reglas(lvl_1,boton); /*val, guarda la evaluacion de reglas*/
-            if(val==0){                  /*si el movimiento esta permitido , lo mueve efectivamente*/
- 
-                movimiento(lvl_1,boton); /*realza el movimiento efectivo, solo de Mario*/
-                printmat(lvl_1);
-                tecla=0;
-            }
-            else if(val==2){             /*recogio una moneda*/
-                
-                puntaje+=10;
-                printf("PUNTAJE:%d\n",puntaje);
-                movimiento(lvl_1,boton);
-                printmat(lvl_1);
-                tecla=0;
-            }
-            else if(val==4){
-                puntaje+=100;                               /*si es 4 es porque llego a la meta*/
-                printf("Bien jugado,pasaste de nivel\n");
-                printf("PUNTAJE: %d",puntaje);
-                tecla=0;
-                return 0;
-            }
-            else if(val==3){
-               
-                vida-=1;                                    /*si es 3 es porque mario perdio una vida*/
-                if(vida<0){
-                    printf("GAME OVER\n");
-                    printf("PUNTAJE: %d",puntaje);          /*si no tiene mas vidas entonces game over*/
-                    fin =0;
+                ctrl_posicion(*niveles[i],pos);    /*busca a mario en el mapa y devuelve su posicion en pos */
+                boton=tecla;
+                int val=reglas(*niveles[i],boton); /*val, guarda la evaluacion de reglas*/
+                if(val==0){                  /*si el movimiento esta permitido , lo mueve efectivamente*/
+                    
+                    movimiento(*niveles[i],boton); /*realza el movimiento efectivo, solo de Mario*/
+                    printmat(*niveles[i]);
                     tecla=0;
                 }
-                else
-                {
-                    printf("Perdiste una vida, te quedan: %d\n",vida);
+                else if(val==2){             /*recogio una moneda*/
+                    
+                    puntaje+=10;
+                    printf("PUNTAJE:%d\n",puntaje);
+                    movimiento(*niveles[i],boton);
+                    printmat(*niveles[i]);
+                    tecla=0;
                 }
-             }
-         }
+                else if(val==4){    //paso de nivel
+                    puntaje+=100;                               /*si es 4 es porque llego a la meta*/
+                    printf("Bien jugado,pasaste de nivel\n");
+                    printf("PUNTAJE: %d",puntaje);
+                    tecla=0;
+                    nivel+=1;
+                    fin=0;
+                }
+                else if(val==3){
+               
+                    vida-=1;                                    /*si es 3 es porque mario perdio una vida*/
+                    if(vida<0){
+                        printf("GAME OVER\n");
+                        printf("PUNTAJE: %d",puntaje);          /*si no tiene mas vidas entonces game over*/
+                        fin =0;
+                        tecla=0;
+                        return 0;
+                       
+                    }
+                    else
+                    {
+                        printf("Perdiste una vida, te quedan: %d\n",vida);
+                        tecla=0;
+                    }
+                }
+            }
           
         }
       
-    
-    pthread_join(th1,NULL);
-    pthread_join(th2,NULL);
+    }
+        pthread_join(th1,NULL);
+        pthread_join(th2,NULL);
 }
     
     
@@ -290,24 +310,37 @@ void *entrad(){
 }
 /*FUNCION THREAD*/
 
-void * enemigos(){
-    int enemig[20]={}
-    int i,j=3,c,f,a,l,aux;
+void * elvl_1(){
+    int j=3,aux,col=9,i;
     lvl_1[7][3]=0;
-    while(1){
+    int fin=1;
+    while(fin){
+        
         if(j>0){
             aux=lvl_1[7][j-1];
-            lvl_1[7][j-1]=PES;   
-            j-=1;/*copia*/
+            lvl_1[7][j-1]=PES;  
             lvl_1[7][j]=aux;
+            j-=1;
+            aux=lvl_1[4][col-1];
+            lvl_1[4][col-1]=PES;  
+            lvl_1[4][col]=aux;
+            col-=1
+            
         }
+       
         
         
     }
 }
 
 /*NO ME BORREN ESTO POT FAVOR **/
- /* int j = 7;
+ /* 
+  * 
+  *         lvl_1[9][5]=PULPO;
+        lvl_1[4][9]=PES;
+  * 
+  * int j = 7;
+  * 
     int aux;
      while(1){
         if(j>0){
@@ -321,5 +354,5 @@ void * enemigos(){
             j-=1;
             sleep(2);
         }
-    }/*
+    }*/
       
