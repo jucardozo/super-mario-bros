@@ -11,9 +11,19 @@ extern int lvl_1[ALTURA][LARGO];
 void creacionmap(void){ //creacion de los mapas     
                                //hay arreglar esta funcion para que sea la misma la que cree todos los mapas
         lvl_1[7][0]=MARIO;
+        //ENEMIGOS
         lvl_1[7][3]=PEZ;
         lvl_1[9][5]=PEZ;
         lvl_1[4][9]=PEZ;
+        
+        lvl_1[8][5]=PES;
+        lvl_1[11][6]=PES;
+        lvl_1[6][7]=PES;
+        
+        lvl_1[10][23]=PULPO;
+        lvl_1[12][25]=PULPO;
+        lvl_1[11][45]=PULPO;
+        //
 	for(int i=0;i<(LARGO-5);i++)
 	{
 		lvl_1[0][i]=SUPERFICIE;

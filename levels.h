@@ -24,7 +24,7 @@ extern "C" {
 #include <unistd.h>
 #include "levels.h"
 
-#define SUPERFICIE 7
+#define SUPERFICIE 11
 #define ALTURA 16
 #define LARGO 70
 #define BLOQUE 4
@@ -35,7 +35,7 @@ extern "C" {
 #define PEZ 6
 #define PES 8
 #define FUEGO 10
-#define PULPO 11
+#define PULPO 7
 #define MARIO 1
 #define AGUA 0
 #define MOV_PULPO 4
