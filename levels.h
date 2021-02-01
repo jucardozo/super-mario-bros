@@ -37,6 +37,8 @@ extern "C" {
 #define FUEGO 10
 #define PULPO 11
 #define MARIO 1
+#define AGUA 0
+#define MOV_PULPO 4
 
 
 void creacionmap(void);   

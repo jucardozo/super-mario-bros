@@ -32,7 +32,7 @@ void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]);  /*Funcion que busca la p
 int reglas (int arr[ALTURA][LARGO],int boton);      /*evalua la validez del movimietno del mario*/
 void * caida ();    /*caida de mario , impuesta por la gravedad */
 void * entrad();    /*recibe por comando el movimiento deseado por el jugador*/
-void * elvl_1();
+void * enemigo_pez();
 
 
 /*Globales*/
@@ -68,10 +68,12 @@ int main() {
     
     pthread_create(&th1,NULL,entrad,NULL);
     pthread_create(&th2,NULL,caida,NULL);
+    
+    
     while(vida>0){
         switch(nivel){          //habilita el control, automatico, de cada enemigo en cada nivel//
             case 1 :
-                    pthread_create(&th3,NULL,elvl_1,NULL);i=0;fin=1; break;
+                    pthread_create(&th3,NULL,enemigo_pez,NULL);i=0;fin=1; break;
             case 2 :
                     pthread_create(&th4,NULL,entrad,NULL);i=1;fin=1;break;
             case 3 :
@@ -123,7 +125,7 @@ int main() {
                         tecla=0;
                     }
                 }
-            }
+            }   
           
         }
       
@@ -310,6 +312,106 @@ void *entrad(){
 }
 /*FUNCION THREAD*/
 
+void * enemigo_pez(){
+    
+//todas palabras peces van con Z
+//THREAD DISTINTO                   HAY QUE HACERLO PARA TODOS LOS NIVELES
+
+    /*PEZZZZ*/
+    int *pezes [3];             //creo arreglo de punteros para guardar las posiciones de los peces      ESTRUCTURA Y UNION!!!
+    
+    pezes[0]= &lvl_1[7][3];     //estas son las posiciones iniciales de los peces en la matriz
+    pezes[1]= &lvl_1[9][5];
+    pezes[2]= &lvl_1[4][9];     //ESTRUCTURA Y UNION!!!
+        
+        
+    int cant_pez = 3;     //cantidad de enemigos PEZ por nivel 
+    int q=0;
+    int i=0;
+    int valor1 [3];		//arreglo que guardo las posiciones de los peZes
+    int valor2 [3];		//arreglo que salvo las posiciones de los peZes
+    
+    while (1){                
+        
+        if (  (  ( pezes[i] - (&lvl_1[0][0]) )    % LARGO  )  == 0){         //si esta en la columna 0, entonces listo el PEZ
+
+			//tambien se pueden volver a regenerar los PEZ con: if(pezes[i] == (&lvl_1[0][0])){
+
+            *pezes[i]=AGUA;                                                     //que me ponga agua
+            
+            //++pezes;                                                         //ya el primer PEZ no existe
+            while(i < cant_pez){
+                pezes[i]=pezes[i+1];
+                i++;
+            }		//WHILE
+            cant_pez -=1;                                                   //bajo la cantidad de PEZ porque van desapareciendo
+            
+         //   if(cant_pez==0){
+          //      break;
+         //    }
+             
+             //sleep(3);
+            
+        }		//IF
+
+      else{														//SI NO ESTA EN LA PRIMER COLUMNA
+			if(q<cant_pez){								//SI SE MUEVE POR PRIMERA VEZ
+				 while (i < cant_pez){
+		            
+                                    valor1[i] = *(pezes[i]-1);               //guardo el valor para salvar lo que valia antes de que caiga el pez
+		            
+		            //aca ya salve el valor de lo que habia y se guarda en valor
+		            
+                                    *(pezes[i]-1) = PEZ;            //muevo el PEZ para la izquierda
+		            
+                                    * pezes[i] = AGUA;             //cuando se movio por primera vez, que me ponga agua donde arranco el PEZ
+
+                                                                //todo es para que avance un pez, aumento i para que vaya al otro pez
+                                    q++;
+		            //aca va un mini sleep para que entre pez  y pez haya un poco de tiempo !!!!!!!!!!!!!!!
+		            //sleep(3);
+                                    pezes [i] -= 1;					//la nueva direeccion del pez es la de la izquuierda
+                                    i++;
+                                }		//WHILE
+			}		//IF	
+
+			else{
+			    while (i < cant_pez){
+				        
+			        valor2[i] = *(pezes[i]-1);               //guardo el valor para salvar lo que valia antes de que caiga el pez
+				        
+			        //aca ya salve el valor de lo que habia y se guarda en valor
+				        
+			        *(pezes[i]-1) = PEZ;            //muevo el PEZ para la izquierda
+				        
+
+			        * pezes [i] = valor1[i];        //salvo lo que habia antes
+
+			       
+				        //aca va un mini sleep para que entre pez  y pez haya un poco de tiempo !!!!!!!!!!!!!!!
+				        //sleep(3);
+					pezes [i] -= 1;					//la nueva direeccion del pez es la de la izquuierda
+					valor1 [i]= valor2[i];			//pongo en valor 1 lo que esta valor 2  asi ya se vuelve a poner otra vez
+                                         i++;                            //todo es para que avance un pez, aumento i para que vaya al otro pez
+			    }
+            //aca va otro sleep !!!!!!!!!!!
+			}
+           
+        }		//ELSE
+        
+        i=0;		//vuelvo a arrancar desde el primer pez
+        
+    }  //while(1)
+
+}
+
+
+
+
+
+
+
+/*
 void * elvl_1(){
     int j=3,aux,col=9,i;
     lvl_1[7][3]=0;
@@ -324,7 +426,7 @@ void * elvl_1(){
             aux=lvl_1[4][col-1];
             lvl_1[4][col-1]=PES;  
             lvl_1[4][col]=aux;
-            col-=1
+            col-=1;
             
         }
        
@@ -332,7 +434,7 @@ void * elvl_1(){
         
     }
 }
-
+*/
 /*NO ME BORREN ESTO POT FAVOR **/
  /* 
   * 

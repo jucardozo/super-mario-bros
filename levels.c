@@ -12,8 +12,8 @@ void creacionmap(void){ //creacion de los mapas
                                //hay arreglar esta funcion para que sea la misma la que cree todos los mapas
         lvl_1[7][0]=MARIO;
         lvl_1[7][3]=PEZ;
-        lvl_1[9][5]=PULPO;
-        lvl_1[4][9]=PES;
+        lvl_1[9][5]=PEZ;
+        lvl_1[4][9]=PEZ;
 	for(int i=0;i<(LARGO-5);i++)
 	{
 		lvl_1[0][i]=SUPERFICIE;
