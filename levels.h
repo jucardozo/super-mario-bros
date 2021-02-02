@@ -39,9 +39,10 @@ extern "C" {
 #define MARIO 1
 #define AGUA 0
 #define MOV_PULPO 4
+#define MAX_ENEM 9
 
 
-void creacionmap(void);   
+void creacionmap(int);   
 
 #ifdef __cplusplus
 }

@@ -7,72 +7,77 @@
 
 #include "levels.h"
 extern int lvl_1[ALTURA][LARGO];
+//extern int lvl_2[ALTURA][LARGO];
+//extern int lvl_3[ALTURA][LARGO];
 
-void creacionmap(void){ //creacion de los mapas     
-                               //hay arreglar esta funcion para que sea la misma la que cree todos los mapas
-        lvl_1[7][0]=MARIO;
-        //ENEMIGOS
-        lvl_1[7][3]=PEZ;
-        lvl_1[9][5]=PEZ;
-        lvl_1[4][9]=PEZ;
-        
-        lvl_1[8][5]=PES;
-        lvl_1[11][6]=PES;
-        lvl_1[6][7]=PES;
-        
-        lvl_1[10][23]=PULPO;
-        lvl_1[12][25]=PULPO;
-        lvl_1[11][45]=PULPO;
-        //
-	for(int i=0;i<(LARGO-5);i++)
-	{
-		lvl_1[0][i]=SUPERFICIE;
-		lvl_1[1][i]=SUPERFICIE;
-	}
+void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 3.
+    
+    switch(que_nivel){
+    
+        case 1:                             
+            lvl_1[7][0]=MARIO;
+            //ENEMIGOS
+            lvl_1[7][3]=PEZ;
+            lvl_1[9][5]=PEZ;
+            lvl_1[4][9]=PEZ;
 
-	for(int i=(LARGO-5);i<LARGO;i++)
-	{
-		lvl_1[0][i]=BLOQUE;
-		lvl_1[1][i]=BLOQUE;
-	}	
+            lvl_1[8][5]=PES;
+            lvl_1[11][6]=PES;
+            lvl_1[6][7]=PES;
 
-	for(int i=0;i<(LARGO/2);i++)
-	{
-		lvl_1[14][i]=BLOQUE;
-		lvl_1[15][i]=BLOQUE;
-	}
+            lvl_1[10][23]=PULPO;
+            lvl_1[12][25]=PULPO;
+            lvl_1[11][45]=PULPO;
+            //
+            for(int i=0;i<(LARGO-5);i++)
+            {
+                    lvl_1[0][i]=SUPERFICIE;
+                    lvl_1[1][i]=SUPERFICIE;
+            }
 
-	for(int j= ((LARGO/2)+5) ;j<LARGO;j++)
-	{
-		lvl_1[14][j]=BLOQUE;
-		lvl_1[15][j]=BLOQUE;
-	}
+            for(int i=(LARGO-5);i<LARGO;i++)
+            {
+                    lvl_1[0][i]=BLOQUE;
+                    lvl_1[1][i]=BLOQUE;
+            }	
 
-	for(int k=9;k<14;k++)
-	{
-		lvl_1[k][13]=ALGA;
-	}
+            for(int i=0;i<(LARGO/2);i++)
+            {
+                    lvl_1[14][i]=BLOQUE;
+                    lvl_1[15][i]=BLOQUE;
+            }
 
-	lvl_1[13][15]=MONEDA;
-	lvl_1[13][16]=MONEDA;
+            for(int j= ((LARGO/2)+5) ;j<LARGO;j++)
+            {
+                    lvl_1[14][j]=BLOQUE;
+                    lvl_1[15][j]=BLOQUE;
+            }
 
-	for(int k=17;k<20;k++)
-	{
-		lvl_1[8][k]=BLOQUE;
-	}
-	
-	lvl_1[7][18]=MONEDA;
-	
-	for(int k=21;k<26;k++)
-	{
-		lvl_1[10][k]=BLOQUE;
-		lvl_1[13][k]=MONEDA;
-	}
+            for(int k=9;k<14;k++)
+            {
+                    lvl_1[k][13]=ALGA;
+            }
 
-	for(int k=5;k<10;k++)
-		{
-			lvl_1[k][21]=ALGA;
-		}
+            lvl_1[13][15]=MONEDA;
+            lvl_1[13][16]=MONEDA;
+
+            for(int k=17;k<20;k++)
+            {
+                    lvl_1[8][k]=BLOQUE;
+            }
+
+            lvl_1[7][18]=MONEDA;
+
+            for(int k=21;k<26;k++)
+            {
+                    lvl_1[10][k]=BLOQUE;
+                    lvl_1[13][k]=MONEDA;
+            }
+
+            for(int k=5;k<10;k++)
+                    {
+                            lvl_1[k][21]=ALGA;
+                    }
 
 		lvl_1[9][23]=MONEDA;
 		lvl_1[8][23]=MONEDA;
@@ -193,5 +198,14 @@ void creacionmap(void){ //creacion de los mapas
 
 		lvl_1[11][LARGO-2]=FINAL;
 		lvl_1[12][LARGO-2]=FINAL;
+                
+                break;
+      /*  case 2:
+            break;
+        case 3:
+            break;*/
+        default:
+            break;
+    }
 
 } 
