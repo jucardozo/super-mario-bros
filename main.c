@@ -60,11 +60,11 @@ int main() {
     niveles[0]=lvl_1;
     //nivel[1]=lvl_2;
     //nivel[3]=lvl_3;
-    creacionmap();          /*se genera el nivel*/
+   // creacionmap(nivel);          /*se genera el nivel*/
     
     printf("Bienvenido a la beta del super mario\n");
    
-    printmat(*niveles[0]);  //
+    //printmat(*niveles[0]);  //
     int fin, boton=0 ,i;
     
     
@@ -75,12 +75,21 @@ int main() {
     while(vida>0){
         switch(nivel){          //habilita el control, automatico, de cada enemigo en cada nivel//
             case 1 :
-                    pthread_create(&th3,NULL,enemigo_pez,NULL);i=0;fin=1; break;
-                    pthread_create(&th4,NULL,enemigo_pes,NULL);i=0;fin=1; break;
+                    creacionmap(nivel);
+                    printmat(*niveles[0]);  //imprime el nivel
+                    pthread_create(&th3,NULL,enemigo_pez,NULL);
+                    pthread_create(&th4,NULL,enemigo_pes,NULL);
                     pthread_create(&th5,NULL,enemigo_pulpo,NULL);i=0;fin=1; break;
             case 2 :
+               // printf("llegaste al nivel dos , en desarrollo ...\n");
+                //return 0;
+                //break;
+                    creacionmap(nivel);
+                    printmat(*niveles[1]);  //
                     pthread_create(&th6,NULL,entrad,NULL);i=1;fin=1;break;
             case 3 :
+                    creacionmap(nivel);
+                    printmat(*niveles[2]);  //
                     pthread_create(&th7,NULL,entrad,NULL);i=2;fin=1;break;
         }
         
@@ -107,7 +116,7 @@ int main() {
                 else if(val==4){    //paso de nivel
                     puntaje+=100;                               /*si es 4 es porque llego a la meta*/
                     printf("Bien jugado,pasaste de nivel\n");
-                    printf("PUNTAJE: %d",puntaje);
+                    printf("PUNTAJE: %d\n",puntaje);
                     tecla=0;
                     nivel+=1;
                     fin=0;
@@ -317,18 +326,11 @@ void *entrad(){
 /*FUNCION THREAD*/
 
 void * enemigo_pez(){
-    
-//todas palabras peces van con Z
-//THREAD DISTINTO                   HAY QUE HACERLO PARA TODOS LOS NIVELES
-
-    /*PEZZZZ*/
-    int *pezes [3];             //creo arreglo de punteros para guardar las posiciones de los peces      ESTRUCTURA Y UNION!!!
-    
+   
+    int *pezes [3];             //creo arreglo de punteros para guardar las posiciones de los peces     
     pezes[0]= &lvl_1[7][3];     //estas son las posiciones iniciales de los peces en la matriz
     pezes[1]= &lvl_1[9][5];
-    pezes[2]= &lvl_1[4][9];     //ESTRUCTURA Y UNION!!!
-        
-        
+    pezes[2]= &lvl_1[4][9];         
     int cant_pez = 3;     //cantidad de enemigos PEZ por nivel 
     int q=0;
     int i=0;
@@ -342,65 +344,49 @@ void * enemigo_pez(){
 			//tambien se pueden volver a regenerar los PEZ con: if(pezes[i] == (&lvl_1[0][0])){
 
             *pezes[i]=AGUA;                                                     //que me ponga agua
-            
-            //++pezes;                                                         //ya el primer PEZ no existe
+                                                                  //ya el primer PEZ no existe
             while(i < cant_pez){
                 pezes[i]=pezes[i+1];
                 i++;
             }		//WHILE
             cant_pez -=1;                                                   //bajo la cantidad de PEZ porque van desapareciendo
             
-         //   if(cant_pez==0){
-          //      break;
-         //    }
-             
-             //sleep(3);
-            
         }		//IF
 
-      else{														//SI NO ESTA EN LA PRIMER COLUMNA
-			if(q<cant_pez){								//SI SE MUEVE POR PRIMERA VEZ
-				 while (i < cant_pez){
-		            
-                                    valor1[i] = *(pezes[i]-1);               //guardo el valor para salvar lo que valia antes de que caiga el pez
-		            
+        else{														//SI NO ESTA EN LA PRIMER COLUMNA
+            if(q<cant_pez){								//SI SE MUEVE POR PRIMERA VEZ
+                while (i < cant_pez){		            
+                    valor1[i] = *(pezes[i]-1);               //guardo el valor para salvar lo que valia antes de que caiga el pez               
+                    if(valor1[i]==1){       
+                        vida-=1;
+                        printf("perdiste una vida , te quedan:%d\n",vida);
+                    }        
 		            //aca ya salve el valor de lo que habia y se guarda en valor
 		            
-                                    *(pezes[i]-1) = PEZ;            //muevo el PEZ para la izquierda
-		            
-                                    * pezes[i] = AGUA;             //cuando se movio por primera vez, que me ponga agua donde arranco el PEZ
-
-                                                                //todo es para que avance un pez, aumento i para que vaya al otro pez
-                                    q++;
+                    *(pezes[i]-1) = PEZ;            //muevo el PEZ para la izquierda        
+                    * pezes[i] = AGUA;             //cuando se movio por primera vez, que me ponga agua donde arranco el PEZ
+                    q++;                                            //todo es para que avance un pez, aumento i para que vaya al otro pez
 		            //aca va un mini sleep para que entre pez  y pez haya un poco de tiempo !!!!!!!!!!!!!!!
 		            //sleep(3);
-                                    pezes [i] -= 1;					//la nueva direeccion del pez es la de la izquuierda
-                                    i++;
-                                }
-                                sleep(3.5);//WHILE
-			}		//IF	
-
-			else{
-			    while (i < cant_pez){
-				        
-			        valor2[i] = *(pezes[i]-1);               //guardo el valor para salvar lo que valia antes de que caiga el pez
-				        
+                    pezes [i] -= 1;					//la nueva direeccion del pez es la de la izquuierda
+                    i++;
+                }
+                sleep(3.5);//WHILE
+            }		//IF	
+            else{
+		while (i < cant_pez){		        
+                    valor2[i] = *(pezes[i]-1);               //guardo el valor para salvar lo que valia antes de que caiga el pez		        
 			        //aca ya salve el valor de lo que habia y se guarda en valor
-				        
-			        *(pezes[i]-1) = PEZ;            //muevo el PEZ para la izquierda
-				        
-
-			        * pezes [i] = valor1[i];        //salvo lo que habia antes
-
-			       
+                    *(pezes[i]-1) = PEZ;            //muevo el PEZ para la izquierda	
+                    * pezes [i] = valor1[i];        //salvo lo que habia antes	       
 				        //aca va un mini sleep para que entre pez  y pez haya un poco de tiempo !!!!!!!!!!!!!!!
 				        //sleep(3);
-					pezes [i] -= 1;					//la nueva direeccion del pez es la de la izquuierda
-					valor1 [i]= valor2[i];			//pongo en valor 1 lo que esta valor 2  asi ya se vuelve a poner otra vez
-                                         i++;                            //todo es para que avance un pez, aumento i para que vaya al otro pez
-			    }
-                            sleep(3.5);
-			}
+                    pezes [i] -= 1;					//la nueva direeccion del pez es la de la izquuierda
+                    valor1 [i]= valor2[i];			//pongo en valor 1 lo que esta valor 2  asi ya se vuelve a poner otra vez
+                    i++;                            //todo es para que avance un pez, aumento i para que vaya al otro pez
+                }
+                sleep(3.5);
+            }
            
         }		//ELSE
         
@@ -410,91 +396,60 @@ void * enemigo_pez(){
 
 }
 
+
 void * enemigo_pes(){
     
-//todas palabras peces van con Z
-//THREAD DISTINTO                   HAY QUE HACERLO PARA TODOS LOS NIVELES
-
-    /*PESSSSSSS*/
-    int *peses [3];             //creo arreglo de punteros para guardar las posiciones de los peces      ESTRUCTURA Y UNION!!!
-    
+    int *peses [3];             //creo arreglo de punteros para guardar las posiciones de los peces          
     peses[0]= &lvl_1[8][5];     //estas son las posiciones iniciales de los peces en la matriz
     peses[1]= &lvl_1[11][6];
-    peses[2]= &lvl_1[6][7];     //ESTRUCTURA Y UNION!!!
-        
-        
+    peses[2]= &lvl_1[6][7];             
     int cant_pes = 3;     //cantidad de enemigos PES por nivel 
     int q=0;
     int i=0;
     int valor3 [3];		//arreglo que guardo las posiciones de los peSes
     int valor4 [3];		//arreglo que salvo las posiciones de los peSes
-    
-    while (1){                
-        
+    while (1){                        
         if (  (  ( peses[i] - (&lvl_1[0][0]) )    % LARGO  )  == 0){         //si esta en la columna 0, entonces listo el PES
-
 			//tambien se pueden volver a regenerar los PES con: if(peses[i] == (&lvl_1[0][0])){
-
-            *peses[i]=AGUA;                                                     //que me ponga agua
-            
-            //++peses;                                                         //ya el primer PES no existe
+            *peses[i]=AGUA;                                                     //que me ponga agua           
             while(i < cant_pes){
                 peses[i]=peses[i+1];
                 i++;
             }		//WHILE
             cant_pes -=1;                                                   //bajo la cantidad de PES porque van desapareciendo
-            
-         //   if(cant_pes==0){
-          //      break;
-         //    }
-             
-             //sleep(3);
-            
         }		//IF
-
-      else{														//SI NO ESTA EN LA PRIMER COLUMNA
-			if(q<cant_pes){								//SI SE MUEVE POR PRIMERA VEZ
-				 while (i < cant_pes){
+       else{														//SI NO ESTA EN LA PRIMER COLUMNA
+            if(q<cant_pes){								//SI SE MUEVE POR PRIMERA VEZ
+                while (i < cant_pes){
 		            
-                                    valor3[i] = *(peses[i]-1);               //guardo el valor para salvar lo que valia antes de que caiga el pes
-		            
-		            //aca ya salve el valor de lo que habia y se guarda en valor
-		            
-                                    *(peses[i]-1) = PES;            //muevo el PES para la izquierda
-		            
-                                    * peses[i] = AGUA;             //cuando se movio por primera vez, que me ponga agua donde arranco el PES
-
-                                                                //todo es para que avance un pes, aumento i para que vaya al otro pes
-                                    q++;
-		            //aca va un mini sleep para que entre pes  y pes haya un poco de tiempo !!!!!!!!!!!!!!!
-		            //sleep(3);
-                                    peses [i] -= 1;					//la nueva direeccion del pes es la de la izquuierda
-                                    i++;
-                                }
-                                sleep(3.5);//WHILE
-			}		//IF	
-
-			else{
-			    while (i < cant_pes){
-				        
-			        valor4[i] = *(peses[i]-1);               //guardo el valor para salvar lo que valia antes de que caiga el pes
-				        
-			        //aca ya salve el valor de lo que habia y se guarda en valor
-				        
-			        *(peses[i]-1) = PES;            //muevo el PES para la izquierda
-				        
-
-			        * peses [i] = valor3[i];        //salvo lo que habia antes
-
-			       
+                    valor3[i] = *(peses[i]-1);               //guardo el valor para salvar lo que valia antes de que caiga el pes
+                    if(valor3[i]==1){       
+                        vida-=1;
+                        printf("perdiste una vida , te quedan:%d\n",vida);
+                    }
+		            //aca ya salve el valor de lo que habia y se guarda en valor	            
+                    *(peses[i]-1) = PES;            //muevo el PES para la izquierda		            
+                    * peses[i] = AGUA;             //cuando se movio por primera vez, que me ponga agua donde arranco el PES
+                    q++;                                            //todo es para que avance un pes, aumento i para que vaya al otro pes
+                    peses [i] -= 1;					//la nueva direeccion del pes es la de la izquuierda
+                    i++;
+                }
+            sleep(3.5);//WHILE
+            }		//IF	
+            else{
+                while (i < cant_pes){				        
+                    valor4[i] = *(peses[i]-1);               //guardo el valor para salvar lo que valia antes de que caiga el pes				        
+			        //aca ya salve el valor de lo que habia y se guarda en valor				        
+                    *(peses[i]-1) = PES;            //muevo el PES para la izquierda				        
+                    * peses [i] = valor3[i];        //salvo lo que habia antes			       
 				        //aca va un mini sleep para que entre pes  y pes haya un poco de tiempo !!!!!!!!!!!!!!!
 				        //sleep(3);
-					peses [i] -= 1;					//la nueva direeccion del pes es la de la izquuierda
-					valor3 [i]= valor4[i];			//pongo en valor 1 lo que esta valor 2  asi ya se vuelve a poner otra vez
-                                         i++;                            //todo es para que avance un pes, aumento i para que vaya al otro pes
-			    }
-                            sleep(3.5);
-			}
+                    peses [i] -= 1;					//la nueva direeccion del pes es la de la izquuierda
+                    valor3 [i]= valor4[i];			//pongo en valor 1 lo que esta valor 2  asi ya se vuelve a poner otra vez
+                    i++;                            //todo es para que avance un pes, aumento i para que vaya al otro pes
+                }
+                sleep(3.5);
+            }
            
         }		//ELSE
         
@@ -509,93 +464,63 @@ void * enemigo_pulpo(){
 
 //THREAD DISTINTO                   HAY QUE HACERLO PARA TODOS LOS NIVELES				CHEQUEAR POSICIONES
 
-    /*PULPOOOOOOOOO*/
 
     int *pulpos [3];             //creo arreglo de punteros para guardar las posiciones de los pulpos      ESTRUCTURA Y UNION!!!
     
     pulpos[0]= &lvl_1[10][23];     //estas son las posiciones iniciales de los pulpos en la matriz
     pulpos[1]= &lvl_1[12][25];
-    pulpos[2]= &lvl_1[11][45];     //ESTRUCTURA Y UNION!!!
-
-        
+    pulpos[2]= &lvl_1[11][45];         
     int cant_pulpo = 3;     //cantidad de enemigos PULPO por nivel 
-	int f=0;
-	int q=0;
-	int k;
-	int valor5 [3];	//arreglo que guardo las posiciones de los pulpos
-	int valor6 [3];	//arreglo que salvo las posiciones de los pulpos
-
-
-	while (1){
-
-		if(q<cant_pulpo){
-
-			while(f<cant_pulpo){
-					
-				valor5 [f]= *(pulpos[f]-LARGO);               //guardo el valor para salvar lo que valia antes de que caiga el pulpo
-				
+    int f=0;
+    int q=0;
+    int k;
+    int valor5 [3];	//arreglo que guardo las posiciones de los pulpos
+    int valor6 [3];	//arreglo que salvo las posiciones de los pulpos
+    while (1){
+        if(q<cant_pulpo){
+            while(f<cant_pulpo){				
+                valor5 [f]= *(pulpos[f]-LARGO);               //guardo el valor para salvar lo que valia antes de que caiga el pulpo				
 				//aca ya salve el valor de lo que habia y se guarda en valor
-
-				*(pulpos[f]-LARGO) = PULPO;            //muevo el PULPO 
-                                * pulpos[f] = AGUA;             //cuando se movio por primera vez, que me ponga agua donde arranco el PULPO
-					
-				q++;
-				//aca va un mini sleep para que entre pez  y pez haya un poco de tiempo !!!!!!!!!!!!!!!
-		        //sleep(3);
-				pulpos [f] -= LARGO;					//la nueva direeccion del pulpo es la de una para arriba
-                                f++;							//hasta el ultimpo pulpo, todos se mueven para arriba
-			}
-                        sleep(2.5);
-		}	//if
-
-		else{
-			
-			for(k=0;k<MOV_PULPO;k++){				//MOVIMIENTO DEL PULPO PARA ARRIBA
-
-				while(f<cant_pulpo){
-					
-					valor6 [f]= *(pulpos[f]-LARGO);               //guardo el valor para salvar lo que valia antes de que caiga el pulpo
-				
+		*(pulpos[f]-LARGO) = PULPO;            //muevo el PULPO 
+                * pulpos[f] = AGUA;             //cuando se movio por primera vez, que me ponga agua donde arranco el PULPO			
+                q++;
+                pulpos [f] -= LARGO;					//la nueva direeccion del pulpo es la de una para arriba
+                f++;							//hasta el ultimpo pulpo, todos se mueven para arriba
+            }
+            sleep(2.5);
+	}	//if
+        else{		
+            for(k=0;k<MOV_PULPO;k++){				//MOVIMIENTO DEL PULPO PARA ARRIBA
+                while(f<cant_pulpo){			
+                    valor6 [f]= *(pulpos[f]-LARGO);               //guardo el valor para salvar lo que valia antes de que caiga el pulpo		
 					//aca ya salve el valor de lo que habia y se guarda en valor
-
-					*(pulpos[f]-LARGO) = PULPO;            //muevo el PULPO 
-
-         //aca entro cuando el PULPO ya se movio mas de una vez
-                                        * pulpos [f] = valor5[f];        //salvo lo que habia antes
-
-				
-					pulpos [f] -= LARGO;				//la nueva direeccion del pulpo es la de una para arriba
-					valor5 [f]= valor6[f];				//pongo en valor 1 lo que esta valor 2  asi ya se vuelve a poner otra vez
-                                        f++;							//hasta el ultimpo pulpo, todos se mueven para arriba
-				}
-                                sleep(2.5);
-				f=0;			//vuelvo a arrancar desde el primer pulpo
-			}		//FOR1
-
-			for(k=0;k<MOV_PULPO;k++){				//MOVIMIENTO DEL PULPO PARA ABAJO
-
-				while(f<cant_pulpo){
-					
-					valor6 [f]= *(pulpos[f]+LARGO);               //guardo el valor para salvar lo que valia antes de que caiga el pulpo
-				
-					//aca ya salve el valor de lo que habia y se guarda en valor
-
-					*(pulpos[f]+LARGO) = PULPO;            //muevo el PULPO 
-
-         //aca entro cuando el PULPO ya se movio mas de una vez
-                                        * pulpos [f] = valor5[f];        //salvo lo que habia antes
-
-				
-					pulpos [f] += LARGO;				//la nueva direeccion del pulpo es la de una para abajo
-					valor5 [f]= valor6[f];				//pongo en valor 1 lo que esta valor 2  asi ya se vuelve a poner otra vez
-                                        f++;							//hasta el ultimpo pulpo, todos se mueven para abajo
-				}
-                                sleep(2.5);
-				f=0;			//vuelvo a arrancar desde el primer pulpo
-			}		//FOR2
-		}		//ELSE
-		f=0;					//vuelvo a arrancar desde el primer pulpo
-	}	//WHILE	
+                    *(pulpos[f]-LARGO) = PULPO;            //muevo el PULPO 
+                                                               //aca entro cuando el PULPO ya se movio mas de una vez
+                    * pulpos [f] = valor5[f];        //salvo lo que habia antes		
+                    pulpos [f] -= LARGO;				//la nueva direeccion del pulpo es la de una para arriba
+                    valor5 [f]= valor6[f];				//pongo en valor 1 lo que esta valor 2  asi ya se vuelve a poner otra vez
+                    f++;							//hasta el ultimpo pulpo, todos se mueven para arriba
+		}
+                sleep(2.5);
+                f=0;			//vuelvo a arrancar desde el primer pulpo
+            }		//FOR1
+            for(k=0;k<MOV_PULPO;k++){				//MOVIMIENTO DEL PULPO PARA ABAJO
+                while(f<cant_pulpo){					
+                    valor6 [f]= *(pulpos[f]+LARGO);               //guardo el valor para salvar lo que valia antes de que caiga el pulpo		
+                                                               //aca ya salve el valor de lo que habia y se guarda en valor
+                    *(pulpos[f]+LARGO) = PULPO;            //muevo el PULPO 
+                                                            //aca entro cuando el PULPO ya se movio mas de una vez
+                    * pulpos [f] = valor5[f];        //salvo lo que habia antes                                        
+                    pulpos [f] += LARGO;				//la nueva direeccion del pulpo es la de una para abajo
+                    valor5 [f]= valor6[f];				//pongo en valor 1 lo que esta valor 2  asi ya se vuelve a poner otra vez
+                    f++;							//hasta el ultimpo pulpo, todos se mueven para abajo
+		}
+                sleep(2.5);
+                f=0;			//vuelvo a arrancar desde el primer pulpo
+            }		//FOR2
+	}		//ELSE
+        f=0;					//vuelvo a arrancar desde el primer pulpo
+    }	//WHILE	
 }	//THREAD
 
 
@@ -623,28 +548,4 @@ void * elvl_1(){
         
         
     }
-}
-*/
-/*NO ME BORREN ESTO POT FAVOR **/
- /* 
-  * 
-  *         lvl_1[9][5]=PULPO;
-        lvl_1[4][9]=PES;
-  * 
-  * int j = 7;
-  * 
-    int aux;
-     while(1){
-        if(j>0){
-            aux=matriz[7][j-1];
-            matriz[7][j-1]=1;   
-            printf("\n");
-            
-            matriz[7][j]=aux;
-            printmat();
-            
-            j-=1;
-            sleep(2);
-        }
-    }*/
-      
+}*/
