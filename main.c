@@ -57,7 +57,7 @@ pthread_mutex_t lock1,lock2;        /*creo un candado para dos funciones que con
 int main() {
 
     int(*niveles[2])[ALTURA][LARGO];        // es un arreglo de 3 punteros que apuntan a una matriz  
-    niveles[0]=lvl_1;
+    niveles[0]= &lvl_1;
     //nivel[1]=lvl_2;
     //nivel[3]=lvl_3;
    // creacionmap(nivel);          /*se genera el nivel*/
