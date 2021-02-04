@@ -203,26 +203,26 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
         case 2:
             lvl_2[7][0]=MARIO;
             //ENEMIGOS
-            lvl_2[7][7]=PEZ;
-            lvl_2[][]=PEZ;
-            lvl_2[4][9]=PEZ;
-            lvl_2[7][3]=PEZ;
-            lvl_2[9][5]=PEZ;
-            lvl_2[4][9]=PEZ;
+            lvl_2[8][5]=PEZ;
+            lvl_2[8][18]=PEZ;
+            lvl_2[6][24]=PEZ;
+            lvl_2[10][34]=PEZ;
+            lvl_2[10][43]=PEZ;
+            lvl_2[12][58]=PEZ;
 
-            lvl_2[8][5]=PES;
-            lvl_2[11][6]=PES;
-            lvl_2[6][7]=PES;
-            lvl_2[8][5]=PES;
-            lvl_2[11][6]=PES;
-            lvl_2[6][7]=PES;
+            lvl_2[12][9]=PES;
+            lvl_2[6][21]=PES;
+            lvl_2[11][28]=PES;
+            lvl_2[4][35]=PES;
+            lvl_2[4][46]=PES;
+            lvl_2[9][61]=PES;
 
-            lvl_2[10][23]=PULPO;
-            lvl_2[12][25]=PULPO;
-            lvl_2[11][45]=PULPO;
-            lvl_2[10][23]=PULPO;
-            lvl_2[12][25]=PULPO;
-            lvl_2[11][45]=PULPO;
+            lvl_2[6][13]=PULPO;
+            lvl_2[11][22]=PULPO;
+            lvl_2[7][31]=PULPO;
+            lvl_2[8][38]=PULPO;
+            lvl_2[9][53]=PULPO;
+            lvl_2[9][63]=PULPO;
             //
             for(int i=0;i<(LARGO-5);i++)
             {
@@ -242,11 +242,39 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
                     lvl_2[15][i]=BLOQUE;
             }
 
+            for(int k=11;k<13;k++)
+            {
+                    lvl_2[15][k]=PRECIPICIO;
+             }		
+
             for(int j= ((LARGO/7)+3) ;j<(LARGO-40);j++)
             {
                     lvl_2[14][j]=BLOQUE;
                     lvl_2[15][j]=BLOQUE;
             }
+            
+            for(int k=31;k<33;k++)
+            {
+                    lvl_2[15][k]=PRECIPICIO;
+            }
+            
+            for(int j= 33 ;j<49;j++)
+            {
+                    lvl_2[14][j]=BLOQUE;
+                    lvl_2[15][j]=BLOQUE;
+            }
+            
+            for(int k=49;k<52;k++)
+            {
+                    lvl_2[15][k]=PRECIPICIO;
+            }
+            
+            for(int j= 52 ;j<= LARGO ;j++)
+            {
+                    lvl_2[14][j]=BLOQUE;
+                    lvl_2[15][j]=BLOQUE;
+            }
+            
 
             for(int k=9;k<14;k++)
             {
@@ -262,10 +290,10 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
 
             for(int k=6;k<8;k++)              //PRIMER ESCALON 
             {
-                    lvl_1[9][k]=BLOQUE;
+                    lvl_2[9][k]=BLOQUE;
             }
 
-            lvl_1[13][11]=MONEDA;
+            lvl_2[13][11]=MONEDA;
 
             for(int k=8;k<10;k++)
             {
@@ -319,7 +347,7 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
 
             for(int k=11;k<14;k++)
             {
-                    lvl_1[k][30]=BLOQUE;    //
+                    lvl_2[k][30]=BLOQUE;    //
             }
             
             for(int k=11;k<14;k++)
@@ -327,89 +355,112 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
                 lvl_2[k][33]=BLOQUE;        //
             }
 
-            for(int k=5;k<7;k++)
+            for(int k=37;k<39;k++)
             {
-                    lvl_2[k][40]=BLOQUE;
+                    lvl_2[6][40]=BLOQUE;    //
+            }
+            for(int k=37;k<39;k++)
+            {
+                    lvl_2[11][k]=BLOQUE;    //
             }
 
-            lvl_1[5][37]=MONEDA;
-            lvl_1[6][37]=MONEDA;
-
-            for(int k=36;k<39;k++)
+            lvl_2[13][38]=MONEDA;   //
+            lvl_2[2][41]=MONEDA;    //
+            
+            for(int k=40;k<42;k++)
             {
-                    lvl_1[12][k]=MONEDA;
+                    lvl_2[9][k]=BLOQUE;    //
             }
 
-            for(int k=35;k<40;k++)
+            for(int k=41;k<46;k++)
             {
-                    lvl_1[15][k]=PRECIPICIO;
-            }		
+                    lvl_2[13][k]=BLOQUE;    //
+            }
 
-            for(int k=10;k<14;k++)
+            for(int k=42;k<45;k++)
             {
-                    lvl_1[k][40]=BLOQUE;
+                    lvl_2[12][k]=BLOQUE;    //
+            }
+            lvl_2[13][40]=MONEDA;
+            lvl_2[12][41]=MONEDA;
+            
+            for(int k=42 ;k<45 ;k++)
+            {
+                    lvl_2[11][k]=MONEDA;        //
+            }
+            
+            lvl_2[12][45]=MONEDA;   //
+            lvl_2[13][46]=MONEDA;   //
+
+            for(int k=43;k<45;k++)
+            {
+                    lvl_2[5][k]=BLOQUE;     //
+            }
+
+            for(int k=45;k<47;k++)
+            {
+                    lvl_2[9][k]=BLOQUE;     //
+            }
+            
+            for(int k=2;k<8;k++)
+            {
+                for(int j=48; j<53;j++)
+                {
+                    lvl_2[k][j]=BLOQUE;         //
+                }
+            }
+            
+
+            lvl_2[13][50]=MONEDA;           //
+
+            lvl_2[13][51]=MONEDA;           //
+
+            for(int k=11;k<14;k++)
+            {
+                    lvl_2[K][48]=BLOQUE;
             }
 
             for(int k=11;k<14;k++)
             {
-                    lvl_1[k][41]=BLOQUE;
+                    lvl_2[k][52]=BLOQUE;        //
             }
 
-            for(int k=12;k<14;k++)
+            lvl_2[13][53]=MONEDA;           //
+
+            for(int k=2;k<6;k++)
             {
-                    lvl_1[k][42]=BLOQUE;
+                    lvl_2[k][55]=ALGA;          //
             }
-
-            lvl_1[13][43]=BLOQUE;
-
-            lvl_1[13][45]=MONEDA;
-
-            for(int k=47;k<54;k++)
+            
+            for(int k=7;k<12;k++)
             {
-                    lvl_1[9][k]=BLOQUE;
-            }
-
-            for(int k=5;k<9;k++)
-            {
-                    lvl_1[k][53]=ALGA;
-            }
-
-            for(int k=50;k<53;k++)
-            {
-                    lvl_1[8][k]=MONEDA;
-            }
-
-            lvl_1[7][52]=MONEDA;
-
-            for(int k=6;k<14;k++)
-            {
-                    lvl_1[k][57]=ALGA;
+                    lvl_2[k][58]=ALGA;          //
             }
 
             for(int i=(LARGO-5);i<LARGO;i++)
             {
                     for(int k=2;k<10;k++)
                     {
-                            lvl_1[k][i]=BLOQUE;
-                            lvl_1[k][i]=BLOQUE;
+                            lvl_2[k][i]=BLOQUE;
+                            lvl_2[k][i]=BLOQUE;
                     }
             }
 
             for(int k=10;k<14;k++)
             {
-                    lvl_1[k][LARGO-1]=BLOQUE;
+                    lvl_2[k][LARGO-1]=BLOQUE;
             }
 
             for(int k=60;k<(LARGO-1);k++)
             {
-                    lvl_1[13][k]=BLOQUE;
+                    lvl_2[13][k]=BLOQUE;
             }
 
-            lvl_1[12][61]=MONEDA;
-            lvl_1[12][62]=MONEDA;
+            lvl_2[12][61]=MONEDA;
+            lvl_2[12][62]=MONEDA;
 
-            lvl_1[11][LARGO-2]=FINAL;
-            lvl_1[12][LARGO-2]=FINAL;
+            lvl_2[11][LARGO-2]=FINAL;
+            lvl_2[12][LARGO-2]=FINAL;
             break;
         /*case 3:
             break;*/
