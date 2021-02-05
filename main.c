@@ -41,12 +41,12 @@ void * enemigo_pulpo();
 int nivel=1;
 int puntaje=0;      /*se lleva el conteo del puntaje*/
 int vida=3;         /*se lleva el conteo de las vidas*/
-int pos[3];         /*es un arreglo que tiene en el primer elemento la fila , en el segundo la col(de la pos de mario) y en el ultimo la cantidad de movimineto del mapa*/
 int tecla;          /*guarda el valor de tecla apretado*/
+int(*niveles[2])[ALTURA][LARGO];        // es un arreglo de 3 punteros que apuntan a una matriz  
+int pos[3];         /*es un arreglo que tiene en el primer elemento la fila , en el segundo la col(de la pos de mario) y en el ultimo la cantidad de movimineto del mapa*/
 int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
-
- /*int lvl_2 [ALTURA][LARGO];  
- int lvl_3 [ALTURA][LARGO];  */
+int lvl_2 [ALTURA][LARGO];  
+ /*int lvl_3 [ALTURA][LARGO];  */
 /**********************************/
 /*OBSERVACIONES: el motor del juego , se podria hacer con un mutex, de esta manera , se escribiria menos codigo.
 /**********************************/
@@ -56,9 +56,9 @@ pthread_mutex_t lock1,lock2;        /*creo un candado para dos funciones que con
 
 int main() {
 
-    int(*niveles[2])[ALTURA][LARGO];        // es un arreglo de 3 punteros que apuntan a una matriz  
-    niveles[0]= &lvl_1;
-    //nivel[1]=lvl_2;
+    
+    niveles[0]=&lvl_1;
+    niveles[1]=&lvl_2;
     //nivel[3]=lvl_3;
    // creacionmap(nivel);          /*se genera el nivel*/
     
@@ -75,18 +75,22 @@ int main() {
     while(vida>0){
         switch(nivel){          //habilita el control, automatico, de cada enemigo en cada nivel//
             case 1 :
+                    printf("**************NIVEL 1*****************\n");
                     creacionmap(nivel);
                     printmat(*niveles[0]);  //imprime el nivel
                     pthread_create(&th3,NULL,enemigo_pez,NULL);
                     pthread_create(&th4,NULL,enemigo_pes,NULL);
-                    pthread_create(&th5,NULL,enemigo_pulpo,NULL);i=0;fin=1; break;
+                    pthread_create(&th5,NULL,enemigo_pulpo,NULL);
+                    i=0;fin=1; break;
             case 2 :
-               // printf("llegaste al nivel dos , en desarrollo ...\n");
-                //return 0;
-                //break;
+                    printf("**************NIVEL 2*****************\n");
                     creacionmap(nivel);
+                    pos[0]=0;
+                    pos[1]=0;
+                    pos[2]=0;
                     printmat(*niveles[1]);  //
-                    pthread_create(&th6,NULL,entrad,NULL);i=1;fin=1;break;
+                    i=1;fin=1;boton=0;break;
+                    //pthread_create(&th6,NULL,entrad,NULL);        //ENEMIGOOOOOOOSSSSSSSSSS
             case 3 :
                     creacionmap(nivel);
                     printmat(*niveles[2]);  //
@@ -199,7 +203,7 @@ void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]){  /*se le pasa la matriz n
                 if(arr[fil][col]==1){
                     pos[0]=fil;
                     pos[1]=col;
-                }    
+                }
             }
         }
     }
@@ -210,6 +214,7 @@ void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]){  /*se le pasa la matriz n
                     pos[0]=fil;
                     pos[1]=col;
                 }
+
             }      
         }
     }
@@ -272,19 +277,20 @@ int reglas(int arr[ALTURA][LARGO],int boton){ /*se le pasa el nivel en el que se
 void*  caida ( ){
     int boton_aux=down;
     int val;
+    
     while(1){
         sleep(3);
-        ctrl_posicion(lvl_1,pos);
-        val=reglas(lvl_1,boton_aux);
+        ctrl_posicion(*niveles[nivel-1],pos);
+        val=reglas(*niveles[nivel-1],boton_aux);
         if(val==0){                  /*si el movimiento esta permitido , lo mueve efectivamente*/
-            movimiento(lvl_1,boton_aux); /*realza el movimiento efectivo, solo de Mario*/
-            printmat(lvl_1);
+            movimiento(*niveles[nivel-1],boton_aux); /*realza el movimiento efectivo, solo de Mario*/
+            printmat(*niveles[nivel-1]);
         }
         else if(val==2){             /*recogio una moneda*/          
             puntaje+=10;
             printf("PUNTAJE:%d\n",puntaje);
-            movimiento(lvl_1,boton_aux);
-            printmat(lvl_1);
+            movimiento(*niveles[nivel-1],boton_aux);
+            printmat(*niveles[nivel-1]);
         }
         else if(val==4){     
             puntaje+=100;

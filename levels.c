@@ -201,7 +201,7 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
                 
                 break;
         case 2:
-            lvl_2[7][0]=MARIO;
+            lvl_2[10][0]=MARIO;
             //ENEMIGOS
             lvl_2[8][5]=PEZ;
             lvl_2[8][18]=PEZ;
@@ -417,7 +417,7 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
 
             for(int k=11;k<14;k++)
             {
-                    lvl_2[K][48]=BLOQUE;
+                    lvl_2[k][48]=BLOQUE;
             }
 
             for(int k=11;k<14;k++)
