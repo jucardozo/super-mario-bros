@@ -24,6 +24,8 @@
 #define right 101
 #define left 102
 #define down 103
+#define pausa 104
+#define salir 105
 
 /* prototipos*/
 void printmat(int arr[ALTURA][LARGO]); /*creo que no es necesario pasarle una arreglo*/
@@ -35,10 +37,12 @@ void * entrad();    /*recibe por comando el movimiento deseado por el jugador*/
 void * enemigo_pez();
 void * enemigo_pes();
 void * enemigo_pulpo();
+int menu();
 
 
 /*Globales*/
-int nivel=1;
+int nivel=2;
+int stop;           //variable que uso para pausar el juego
 int puntaje=0;      /*se lleva el conteo del puntaje*/
 int vida=3;         /*se lleva el conteo de las vidas*/
 int tecla;          /*guarda el valor de tecla apretado*/
@@ -60,11 +64,9 @@ int main() {
     niveles[0]=&lvl_1;
     niveles[1]=&lvl_2;
     //nivel[3]=lvl_3;
-   // creacionmap(nivel);          /*se genera el nivel*/
     
     printf("Bienvenido a la beta del super mario\n");
    
-    //printmat(*niveles[0]);  //
     int fin, boton=0 ,i;
     
     
@@ -98,10 +100,18 @@ int main() {
         }
         
         while(fin){
-            if(tecla !=0){       /*si el boton es igual a cero , entonces hubo problema en la entrada*/
+            if(tecla !=0 ){       /*si el boton es igual a cero , entonces hubo problema en la entrada*/
             
                 ctrl_posicion(*niveles[i],pos);    /*busca a mario en el mapa y devuelve su posicion en pos */
                 boton=tecla;
+                if(boton==pausa){
+                    stop=1;
+                    tecla=0;
+                    menu();
+                    if(tecla==salir){
+                        return 0;
+                    }
+                }
                 int val=reglas(*niveles[i],boton); /*val, guarda la evaluacion de reglas*/
                 if(val==0){                  /*si el movimiento esta permitido , lo mueve efectivamente*/
                     
@@ -142,7 +152,8 @@ int main() {
                         tecla=0;
                     }
                 }
-            }   
+             
+            }
           
         }
       
@@ -266,6 +277,41 @@ int reglas(int arr[ALTURA][LARGO],int boton){ /*se le pasa el nivel en el que se
 }
 
 
+int menu(){
+    printf("************MENU(BETA)*************\n");
+    printf("PUNTAJE:%d\n",puntaje);
+    printf("VIDA:%d\n",vida);
+    printf("NIVEL:%d\n",nivel);
+
+    printf("Para reanudar el juego presione nuevamente p, para finalizar la partidad presione f\n");
+    int fin=1;
+    while(fin){
+        if(tecla!=0 && tecla==pausa){
+            stop=0;
+            fin=0;
+            tecla=0;
+             printf("reanudando juego...\n");
+        }  
+        else if(tecla!=0 && tecla==salir){
+            fin=0;
+            printf("saliendo del juego....\n");
+        }
+            
+    }
+   
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                                //
 //                                                    /////////////////////////                                                   //
@@ -279,7 +325,9 @@ void*  caida ( ){
     int val;
     
     while(1){
-        sleep(3);
+        while(stop){        //paauso el thread , porque pausaron le juego
+        }
+        sleep(2);
         ctrl_posicion(*niveles[nivel-1],pos);
         val=reglas(*niveles[nivel-1],boton_aux);
         if(val==0){                  /*si el movimiento esta permitido , lo mueve efectivamente*/
@@ -305,8 +353,9 @@ void*  caida ( ){
                 printf("PUNTAJE: %d",puntaje);
             }
         }
-        sleep(3);
+        sleep(2);
     }
+    
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -332,6 +381,14 @@ void *entrad(){
             getchar();
             tecla=left;
         }
+        else if(i=='P'|| i=='p'){
+            getchar();
+            tecla=pausa;
+        }
+        else if(i=='F' && i=='f'){
+            getchar();
+            tecla=salir;
+        }
         else{
             //printf("introdujo un movimiento no permitido\n");
             return 0;
@@ -348,7 +405,7 @@ void *entrad(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void * enemigo_pez(){           //este thread controla los movimientos del pez que va mas rapido en el mapa
-   
+
     int pez = 1;                //variable que uso para el while
     
     int *pezes [MAX_ENEM];             //creo arreglo de punteros para guardar las posiciones de los peces     
@@ -428,7 +485,7 @@ void * enemigo_pez(){           //este thread controla los movimientos del pez q
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void * enemigo_pes(){           //este thread controla los movimientos del pez que va mas lento en el mapa
-    
+
     int pes = 1;                //variable que uso para el while
     
     int *peses [MAX_ENEM];             //creo arreglo de punteros para guardar las posiciones de los peces   
