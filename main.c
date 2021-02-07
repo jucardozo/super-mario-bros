@@ -41,7 +41,7 @@ int menu();
 
 
 /*Globales*/
-int nivel=2;
+int nivel=1;
 int stop;           //variable que uso para pausar el juego
 int puntaje=0;      /*se lleva el conteo del puntaje*/
 int vida=3;         /*se lleva el conteo de las vidas*/
@@ -408,17 +408,35 @@ void * enemigo_pez(){           //este thread controla los movimientos del pez q
 
     int pez = 1;                //variable que uso para el while
     
-    int *pezes [MAX_ENEM];             //creo arreglo de punteros para guardar las posiciones de los peces     
+    int *pezes [MAX_ENEM];             //creo arreglo de punteros para guardar las posiciones de los peces  
+    int * dir_niveles [2] = {&lvl_1[0][0],&lvl_2[0][0]};       //arreglo depunteros que contiene la direccion del primer elemento de la matriz de cada nivel
     
     pezes[0]= &lvl_1[7][3];     //estas son las posiciones iniciales de los peces en la matriz
-    pezes[1]= &lvl_1[9][5];
-    pezes[2]= &lvl_1[4][9];         
+    pezes[1]= &lvl_1[9][5];     //PARA EL NIVEL 1
+    pezes[2]= &lvl_1[4][9];  
+    
+    pezes[3]= &lvl_2[8][5];     //estas son las posiciones iniciales de los peces en la matriz
+    pezes[4]= &lvl_2[8][18];     //PARA EL NIVEL 2
+    pezes[5]= &lvl_2[6][24];
+    pezes[6]= &lvl_2[10][34];     
+    pezes[7]= &lvl_2[10][43];
+    pezes[8]= &lvl_2[12][58]; 
     
     int cant_pez = 3*nivel;           //cantidad de enemigos PEZ por nivel 
     int q=0;
-    int i=0;
+    int i;
     int valor1 [MAX_ENEM];		//arreglo que guardo las posiciones de los peZes
     int valor2 [MAX_ENEM];		//arreglo que salvo las posiciones de los peZes
+    
+    if(nivel == 1){                     //cantidad de enemigos PEZ por nivel
+        i=0;
+    }
+    else if (nivel == 2){
+        i=3;
+    }
+    else{
+        i=9;
+    }
     
     while (pez){                
         
@@ -427,7 +445,7 @@ void * enemigo_pez(){           //este thread controla los movimientos del pez q
             pez = 0;
         }
         
-        else if (  (  ( pezes[i] - (&lvl_1[0][0]) )    % LARGO  )  == 0){         //si esta en la columna 0, entonces listo el PEZ
+        else if (  (  ( pezes[i] - (dir_niveles[nivel-1]) )    % LARGO  )  == 0){         //si esta en la columna 0, entonces listo el PEZ
 
             *pezes[i]=AGUA;                                                     //que me ponga agua
                                                                   //ya el primer PEZ no existe
@@ -475,7 +493,15 @@ void * enemigo_pez(){           //este thread controla los movimientos del pez q
            
         }		
         
-        i=0;		//vuelvo a arrancar desde el primer pez
+        if(nivel == 1){                     //vuelvo a arrancar desde el primer pez
+            i=0;
+        }
+        else if (nivel == 2){
+            i=3;
+        }
+        else{
+            i=9;
+        }
         
     }  
 
@@ -488,17 +514,35 @@ void * enemigo_pes(){           //este thread controla los movimientos del pez q
 
     int pes = 1;                //variable que uso para el while
     
-    int *peses [MAX_ENEM];             //creo arreglo de punteros para guardar las posiciones de los peces   
+    int *peses [MAX_ENEM];             //creo arreglo de punteros para guardar las posiciones de los peces
+    int * dir_niveles [2] = {&lvl_1[0][0],&lvl_2[0][0]};       //arreglo depunteros que contiene la direccion del primer elemento de la matriz de cada nivel
     
     peses[0]= &lvl_1[8][5];     //estas son las posiciones iniciales de los peces en la matriz
     peses[1]= &lvl_1[11][6];
     peses[2]= &lvl_1[6][7];      
     
+    peses[3]= &lvl_2[12][9];     //estas son las posiciones iniciales de los peces en la matriz
+    peses[4]= &lvl_2[6][21];     //PARA EL NIVEL 2
+    peses[5]= &lvl_2[11][28];
+    peses[6]= &lvl_2[4][35];     
+    peses[7]= &lvl_2[4][46];
+    peses[8]= &lvl_2[9][61];
+    
     int cant_pes = 3*nivel;     //cantidad de enemigos PES por nivel 
     int q=0;
-    int i=0;
+    int i;
     int valor3 [MAX_ENEM];		//arreglo que guardo las posiciones de los peSes
     int valor4 [MAX_ENEM];		//arreglo que salvo las posiciones de los peSes
+    
+    if(nivel == 1){                     //cantidad de enemigos PES por nivel
+        i=0;
+    }
+    else if (nivel == 2){
+        i=3;
+    }
+    else{
+        i=9;
+    }
     
     while (pes){  
         
@@ -507,7 +551,7 @@ void * enemigo_pes(){           //este thread controla los movimientos del pez q
             pes = 0;
         }
         
-        else if (  (  ( peses[i] - (&lvl_1[0][0]) )    % LARGO  )  == 0){         //si esta en la columna 0, entonces listo el PEZ
+        else if (  (  ( peses[i] - (dir_niveles[nivel-1]) )    % LARGO  )  == 0){         //si esta en la columna 0, entonces listo el PEZ
 
             *peses[i]=AGUA;                                                     //que me ponga agua
                                                                   //ya el primer PES no existe
@@ -552,7 +596,15 @@ void * enemigo_pes(){           //este thread controla los movimientos del pez q
            
         }		
         
-        i=0;		//vuelvo a arrancar desde el primer pes
+        if(nivel == 1){                     //vuelvo a arrancar desde el primer pes
+            i=0;
+        }
+        else if (nivel == 2){
+            i=3;
+        }
+        else{
+            i=9;
+        }
         
     }  
 
@@ -567,15 +619,32 @@ void * enemigo_pulpo(){             ////este thread controla los movimientos del
     int *pulpos [MAX_ENEM];             //creo arreglo de punteros para guardar las posiciones de los pulpos
     
     pulpos[0]= &lvl_1[10][23];     //estas son las posiciones iniciales de los pulpos en la matriz
-    pulpos[1]= &lvl_1[12][25];
+    pulpos[1]= &lvl_1[12][25];     //PARA EL NIVEL 1
     pulpos[2]= &lvl_1[11][45];
     
+    pulpos[3]= &lvl_2[6][13];     //estas son las posiciones iniciales de los pulpos en la matriz
+    pulpos[4]= &lvl_2[11][22];     //PARA EL NIVEL 2
+    pulpos[5]= &lvl_2[7][31];
+    pulpos[6]= &lvl_2[8][38];    
+    pulpos[7]= &lvl_2[9][53];     
+    pulpos[8]= &lvl_2[9][63];
+    
     int cant_pulpo = 3*nivel;     //cantidad de enemigos PULPO por nivel 
-    int f=0;
+    int f;
     int q=0;
     int k;
     int valor5 [MAX_ENEM];	//arreglo que guardo las posiciones de los pulpos
     int valor6 [MAX_ENEM];	//arreglo que salvo las posiciones de los pulpos
+    
+    if(nivel == 1){                     //cantidad de enemigos PEZ por nivel
+        f=0;
+    }
+    else if (nivel == 2){
+        f=3;
+    }
+    else{
+        f=9;
+    }
     
     while (1){
         if(q<cant_pulpo){
@@ -603,7 +672,15 @@ void * enemigo_pulpo(){             ////este thread controla los movimientos del
                     f++;							//hasta el ultimpo pulpo, todos se mueven para arriba
 		}
                 sleep(2.5);
-                f=0;			//vuelvo a arrancar desde el primer pulpo
+                if(nivel == 1){                     //vuelvo a arrancar desde el primer pulpo
+                    f=0;
+                }
+                else if (nivel == 2){
+                    f=3;
+                }
+                else{
+                    f=9;
+                }
             }		
             for(k=0;k<MOV_PULPO;k++){				//MOVIMIENTO DEL PULPO PARA ABAJO
                 while(f<cant_pulpo){					
@@ -617,10 +694,26 @@ void * enemigo_pulpo(){             ////este thread controla los movimientos del
                     f++;							//hasta el ultimpo pulpo, todos se mueven para abajo
 		}
                 sleep(2.5);
-                f=0;			//vuelvo a arrancar desde el primer pulpo
+                if(nivel == 1){                     //vuelvo a arrancar desde el primer pulpo
+                    f=0;
+                }
+                else if (nivel == 2){
+                    f=3;
+                }
+                else{
+                    f=9;
+                }
             }		
 	}		
-        f=0;					//vuelvo a arrancar desde el primer pulpo
+        if(nivel == 1){                     //vuelvo a arrancar desde el primer pulpo
+            f=0;
+        }
+        else if (nivel == 2){
+            f=3;
+        }
+        else{
+            f=9;
+        }
     }		
 }	
 

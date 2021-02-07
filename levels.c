@@ -201,6 +201,7 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
                 
                 break;
         case 2:
+            
             lvl_2[10][0]=MARIO;
             //ENEMIGOS
             lvl_2[8][5]=PEZ;
