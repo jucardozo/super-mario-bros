@@ -283,16 +283,16 @@ int menu(){
     printf("VIDA:%d\n",vida);
     printf("NIVEL:%d\n",nivel);
 
-    printf("Para reanudar el juego presione nuevamente p, para finalizar la partidad presione f\n");
+    printf("Para reanudar el juego presione nuevamente p, para finalizar la partida presione f\n");
     int fin=1;
     while(fin){
-        if(tecla!=0 && tecla==pausa){
+        if( tecla==pausa){
             stop=0;
             fin=0;
             tecla=0;
              printf("reanudando juego...\n");
         }  
-        else if(tecla!=0 && tecla==salir){
+        else if( tecla==salir){
             fin=0;
             printf("saliendo del juego....\n");
         }
@@ -385,9 +385,10 @@ void *entrad(){
             getchar();
             tecla=pausa;
         }
-        else if(i=='F' && i=='f'){
+        else if(i=='F' || i=='f'){
             getchar();
             tecla=salir;
+            printf("se presiono f\n");
         }
         else{
             //printf("introdujo un movimiento no permitido\n");
