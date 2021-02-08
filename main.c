@@ -44,6 +44,7 @@ ALLEGRO_BITMAP *final;
 ALLEGRO_BITMAP *pez;
 ALLEGRO_BITMAP *pes;
 ALLEGRO_BITMAP *pulpo;
+ALLEGRO_EVENT_QUEUE *event_queue = NULL;        //Cola de eventos
 
 
 
@@ -144,12 +145,12 @@ int main() {
         al_destroy_display(display);
         return -1;
     }
-    /*else if (!(final = al_load_bitmap("final.jpg"))) {           //se carga imagen de final
+    else if (!(final = al_load_bitmap("final.jpg"))) {           //se carga imagen de final
         fprintf(stderr, "Unable to load final\n");
         al_uninstall_system();
         al_shutdown_image_addon();
         al_destroy_display(display);
-        return -1;*/
+        return -1;
     }
     else if (!(pez = al_load_bitmap("pez.jpg"))) {           //se carga imagen de pez
         fprintf(stderr, "Unable to load pez\n");
@@ -172,6 +173,36 @@ int main() {
         al_destroy_display(display);
         return -1;
     }
+    
+    
+    //////////////////////////////////
+    /*INICIALIZO EVENTOS Y TECLADO*///
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    event_queue = al_create_event_queue();                                                             //
+    if (!event_queue) {                                                                                //
+        fprintf(stderr, "failed to create event_queue!\n");                                            //
+        al_destroy_bitmap(mar);       //se libera la memoria dinamica                                  //
+        al_destroy_bitmap(alga);                                                                       //
+        al_destroy_bitmap(bloque);                                                                     //
+        al_destroy_bitmap(mario_adelante);                                                             //
+        al_destroy_bitmap(mario_atras);                                                                //
+        al_destroy_bitmap(moneda);                                                                     //
+        al_destroy_bitmap(final);                                                                      //
+        al_destroy_bitmap(pez);                                                                        //
+        al_destroy_bitmap(pes);                                                                        //
+        al_destroy_bitmap(pulpo);                                                                      //
+        //al_uninstall_audio();                                                                        //
+        //al_destroy_sample(music);                                                                    //
+        return -1;                                                                                     //
+    }                                                                                                  //
+    if (!al_install_keyboard()) {                                                                      //
+        fprintf(stderr, "failed to initialize the keyboard!\n");                                       //
+        return -1;                                                                                     //
+    }                                                                                                  //
+    al_register_event_source(event_queue, al_get_keyboard_event_source());       //Evento teclado      //
+    al_register_event_source(event_queue, al_get_display_event_source(display)); //Cruz roja de salir  //
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     
     
     //////////////////
@@ -272,18 +303,18 @@ int main() {
       
     }
 
-        /*DESTROY ALLEGRO*/
+    /*DESTROY ALLEGRO*/
     al_destroy_display(display);                //se libera la memoria dinamica , destruyendo los elemntos usados
     al_destroy_bitmap(mar);
     al_destroy_bitmap(alga);
     al_destroy_bitmap(bloque);
-    al_destroy_display(mario_adelante);
+    al_destroy_bitmap(mario_adelante);
     al_destroy_bitmap(mario_atras);
     al_destroy_bitmap(moneda);
-    //al_destroy_bitmap(final);
-    al_destroy_display(pez);
+    al_destroy_bitmap(final);
+    al_destroy_bitmap(pez);
     al_destroy_bitmap(pes);
-    al_destroy_display(pulpo);
+    al_destroy_bitmap(pulpo);
     return 0;
 }
     

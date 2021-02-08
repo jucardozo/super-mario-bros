@@ -11,6 +11,7 @@
                    projectFiles="true">
       <itemPath>alga.jpg</itemPath>
       <itemPath>bloque.jpg</itemPath>
+      <itemPath>final.jpg</itemPath>
       <itemPath>mar.jpg</itemPath>
       <itemPath>mario_adelante.jpg</itemPath>
       <itemPath>mario_atras.jpg</itemPath>
@@ -81,6 +82,8 @@
       </item>
       <item path="bloque.jpg" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="final.jpg" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="levels.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="levels.h" ex="false" tool="3" flavor2="0">
@@ -125,6 +128,8 @@
       <item path="alga.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="bloque.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="final.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="levels.c" ex="false" tool="0" flavor2="0">
       </item>
