@@ -18,6 +18,8 @@
 #include "levels.h"         
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_audio.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
+#include <allegro5/allegro_acodec.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
 
 /*define*/
 
@@ -46,11 +48,13 @@ ALLEGRO_BITMAP *final;
 ALLEGRO_BITMAP *pez;
 ALLEGRO_BITMAP *pes;
 ALLEGRO_BITMAP *pulpo;
+ALLEGRO_SAMPLE *music = NULL;                  //Musica
 ALLEGRO_EVENT_QUEUE *event_queue = NULL;        //Cola de eventos
 
 
 
 /* prototipos*/
+void bienvenida (void);
 void printmat(int arr[ALTURA][LARGO]); /*creo que no es necesario pasarle una arreglo*/
 void movimiento(int arr[ALTURA][LARGO],int boton);  /*realiza el movimiento efectivo de mario*/
 void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]);  /*Funcion que busca la posicion de mario en el mapa (Matriz), se le pasa el nivel y la cantidad de movimiento del mapa*/
@@ -190,6 +194,41 @@ int main() {
         return -1;
     }
     
+    /*INICIALIZAION MUSICA*/
+    if (!al_install_audio()) {                                      //Inicializo el audio                                                   //
+        fprintf(stderr, "failed to initialize audio!\n");                                                                                   //
+        al_uninstall_system();                                                                                                              //
+        al_shutdown_image_addon();                                                                                                          //
+        al_destroy_display(display);                                                                                                        //
+        return -1;                                                                                                                          //
+    }                                                                                                                                       //
+                                                                                                                                            //
+    if (!al_init_acodec_addon()) {                                                                                                          //
+        fprintf(stderr, "failed to initialize audio codecs!\n");                                                                            //
+        al_uninstall_system();                                                                                                              //
+        al_shutdown_image_addon();                                                                                                          //
+        al_destroy_display(display);                                                                                                        //
+        return -1;                                                                                                                          //
+    }                                                                                                                                       //
+                                                                                                                                            //
+    if (!al_reserve_samples(1)) {                                                                                                           //
+        fprintf(stderr, "failed to reserve samples!\n");                                                                                    //
+        al_uninstall_system();                                                                                                              //
+        al_shutdown_image_addon();                                                                                                          //
+        al_destroy_display(display);                                                                                                        //
+        return -1;                                                                                                                          //
+    }                                                                                                                                       //
+                                                                                                                                            //
+    music = al_load_sample("musica.mp3");                                                                                                      //
+                                                                                                                                            //
+    if (!music) {                                                                                                                           //
+        printf("Audio clip sample not loaded!\n");                                                                                          //
+        al_uninstall_system();                                                                                                              //
+        al_shutdown_image_addon();                                                                                                          //
+        al_destroy_display(display);                                                                                                        //
+        return -1;                                                                                                                          //
+    }    
+    
     
     //////////////////////////////////
     /*INICIALIZO EVENTOS Y TECLADO*///
@@ -209,8 +248,8 @@ int main() {
         al_destroy_bitmap(pez);                                                                        //
         al_destroy_bitmap(pes);                                                                        //
         al_destroy_bitmap(pulpo);                                                                      //
-        //al_uninstall_audio();                                                                        //
-        //al_destroy_sample(music);                                                                    //
+        al_uninstall_audio();                                                                          //
+        al_destroy_sample(music);                                                                      //
         return -1;                                                                                     //
     }                                                                                                  //
     if (!al_install_keyboard()) {                                                                      //
@@ -228,7 +267,7 @@ int main() {
     niveles[1]=&lvl_2;
     //nivel[3]=lvl_3;
     
-    printf("Bienvenido a la beta del super mario\n");
+    bienvenida();
    
     int fin, boton=0 ,i;
     
@@ -335,6 +374,8 @@ int main() {
     al_destroy_bitmap(pez);
     al_destroy_bitmap(pes);
     al_destroy_bitmap(pulpo);
+    al_uninstall_audio();                                                                                                                                    //
+    al_destroy_sample(music);
     al_destroy_event_queue(event_queue); 
     return 0;
 }
@@ -902,4 +943,6 @@ void * enemigo_pulpo(){             ////este thread controla los movimientos del
 }	
 
 
-
+void bienvenida (void){
+    printf("Bienvenido a la beta del super mario\n");
+}
