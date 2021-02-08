@@ -77,7 +77,7 @@ int lvl_2 [ALTURA][LARGO];
 /*OBSERVACIONES: el motor del juego , se podria hacer con un mutex, de esta manera , se escribiria menos codigo.
 /**********************************/
 /*MUTEX Y THREAD*/
-pthread_t th1,th2,th3,th4,th5,th6,th7;                  /*se crean thread para funciones necesarias*/
+pthread_t th1,th2,th3,th4,th5;                  /*se crean thread para funciones necesarias*/
 pthread_mutex_t lock1,lock2;        /*creo un candado para dos funciones que controlan el movimiento*/
 
 
@@ -149,8 +149,8 @@ int main() {
         al_uninstall_system();
         al_shutdown_image_addon();
         al_destroy_display(display);
-        return -1;
-    }*/
+        return -1;*/
+    }
     else if (!(pez = al_load_bitmap("pez.jpg"))) {           //se carga imagen de pez
         fprintf(stderr, "Unable to load pez\n");
         al_uninstall_system();
@@ -186,17 +186,16 @@ int main() {
     
     pthread_create(&th1,NULL,entrad,NULL);
     pthread_create(&th2,NULL,caida,NULL);
-    
+    pthread_create(&th3,NULL,enemigo_pez,NULL);
+    pthread_create(&th4,NULL,enemigo_pes,NULL);
+    pthread_create(&th5,NULL,enemigo_pulpo,NULL);
     
     while(vida>0){
         switch(nivel){          //habilita el control, automatico, de cada enemigo en cada nivel//
             case 1 :
                     printf("**************NIVEL 1*****************\n");
                     creacionmap(nivel);
-                    printmat(*niveles[0]);  //imprime el nivel
-                    pthread_create(&th3,NULL,enemigo_pez,NULL);
-                    pthread_create(&th4,NULL,enemigo_pes,NULL);
-                    pthread_create(&th5,NULL,enemigo_pulpo,NULL);
+                    printmat(*niveles[0]);  //imprime el nivel                
                     i=0;fin=1; break;
             case 2 :
                     printf("**************NIVEL 2*****************\n");
@@ -210,7 +209,7 @@ int main() {
             case 3 :
                     creacionmap(nivel);
                     printmat(*niveles[2]);  //
-                    pthread_create(&th7,NULL,entrad,NULL);i=2;fin=1;break;
+                    ;i=2;fin=1;break;
         }
         
         while(fin){
@@ -223,7 +222,8 @@ int main() {
                     tecla=0;
                     menu();
                     if(tecla==salir){
-                        return 0;
+                        fin=0;
+                        vida=0;
                     }
                 }
                 int val=reglas(*niveles[i],boton); /*val, guarda la evaluacion de reglas*/
@@ -257,20 +257,7 @@ int main() {
                         printf("PUNTAJE: %d",puntaje);          /*si no tiene mas vidas entonces game over*/
                         fin =0;
                         tecla=0;
-                        al_destroy_display(display);                //se libera la memoria dinamica , destruyendo los elemntos usados
-                        al_destroy_bitmap(mar);
-                        al_destroy_bitmap(alga);
-                        al_destroy_bitmap(bloque);
-                        al_destroy_bitmap(mario_adelante);
-                        al_destroy_bitmap(mario_atras);
-                        al_destroy_bitmap(moneda);
-                        //al_destroy_bitmap(final);
-                        al_destroy_bitmap(pez);
-                        al_destroy_bitmap(pes);
-                        al_destroy_bitmap(pulpo);
                         
-                        return 0;
-                       
                     }
                     else
                     {
@@ -284,22 +271,20 @@ int main() {
         }
       
     }
-        pthread_join(th1,NULL);
-        pthread_join(th2,NULL);
-        
+
         /*DESTROY ALLEGRO*/
-        /*al_destroy_display(display);                //se libera la memoria dinamica , destruyendo los elemntos usados
-        al_destroy_bitmap(mar);
-        al_destroy_bitmap(alga);
-        al_destroy_bitmap(bloque);
-        al_destroy_display(mario_adelante);
-        al_destroy_bitmap(mario_atras);
-        al_destroy_bitmap(moneda);
-        //al_destroy_bitmap(final);
-        al_destroy_display(pez);
-        al_destroy_bitmap(pes);
-        al_destroy_display(pulpo);*/
-        
+    al_destroy_display(display);                //se libera la memoria dinamica , destruyendo los elemntos usados
+    al_destroy_bitmap(mar);
+    al_destroy_bitmap(alga);
+    al_destroy_bitmap(bloque);
+    al_destroy_display(mario_adelante);
+    al_destroy_bitmap(mario_atras);
+    al_destroy_bitmap(moneda);
+    //al_destroy_bitmap(final);
+    al_destroy_display(pez);
+    al_destroy_bitmap(pes);
+    al_destroy_display(pulpo);
+    return 0;
 }
     
     
