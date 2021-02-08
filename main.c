@@ -219,7 +219,7 @@ int main() {
         return -1;                                                                                                                          //
     }                                                                                                                                       //
                                                                                                                                             //
-    music = al_load_sample("musica.mp3");                                                                                                      //
+    music = al_load_sample("musica.wav");                                                                                                      //
                                                                                                                                             //
     if (!music) {                                                                                                                           //
         printf("Audio clip sample not loaded!\n");                                                                                          //
@@ -268,6 +268,9 @@ int main() {
     //nivel[3]=lvl_3;
     
     bienvenida();
+    al_play_sample(music, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);              //Damos bienvenida al usuario 
+    al_draw_scaled_bitmap(lobby,0, 0, al_get_bitmap_width(lobby), al_get_bitmap_height(lobby),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);                                      //
+    al_flip_display();                                                      //Muestro la imagen de bienvenida
    
     int fin, boton=0 ,i;
     
