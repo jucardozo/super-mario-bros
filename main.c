@@ -335,6 +335,7 @@ int main() {
     al_destroy_bitmap(pez);
     al_destroy_bitmap(pes);
     al_destroy_bitmap(pulpo);
+    al_destroy_event_queue(event_queue); 
     return 0;
 }
     
