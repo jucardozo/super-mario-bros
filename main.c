@@ -144,13 +144,13 @@ int main() {
         al_destroy_display(display);
         return -1;
     }
-    else if (!(final = al_load_bitmap("final.jpg"))) {           //se carga imagen de final
+    /*else if (!(final = al_load_bitmap("final.jpg"))) {           //se carga imagen de final
         fprintf(stderr, "Unable to load final\n");
         al_uninstall_system();
         al_shutdown_image_addon();
         al_destroy_display(display);
         return -1;
-    }
+    }*/
     else if (!(pez = al_load_bitmap("pez.jpg"))) {           //se carga imagen de pez
         fprintf(stderr, "Unable to load pez\n");
         al_uninstall_system();
@@ -257,6 +257,18 @@ int main() {
                         printf("PUNTAJE: %d",puntaje);          /*si no tiene mas vidas entonces game over*/
                         fin =0;
                         tecla=0;
+                        al_destroy_display(display);                //se libera la memoria dinamica , destruyendo los elemntos usados
+        al_destroy_bitmap(mar);
+        al_destroy_bitmap(alga);
+        al_destroy_bitmap(bloque);
+        al_destroy_display(mario_adelante);
+        al_destroy_bitmap(mario_atras);
+        al_destroy_bitmap(moneda);
+        //al_destroy_bitmap(final);
+        al_destroy_display(pez);
+        al_destroy_bitmap(pes);
+        al_destroy_display(pulpo);
+                        
                         return 0;
                        
                     }
@@ -276,18 +288,17 @@ int main() {
         pthread_join(th2,NULL);
         
         /*DESTROY ALLEGRO*/
-        
-        al_destroy_display(display);                //se libera la memoria dinamica , destruyendo los elemntos usados
+        /*al_destroy_display(display);                //se libera la memoria dinamica , destruyendo los elemntos usados
         al_destroy_bitmap(mar);
         al_destroy_bitmap(alga);
         al_destroy_bitmap(bloque);
         al_destroy_display(mario_adelante);
         al_destroy_bitmap(mario_atras);
         al_destroy_bitmap(moneda);
-        al_destroy_bitmap(final);
+        //al_destroy_bitmap(final);
         al_destroy_display(pez);
         al_destroy_bitmap(pes);
-        al_destroy_display(pulpo);
+        al_destroy_display(pulpo);*/
         
 }
     
@@ -569,6 +580,8 @@ void * enemigo_pez(){           //este thread controla los movimientos del pez q
     }
     
     while (pez){                
+        while (stop){               //para la pausa
+        }
         
         if(cant_pez == 0){
             
@@ -641,7 +654,7 @@ void * enemigo_pez(){           //este thread controla los movimientos del pez q
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void * enemigo_pes(){           //este thread controla los movimientos del pez que va mas lento en el mapa
-
+    
     int pes = 1;                //variable que uso para el while
     
     int *peses [MAX_ENEM];             //creo arreglo de punteros para guardar las posiciones de los peces
@@ -675,6 +688,8 @@ void * enemigo_pes(){           //este thread controla los movimientos del pez q
     }
     
     while (pes){  
+        while (stop){                   //para la pausa
+        }
         
         if(cant_pes == 0){
             
@@ -777,6 +792,8 @@ void * enemigo_pulpo(){             ////este thread controla los movimientos del
     }
     
     while (1){
+        while (stop){               //para la pausa
+        }
         if(q<cant_pulpo){
             while(f<cant_pulpo){				
                 valor5 [f]= *(pulpos[f]-LARGO);               //guardo el valor para salvar lo que valia antes de que caiga el pulpo				

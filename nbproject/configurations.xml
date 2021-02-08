@@ -9,15 +9,15 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
-      <itemPath>../../Imágenes/im/alga.jpg</itemPath>
-      <itemPath>../../Imágenes/im/bloque.jpg</itemPath>
-      <itemPath>../../Imágenes/im/mar.jpg</itemPath>
-      <itemPath>../../Imágenes/im/mario_adelante.jpg</itemPath>
-      <itemPath>../../Imágenes/im/mario_atras.jpg</itemPath>
-      <itemPath>../../Imágenes/im/moneda.jpg</itemPath>
-      <itemPath>../../Imágenes/im/pes.jpg</itemPath>
-      <itemPath>../../Imágenes/im/pez.jpg</itemPath>
-      <itemPath>../../Imágenes/im/pulpo.jpg</itemPath>
+      <itemPath>alga.jpg</itemPath>
+      <itemPath>bloque.jpg</itemPath>
+      <itemPath>mar.jpg</itemPath>
+      <itemPath>mario_adelante.jpg</itemPath>
+      <itemPath>mario_atras.jpg</itemPath>
+      <itemPath>moneda.jpg</itemPath>
+      <itemPath>pes.jpg</itemPath>
+      <itemPath>pez.jpg</itemPath>
+      <itemPath>pulpo.jpg</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -61,35 +61,45 @@
           <linkerLibItems>
             <linkerOptionItem>`pkg-config --libs gthread-2.0`</linkerOptionItem>
             <linkerOptionItem>`pkg-config --libs pthread-stubs`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro-5`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_acodec-5`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_audio-5`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_color-5`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_dialog-5`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_font-5`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_image-5`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_main-5`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_memfile-5`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_physfs-5`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_primitives-5`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_ttf-5`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_video-5`</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="../../Imágenes/im/alga.jpg" ex="false" tool="3" flavor2="0">
+      <item path="alga.jpg" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../../Imágenes/im/bloque.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/mar.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/mario_adelante.jpg"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/mario_atras.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/moneda.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/pes.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/pez.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/pulpo.jpg" ex="false" tool="3" flavor2="0">
+      <item path="bloque.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="levels.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="levels.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="mar.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="mario_adelante.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="mario_atras.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="moneda.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pes.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pez.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pulpo.jpg" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -112,32 +122,29 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="../../Imágenes/im/alga.jpg" ex="false" tool="3" flavor2="0">
+      <item path="alga.jpg" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../../Imágenes/im/bloque.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/mar.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/mario_adelante.jpg"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/mario_atras.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/moneda.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/pes.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/pez.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../../Imágenes/im/pulpo.jpg" ex="false" tool="3" flavor2="0">
+      <item path="bloque.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="levels.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="levels.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="mar.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="mario_adelante.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="mario_atras.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="moneda.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pes.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pez.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pulpo.jpg" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
