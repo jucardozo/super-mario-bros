@@ -258,16 +258,16 @@ int main() {
                         fin =0;
                         tecla=0;
                         al_destroy_display(display);                //se libera la memoria dinamica , destruyendo los elemntos usados
-        al_destroy_bitmap(mar);
-        al_destroy_bitmap(alga);
-        al_destroy_bitmap(bloque);
-        al_destroy_display(mario_adelante);
-        al_destroy_bitmap(mario_atras);
-        al_destroy_bitmap(moneda);
-        //al_destroy_bitmap(final);
-        al_destroy_display(pez);
-        al_destroy_bitmap(pes);
-        al_destroy_display(pulpo);
+                        al_destroy_bitmap(mar);
+                        al_destroy_bitmap(alga);
+                        al_destroy_bitmap(bloque);
+                        al_destroy_bitmap(mario_adelante);
+                        al_destroy_bitmap(mario_atras);
+                        al_destroy_bitmap(moneda);
+                        //al_destroy_bitmap(final);
+                        al_destroy_bitmap(pez);
+                        al_destroy_bitmap(pes);
+                        al_destroy_bitmap(pulpo);
                         
                         return 0;
                        
