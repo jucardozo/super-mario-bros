@@ -36,6 +36,8 @@
 ALLEGRO_DISPLAY *display;                       //se crean  puntero hacia estrucuras de allegro
 ALLEGRO_BITMAP *mar;                         //que nos permitiran utilizar ciertas funciones de
 ALLEGRO_BITMAP *alga;                           //allegro.
+ALLEGRO_BITMAP *lobby;
+ALLEGRO_BITMAP *press_start;
 ALLEGRO_BITMAP *bloque;
 ALLEGRO_BITMAP *mario_adelante;
 ALLEGRO_BITMAP *mario_atras;                         
@@ -103,6 +105,20 @@ int main() {
         al_shutdown_image_addon();                              
         return -1;
     } 
+    else if (!(lobby = al_load_bitmap("lobby.jpg"))) {           //se carga imagen de lobby
+        fprintf(stderr, "Unable to load lobby\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
+    else if (!(press_start = al_load_bitmap("press_start.jpg"))) {           //se carga imagen de press_start
+        fprintf(stderr, "Unable to load press_start\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
     else if (!(mar = al_load_bitmap("mar.jpg"))) {              // se carga en un bitmap la imagen que usaremos de base
         fprintf(stderr, "Unable to load mar\n");
         al_uninstall_system();
@@ -182,6 +198,8 @@ int main() {
     if (!event_queue) {                                                                                //
         fprintf(stderr, "failed to create event_queue!\n");                                            //
         al_destroy_bitmap(mar);       //se libera la memoria dinamica                                  //
+        al_destroy_bitmap(lobby);                                                                      //
+        al_destroy_bitmap(press_start);                                                                //
         al_destroy_bitmap(alga);                                                                       //
         al_destroy_bitmap(bloque);                                                                     //
         al_destroy_bitmap(mario_adelante);                                                             //
@@ -305,6 +323,8 @@ int main() {
 
     /*DESTROY ALLEGRO*/
     al_destroy_display(display);                //se libera la memoria dinamica , destruyendo los elemntos usados
+    al_destroy_bitmap(lobby);
+    al_destroy_bitmap(press_start);
     al_destroy_bitmap(mar);
     al_destroy_bitmap(alga);
     al_destroy_bitmap(bloque);

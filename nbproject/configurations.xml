@@ -12,12 +12,14 @@
       <itemPath>alga.jpg</itemPath>
       <itemPath>bloque.jpg</itemPath>
       <itemPath>final.jpg</itemPath>
+      <itemPath>lobby.jpg</itemPath>
       <itemPath>mar.jpg</itemPath>
       <itemPath>mario_adelante.jpg</itemPath>
       <itemPath>mario_atras.jpg</itemPath>
       <itemPath>moneda.jpg</itemPath>
       <itemPath>pes.jpg</itemPath>
       <itemPath>pez.jpg</itemPath>
+      <itemPath>press_start.jpg</itemPath>
       <itemPath>pulpo.jpg</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
@@ -88,6 +90,8 @@
       </item>
       <item path="levels.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="lobby.jpg" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="mar.jpg" ex="false" tool="3" flavor2="0">
@@ -101,6 +105,8 @@
       <item path="pes.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pez.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="press_start.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pulpo.jpg" ex="false" tool="3" flavor2="0">
       </item>
@@ -135,6 +141,8 @@
       </item>
       <item path="levels.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="lobby.jpg" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="mar.jpg" ex="false" tool="3" flavor2="0">
@@ -148,6 +156,8 @@
       <item path="pes.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pez.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="press_start.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pulpo.jpg" ex="false" tool="3" flavor2="0">
       </item>
