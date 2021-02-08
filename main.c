@@ -15,7 +15,9 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
-#include "levels.h"         /*micho puto*/
+#include "levels.h"         
+#include <allegro5/allegro5.h>
+#include <allegro5/allegro_image.h>
 
 /*define*/
 
@@ -26,6 +28,24 @@
 #define down 103
 #define pausa 104
 #define salir 105
+
+/*ALLEGRO*/
+#define LARGO_DISPLAY 1280      //TAMANIO DE IMAGEN
+#define ANCHO_DISPLAY 1088      //TAMANIO DE IMAGEN
+
+ALLEGRO_DISPLAY *display;                       //se crean  puntero hacia estrucuras de allegro
+ALLEGRO_BITMAP *mar;                         //que nos permitiran utilizar ciertas funciones de
+ALLEGRO_BITMAP *alga;                           //allegro.
+ALLEGRO_BITMAP *bloque;
+ALLEGRO_BITMAP *mario_adelante;
+ALLEGRO_BITMAP *mario_atras;                         
+ALLEGRO_BITMAP *moneda;                   
+ALLEGRO_BITMAP *final;
+ALLEGRO_BITMAP *pez;
+ALLEGRO_BITMAP *pes;
+ALLEGRO_BITMAP *pulpo;
+
+
 
 /* prototipos*/
 void printmat(int arr[ALTURA][LARGO]); /*creo que no es necesario pasarle una arreglo*/
@@ -51,6 +71,8 @@ int pos[3];         /*es un arreglo que tiene en el primer elemento la fila , en
 int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
 int lvl_2 [ALTURA][LARGO];  
  /*int lvl_3 [ALTURA][LARGO];  */
+
+
 /**********************************/
 /*OBSERVACIONES: el motor del juego , se podria hacer con un mutex, de esta manera , se escribiria menos codigo.
 /**********************************/
@@ -58,9 +80,101 @@ int lvl_2 [ALTURA][LARGO];
 pthread_t th1,th2,th3,th4,th5,th6,th7;                  /*se crean thread para funciones necesarias*/
 pthread_mutex_t lock1,lock2;        /*creo un candado para dos funciones que controlan el movimiento*/
 
+
+
+
+
 int main() {
 
+    /*INICIALIZACION DE ALLEGRO*/
+    if (!al_init()){
+        fprintf(stderr, "Unable to start allegro\n");                        //realizo la inicializacion de allegro
+        return -1;
+    } 
+    else if (!al_init_image_addon()) {
+        fprintf(stderr, "Unable to start image addon \n");          //si hubo un error en la inicializacion imprimo el srderr
+        al_uninstall_system();
+        return -1;
+    } 
+    else if (!(display = al_create_display(LARGO_DISPLAY, ANCHO_DISPLAY))) {         //se controlan si hubo problemas en las
+        fprintf(stderr, "Unable to create display\n");                              //distintas inicializaciones 
+        al_uninstall_system();
+        al_shutdown_image_addon();                              
+        return -1;
+    } 
+    else if (!(mar = al_load_bitmap("mar.jpg"))) {              // se carga en un bitmap la imagen que usaremos de base
+        fprintf(stderr, "Unable to load mar\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
+    else if (!(alga = al_load_bitmap("alga.jpg"))) {           //se carga imagen de alga
+        fprintf(stderr, "Unable to load alga\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
+    else if (!(bloque = al_load_bitmap("bloque.jpg"))) {           //se carga imagen de bloque
+        fprintf(stderr, "Unable to load bloque\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
+    else if (!(mario_adelante = al_load_bitmap("mario_adelante.jpg"))) {           //se carga imagen de mario mirando hacia adelante
+        fprintf(stderr, "Unable to load mario_adelante\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
+    else if (!(mario_atras = al_load_bitmap("mario_atras.jpg"))) {           //se carga imagen de mario mirando hacia atras
+        fprintf(stderr, "Unable to load mario_atras\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
+    else if (!(moneda = al_load_bitmap("moneda.jpg"))) {           //se carga imagen de moneda
+        fprintf(stderr, "Unable to load moneda\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
+    else if (!(final = al_load_bitmap("final.jpg"))) {           //se carga imagen de final
+        fprintf(stderr, "Unable to load final\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
+    else if (!(pez = al_load_bitmap("pez.jpg"))) {           //se carga imagen de pez
+        fprintf(stderr, "Unable to load pez\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
+    else if (!(pes = al_load_bitmap("pes.jpg"))) {           //se carga imagen de pes
+        fprintf(stderr, "Unable to load pes\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
+    else if (!(pulpo = al_load_bitmap("pulpo.jpg"))) {           //se carga imagen de pulpo
+        fprintf(stderr, "Unable to load pulpo\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
     
+    
+    //////////////////
     niveles[0]=&lvl_1;
     niveles[1]=&lvl_2;
     //nivel[3]=lvl_3;
@@ -160,6 +274,21 @@ int main() {
     }
         pthread_join(th1,NULL);
         pthread_join(th2,NULL);
+        
+        /*DESTROY ALLEGRO*/
+        
+        al_destroy_display(display);                //se libera la memoria dinamica , destruyendo los elemntos usados
+        al_destroy_bitmap(mar);
+        al_destroy_bitmap(alga);
+        al_destroy_bitmap(bloque);
+        al_destroy_display(mario_adelante);
+        al_destroy_bitmap(mario_atras);
+        al_destroy_bitmap(moneda);
+        al_destroy_bitmap(final);
+        al_destroy_display(pez);
+        al_destroy_bitmap(pes);
+        al_destroy_display(pulpo);
+        
 }
     
     

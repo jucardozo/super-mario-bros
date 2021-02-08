@@ -9,6 +9,15 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>../../Imágenes/im/alga.jpg</itemPath>
+      <itemPath>../../Imágenes/im/bloque.jpg</itemPath>
+      <itemPath>../../Imágenes/im/mar.jpg</itemPath>
+      <itemPath>../../Imágenes/im/mario_adelante.jpg</itemPath>
+      <itemPath>../../Imágenes/im/mario_atras.jpg</itemPath>
+      <itemPath>../../Imágenes/im/moneda.jpg</itemPath>
+      <itemPath>../../Imágenes/im/pes.jpg</itemPath>
+      <itemPath>../../Imágenes/im/pez.jpg</itemPath>
+      <itemPath>../../Imágenes/im/pulpo.jpg</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -55,6 +64,27 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="../../Imágenes/im/alga.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/bloque.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/mar.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/mario_adelante.jpg"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/mario_atras.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/moneda.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/pes.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/pez.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/pulpo.jpg" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="levels.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="levels.h" ex="false" tool="3" flavor2="0">
@@ -82,6 +112,27 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="../../Imágenes/im/alga.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/bloque.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/mar.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/mario_adelante.jpg"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/mario_atras.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/moneda.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/pes.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/pez.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../Imágenes/im/pulpo.jpg" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="levels.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="levels.h" ex="false" tool="3" flavor2="0">
