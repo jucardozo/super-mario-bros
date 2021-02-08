@@ -109,7 +109,7 @@ int main() {
         al_shutdown_image_addon();                              
         return -1;
     } 
-    else if (!(lobby = al_load_bitmap("lobby.jpg"))) {           //se carga imagen de lobby
+    else if (!(lobby = al_load_bitmap("lobby.JPEG"))) {           //se carga imagen de lobby
         fprintf(stderr, "Unable to load lobby\n");
         al_uninstall_system();
         al_shutdown_image_addon();
