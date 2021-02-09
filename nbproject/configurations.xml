@@ -12,7 +12,7 @@
       <itemPath>alga.jpg</itemPath>
       <itemPath>bloque.jpg</itemPath>
       <itemPath>final.jpg</itemPath>
-      <itemPath>lobby.JPEG</itemPath>
+      <itemPath>lobby.jpg</itemPath>
       <itemPath>mar.jpg</itemPath>
       <itemPath>mario_adelante.jpg</itemPath>
       <itemPath>mario_atras.jpg</itemPath>
@@ -91,7 +91,7 @@
       </item>
       <item path="levels.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="lobby.JPEG" ex="false" tool="3" flavor2="0">
+      <item path="lobby.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -144,7 +144,7 @@
       </item>
       <item path="levels.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="lobby.JPEG" ex="false" tool="3" flavor2="0">
+      <item path="lobby.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>

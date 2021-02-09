@@ -32,8 +32,8 @@
 #define salir 105
 
 /*ALLEGRO*/
-#define LARGO_DISPLAY 1280      //TAMANIO DE IMAGEN
-#define ANCHO_DISPLAY 1088      //TAMANIO DE IMAGEN
+#define LARGO_DISPLAY 1088      //TAMANIO DE IMAGEN
+#define ANCHO_DISPLAY 1280      //TAMANIO DE IMAGEN
 
 ALLEGRO_DISPLAY *display;                       //se crean  puntero hacia estrucuras de allegro
 ALLEGRO_BITMAP *mar;                         //que nos permitiran utilizar ciertas funciones de
@@ -55,6 +55,7 @@ ALLEGRO_EVENT_QUEUE *event_queue = NULL;        //Cola de eventos
 
 /* prototipos*/
 void bienvenida (void);
+void destroy_allegro (void);
 void printmat(int arr[ALTURA][LARGO]); /*creo que no es necesario pasarle una arreglo*/
 void movimiento(int arr[ALTURA][LARGO],int boton);  /*realiza el movimiento efectivo de mario*/
 void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]);  /*Funcion que busca la posicion de mario en el mapa (Matriz), se le pasa el nivel y la cantidad de movimiento del mapa*/
@@ -109,7 +110,7 @@ int main() {
         al_shutdown_image_addon();                              
         return -1;
     } 
-    else if (!(lobby = al_load_bitmap("lobby.JPEG"))) {           //se carga imagen de lobby
+    else if (!(lobby = al_load_bitmap("lobby.jpg"))) {           //se carga imagen de lobby
         fprintf(stderr, "Unable to load lobby\n");
         al_uninstall_system();
         al_shutdown_image_addon();
@@ -265,9 +266,12 @@ int main() {
     //////////////////
     niveles[0]=&lvl_1;
     niveles[1]=&lvl_2;
-    //nivel[3]=lvl_3;
+    //nivel[2]=&lvl_3;
+    //////////////////
     
-    bienvenida();
+    //videito de nintendo
+    
+    bienvenida();       //bienvenida por display
     al_play_sample(music, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);              //Damos bienvenida al usuario 
     al_draw_scaled_bitmap(lobby,0, 0, al_get_bitmap_width(lobby), al_get_bitmap_height(lobby),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);                                      //
     al_flip_display();                                                      //Muestro la imagen de bienvenida
@@ -364,22 +368,7 @@ int main() {
     }
 
     /*DESTROY ALLEGRO*/
-    al_destroy_display(display);                //se libera la memoria dinamica , destruyendo los elemntos usados
-    al_destroy_bitmap(lobby);
-    al_destroy_bitmap(press_start);
-    al_destroy_bitmap(mar);
-    al_destroy_bitmap(alga);
-    al_destroy_bitmap(bloque);
-    al_destroy_bitmap(mario_adelante);
-    al_destroy_bitmap(mario_atras);
-    al_destroy_bitmap(moneda);
-    al_destroy_bitmap(final);
-    al_destroy_bitmap(pez);
-    al_destroy_bitmap(pes);
-    al_destroy_bitmap(pulpo);
-    al_uninstall_audio();                                                                                                                                    //
-    al_destroy_sample(music);
-    al_destroy_event_queue(event_queue); 
+    destroy_allegro();
     return 0;
 }
     
@@ -948,4 +937,25 @@ void * enemigo_pulpo(){             ////este thread controla los movimientos del
 
 void bienvenida (void){
     printf("Bienvenido a la beta del super mario\n");
+}
+
+
+
+void destroy_allegro (void){
+    al_destroy_display(display);                //se libera la memoria dinamica , destruyendo los elemntos usados
+    al_destroy_bitmap(lobby);
+    al_destroy_bitmap(press_start);
+    al_destroy_bitmap(mar);
+    al_destroy_bitmap(alga);
+    al_destroy_bitmap(bloque);
+    al_destroy_bitmap(mario_adelante);
+    al_destroy_bitmap(mario_atras);
+    al_destroy_bitmap(moneda);
+    al_destroy_bitmap(final);
+    al_destroy_bitmap(pez);
+    al_destroy_bitmap(pes);
+    al_destroy_bitmap(pulpo);
+    al_uninstall_audio();                                                                                                                                    //
+    al_destroy_sample(music);
+    al_destroy_event_queue(event_queue); 
 }
