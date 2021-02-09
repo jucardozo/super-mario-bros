@@ -32,8 +32,8 @@
 #define salir 105
 
 /*ALLEGRO*/
-#define LARGO_DISPLAY 1088      //TAMANIO DE IMAGEN
-#define ANCHO_DISPLAY 1280      //TAMANIO DE IMAGEN
+#define LARGO_DISPLAY 640      //TAMANIO DE IMAGEN
+#define ANCHO_DISPLAY 544      //TAMANIO DE IMAGEN
 
 ALLEGRO_DISPLAY *display;                       //se crean  puntero hacia estrucuras de allegro
 ALLEGRO_BITMAP *mar;                         //que nos permitiran utilizar ciertas funciones de
