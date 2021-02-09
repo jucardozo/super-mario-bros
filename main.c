@@ -275,6 +275,26 @@ int main() {
     al_play_sample(music, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);              //Damos bienvenida al usuario 
     al_draw_scaled_bitmap(lobby,0, 0, al_get_bitmap_width(lobby), al_get_bitmap_height(lobby),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);                                      //
     al_flip_display();                                                      //Muestro la imagen de bienvenida
+    
+    int mientras = 1;
+    while (mientras){                                             //Me quedo aca hasta que se apriete enter o se cierre el programa                             //
+        ALLEGRO_EVENT ev0;                                                 //Struct toma todos los eventos de la cola                                                    //
+        if (al_get_next_event(event_queue, &ev0)){                   //Damos entrada de teclado por allegro                                                              //
+            if (ev0.type == ALLEGRO_EVENT_DISPLAY_CLOSE){            //Si se quiso cerrar el display                                                                     //
+                destroy_allegro();                                                                                                                                //
+                return 0;                                                                                                                                                //
+            }                                                                                                                                                            //
+            else if ((ev0.type == ALLEGRO_EVENT_KEY_DOWN) && (ev0.keyboard.keycode == ALLEGRO_KEY_ENTER)){              //sino tranqui, salgo del while sin problema     //
+                mientras = 0;   
+            }
+        }    
+        al_draw_bitmap(press_start,190,370,0);          //IMPRIMO PRESS START
+        al_flip_display();
+        al_rest(1.0);
+        al_draw_scaled_bitmap(lobby,0, 0, al_get_bitmap_width(lobby), al_get_bitmap_height(lobby),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);        //HAGO TITILARLO
+        al_flip_display();
+        al_rest(1.0);
+    }                               //HASTA QUE SE APRETE ENTER
    
     int fin, boton=0 ,i;
     
