@@ -31,6 +31,8 @@
 #define pausa 104
 #define salir 105
 
+#define FPS    60.0
+
 /*ALLEGRO*/
 #define LARGO_DISPLAY 640      //TAMANIO DE IMAGEN
 #define ANCHO_DISPLAY 544      //TAMANIO DE IMAGEN
@@ -50,6 +52,7 @@ ALLEGRO_BITMAP *pez;
 ALLEGRO_BITMAP *pes;
 ALLEGRO_BITMAP *pulpo;
 ALLEGRO_SAMPLE *music = NULL;                  //Musica
+ALLEGRO_TIMER *timer = NULL;
 ALLEGRO_EVENT_QUEUE *event_queue = NULL;        //Cola de eventos
 
 
@@ -202,6 +205,12 @@ int main() {
         al_destroy_display(display);
         return -1;
     }
+    /*INICIALIZACION TIMER*/
+    timer = al_create_timer(1.0 / FPS); //crea el timer pero NO empieza a correr
+    if (!timer) {
+        fprintf(stderr, "failed to create timer!\n");
+        return -1;
+    }
     
     /*INICIALIZAION MUSICA*/
     if (!al_install_audio()) {                                      //Inicializo el audio                                                   //
@@ -264,12 +273,22 @@ int main() {
     //nivel[2]=&lvl_3;
     //////////////////
     
-    //videito de nintendo
     
+    
+    /*BIENVENIDAA POR DISPLAY Y PANTALLA*/
     bienvenida();       //bienvenida por display
+    al_clear_to_color(al_map_rgb(255, 255, 255));
+    al_flip_display();
+    al_rest(2.0);
     al_play_sample(music, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);              //Damos bienvenida al usuario 
-    al_draw_scaled_bitmap(lobby,0, 0, al_get_bitmap_width(lobby), al_get_bitmap_height(lobby),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);                                      //
+    al_draw_scaled_bitmap(nintendo,0, 0, al_get_bitmap_width(nintendo), al_get_bitmap_height(nintendo),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);      //imprimo nintendo                                //
     al_flip_display();                                                      //Muestro la imagen de bienvenida
+    al_rest(4.0);
+    al_clear_to_color(al_map_rgb(255, 255, 255));
+    al_flip_display();
+    al_rest(1.0);
+    al_draw_scaled_bitmap(lobby,0, 0, al_get_bitmap_width(lobby), al_get_bitmap_height(lobby),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);      //imprimo lobby
+    al_flip_display();
     
     int mientras = 1;
     while (mientras){                                             //Me quedo aca hasta que se apriete enter o se cierre el programa                             //
@@ -279,7 +298,7 @@ int main() {
                 destroy_allegro();                                                                                                                                //
                 return 0;                                                                                                                                                //
             }                                                                                                                                                            //
-            else if ((ev0.type == ALLEGRO_EVENT_KEY_DOWN) && (ev0.keyboard.keycode == ALLEGRO_KEY_ENTER)){              //sino tranqui, salgo del while sin problema     //
+            else if ((ev0.type == ALLEGRO_EVENT_KEY_DOWN) && (ev0.keyboard.keycode == ALLEGRO_KEY_ENTER)|| (ev0.keyboard.keycode == ALLEGRO_KEY_SPACE)){              //sino tranqui, salgo del while sin problema     //
                 mientras = 0;   
             }
         }    
@@ -289,8 +308,12 @@ int main() {
         al_draw_scaled_bitmap(lobby,0, 0, al_get_bitmap_width(lobby), al_get_bitmap_height(lobby),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);        //HAGO TITILARLO
         al_flip_display();
         al_rest(1.0);
-    }                               //HASTA QUE SE APRETE ENTER
+    }                               //HASTA QUE SE APRETE ENTER O ESPACIO
    
+    /*SE ARRANCA A JUGAR*/
+    al_draw_scaled_bitmap(mar,0, 0, al_get_bitmap_width(mar), al_get_bitmap_height(mar),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);      //CARGO BACKGROUND Y LO MUESTRO
+    al_flip_display();
+    
     int fin, boton=0 ,i;
     
     
@@ -973,5 +996,6 @@ void destroy_allegro (void){
     al_destroy_bitmap(pulpo);
     al_uninstall_audio();                                                                                                                                    //
     al_destroy_sample(music);
+    al_destroy_timer(timer);
     al_destroy_event_queue(event_queue); 
 }
