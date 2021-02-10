@@ -39,6 +39,7 @@ ALLEGRO_DISPLAY *display;                       //se crean  puntero hacia estruc
 ALLEGRO_BITMAP *mar;                         //que nos permitiran utilizar ciertas funciones de
 ALLEGRO_BITMAP *alga;                           //allegro.
 ALLEGRO_BITMAP *lobby;
+ALLEGRO_BITMAP *nintendo;
 ALLEGRO_BITMAP *press_start;
 ALLEGRO_BITMAP *bloque;
 ALLEGRO_BITMAP *mario_adelante;
@@ -110,6 +111,13 @@ int main() {
         al_shutdown_image_addon();                              
         return -1;
     } 
+    else if (!(nintendo = al_load_bitmap("nintendo.jpg"))) {           //se carga imagen de nintendo
+        fprintf(stderr, "Unable to load nintendo\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
     else if (!(lobby = al_load_bitmap("lobby.jpg"))) {           //se carga imagen de lobby
         fprintf(stderr, "Unable to load lobby\n");
         al_uninstall_system();
@@ -237,20 +245,7 @@ int main() {
     event_queue = al_create_event_queue();                                                             //
     if (!event_queue) {                                                                                //
         fprintf(stderr, "failed to create event_queue!\n");                                            //
-        al_destroy_bitmap(mar);       //se libera la memoria dinamica                                  //
-        al_destroy_bitmap(lobby);                                                                      //
-        al_destroy_bitmap(press_start);                                                                //
-        al_destroy_bitmap(alga);                                                                       //
-        al_destroy_bitmap(bloque);                                                                     //
-        al_destroy_bitmap(mario_adelante);                                                             //
-        al_destroy_bitmap(mario_atras);                                                                //
-        al_destroy_bitmap(moneda);                                                                     //
-        al_destroy_bitmap(final);                                                                      //
-        al_destroy_bitmap(pez);                                                                        //
-        al_destroy_bitmap(pes);                                                                        //
-        al_destroy_bitmap(pulpo);                                                                      //
-        al_uninstall_audio();                                                                          //
-        al_destroy_sample(music);                                                                      //
+        destroy_allegro();                                                                      //
         return -1;                                                                                     //
     }                                                                                                  //
     if (!al_install_keyboard()) {                                                                      //
@@ -288,7 +283,7 @@ int main() {
                 mientras = 0;   
             }
         }    
-        al_draw_bitmap(press_start,190,370,0);          //IMPRIMO PRESS START
+        al_draw_bitmap(press_start,100,340,0);          //IMPRIMO PRESS START
         al_flip_display();
         al_rest(1.0);
         al_draw_scaled_bitmap(lobby,0, 0, al_get_bitmap_width(lobby), al_get_bitmap_height(lobby),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);        //HAGO TITILARLO
@@ -963,6 +958,7 @@ void bienvenida (void){
 
 void destroy_allegro (void){
     al_destroy_display(display);                //se libera la memoria dinamica , destruyendo los elemntos usados
+    al_destroy_bitmap(nintendo);
     al_destroy_bitmap(lobby);
     al_destroy_bitmap(press_start);
     al_destroy_bitmap(mar);
