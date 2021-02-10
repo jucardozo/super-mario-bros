@@ -275,7 +275,9 @@ int main() {
     
     
     
-    /*BIENVENIDAA POR DISPLAY Y PANTALLA*/
+    /*BIENVENIDA POR DISPLAY Y PANTALLA*/
+    
+    /*PANTALLA NINTENDO + MUSICA*/
     bienvenida();       //bienvenida por display
     al_clear_to_color(al_map_rgb(255, 255, 255));
     al_flip_display();
@@ -290,6 +292,7 @@ int main() {
     al_draw_scaled_bitmap(lobby,0, 0, al_get_bitmap_width(lobby), al_get_bitmap_height(lobby),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);      //imprimo lobby
     al_flip_display();
     
+    /*PANTALLA DE LOBBY + PRESS_START*/
     int mientras = 1;
     while (mientras){                                             //Me quedo aca hasta que se apriete enter o se cierre el programa                             //
         ALLEGRO_EVENT ev0;                                                 //Struct toma todos los eventos de la cola                                                    //
@@ -310,6 +313,10 @@ int main() {
         al_rest(1.0);
     }                               //HASTA QUE SE APRETE ENTER O ESPACIO
    
+    
+    
+    
+    
     /*SE ARRANCA A JUGAR*/
     al_draw_scaled_bitmap(mar,0, 0, al_get_bitmap_width(mar), al_get_bitmap_height(mar),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);      //CARGO BACKGROUND Y LO MUESTRO
     al_flip_display();
