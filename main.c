@@ -65,7 +65,7 @@ void movimiento(int arr[ALTURA][LARGO],int boton);  /*realiza el movimiento efec
 void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]);  /*Funcion que busca la posicion de mario en el mapa (Matriz), se le pasa el nivel y la cantidad de movimiento del mapa*/
 int reglas (int arr[ALTURA][LARGO],int boton);      /*evalua la validez del movimietno del mario*/
 void * caida ();    /*caida de mario , impuesta por la gravedad */
-void * entrad();    /*recibe por comando el movimiento deseado por el jugador*/
+void * entrad_allegro();    /*recibe por comando el movimiento deseado por el jugador*/
 void * enemigo_pez();
 void * enemigo_pes();
 void * enemigo_pulpo();
@@ -82,7 +82,7 @@ int(*niveles[2])[ALTURA][LARGO];        // es un arreglo de 3 punteros que apunt
 int pos[3];         /*es un arreglo que tiene en el primer elemento la fila , en el segundo la col(de la pos de mario) y en el ultimo la cantidad de movimineto del mapa*/
 int lvl_1 [ALTURA][LARGO];  /*niveles vacios*/
 int lvl_2 [ALTURA][LARGO];  
- /*int lvl_3 [ALTURA][LARGO];  */
+int lvl_3 [ALTURA][LARGO]; 
 
 
 /**********************************/
@@ -97,7 +97,8 @@ pthread_mutex_t lock1,lock2;        /*creo un candado para dos funciones que con
 
 
 int main() {
-
+    
+   /*ALLEGROOOOOOO*/
     /*INICIALIZACION DE ALLEGRO*/
     if (!al_init()){
         fprintf(stderr, "Unable to start allegro\n");                        //realizo la inicializacion de allegro
@@ -259,22 +260,13 @@ int main() {
     }                                                                                                  //
     if (!al_install_keyboard()) {                                                                      //
         fprintf(stderr, "failed to initialize the keyboard!\n");                                       //
+        destroy_allegro();
         return -1;                                                                                     //
     }                                                                                                  //
     al_register_event_source(event_queue, al_get_keyboard_event_source());       //Evento teclado      //
     al_register_event_source(event_queue, al_get_display_event_source(display)); //Cruz roja de salir  //
     /////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
-    //////////////////
-    niveles[0]=&lvl_1;
-    niveles[1]=&lvl_2;
-    //nivel[2]=&lvl_3;
-    //////////////////
-    
-    
-    
+      
     /*BIENVENIDA POR DISPLAY Y PANTALLA*/
     
     /*PANTALLA NINTENDO + MUSICA*/
@@ -321,10 +313,15 @@ int main() {
     al_draw_scaled_bitmap(mar,0, 0, al_get_bitmap_width(mar), al_get_bitmap_height(mar),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);      //CARGO BACKGROUND Y LO MUESTRO
     al_flip_display();
     
+    /*FIN DE ALLEGROOO*/
+    
     int fin, boton=0 ,i;
+   
+    niveles[0]=&lvl_1;
+    niveles[1]=&lvl_2;
+    niveles[2]=&lvl_3;
     
-    
-    pthread_create(&th1,NULL,entrad,NULL);
+    pthread_create(&th1,NULL,entrad_allegro,NULL);  //modificado para allegro
     pthread_create(&th2,NULL,caida,NULL);
     pthread_create(&th3,NULL,enemigo_pez,NULL);
     pthread_create(&th4,NULL,enemigo_pes,NULL);
@@ -345,11 +342,14 @@ int main() {
                     pos[2]=0;
                     printmat(*niveles[1]);  //
                     i=1;fin=1;boton=0;break;
-                    //pthread_create(&th6,NULL,entrad,NULL);        //ENEMIGOOOOOOOSSSSSSSSSS
             case 3 :
+                    printf("**************NIVEL 3*****************\n");
                     creacionmap(nivel);
+                    pos[0]=0;
+                    pos[1]=0;
+                    pos[2]=0;
                     printmat(*niveles[2]);  //
-                    ;i=2;fin=1;break;
+                    boton=0;i=2;fin=1;break;
         }
         
         while(fin){
@@ -373,8 +373,7 @@ int main() {
                     printmat(*niveles[i]);
                     tecla=0;
                 }
-                else if(val==2){             /*recogio una moneda*/
-                    
+                else if(val==2){             /*recogio una moneda*/   
                     puntaje+=10;
                     printf("PUNTAJE:%d\n",puntaje);
                     movimiento(*niveles[i],boton);
@@ -615,24 +614,127 @@ void*  caida ( ){
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void *entrad(){
-    int i=0;
+void *entrad_allegro(){
+    enum MYKEYS {
+    KEY_W, KEY_S, KEY_A, KEY_D,ESC,ENTER,ESPACIO //enumero mis letras oa q quede mas fachero el arrgelo
+    };
+    bool key_pressed[5] = {false, false, false, false,false,false,false}; //Estado de teclas, true cuando esta apretada
     while(1){
+        
+        ALLEGRO_EVENT ev;
+        if (al_get_next_event(event_queue, &ev)){ //Toma un evento de la cola.
+            /*if (ev.type == ALLEGRO_EVENT_TIMER) {   //si el timer realiza un evento , me regenera el display
+                
+                
+                al_clear_to_color(al_map_rgb(50, 255, 10)); //Hace clear del backbuffer del diplay al color RGB 255,255,255 (blanco)
+                al_flip_display(); //Flip del backbuffer, pasa a verse a la pantalla
+            }*/
+            if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {       //pregunta si hay alguna tecla presionada,
+                    switch (ev.keyboard.keycode) {         //en el caso de que lo haya marca como true, la presionada
+                        case ALLEGRO_KEY_W:
+                        case ALLEGRO_KEY_UP:
+                            key_pressed[KEY_W] = true;
+                            tecla=up;
+                            break;
+
+                        case ALLEGRO_KEY_S:
+                        case ALLEGRO_KEY_DOWN:
+                            key_pressed[KEY_S] = true;
+                            tecla=down;
+                            break;
+
+                        case ALLEGRO_KEY_A:
+                        case ALLEGRO_KEY_LEFT:
+                            key_pressed[KEY_A] = true;
+                            tecla=left;
+                            break;
+
+                        case ALLEGRO_KEY_D:
+                        case ALLEGRO_KEY_RIGHT:
+                            key_pressed[KEY_D] = true;
+                            tecla=right;
+                            break;
+                            
+                        case ALLEGRO_KEY_ESCAPE:
+                            key_pressed[ESC]=true;
+                            tecla=pausa;
+                            break;
+                    }
+                }
+                else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
+                    switch (ev.keyboard.keycode) {
+                        case ALLEGRO_KEY_W:
+                        case ALLEGRO_KEY_UP:
+                            key_pressed[KEY_W] = false;
+                            break;
+
+                        case ALLEGRO_KEY_S:
+                        case ALLEGRO_KEY_DOWN:
+                            key_pressed[KEY_S] = false;
+                            break;
+
+                        case ALLEGRO_KEY_A:
+                        case ALLEGRO_KEY_LEFT:
+                            key_pressed[KEY_A] = false;
+                            break;
+
+                        case ALLEGRO_KEY_D:
+                        case ALLEGRO_KEY_RIGHT:
+                            key_pressed[KEY_D] = false;
+                            break;
+
+                        case ALLEGRO_KEY_ESCAPE:
+                            key_pressed[ESC]=false;
+                            break;
+                    }
+                }
+            }
+    }
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ /*   while(1){
         i=getchar();
-        if(i=='W' || i=='w'){ /*up*/
-            getchar();       /*libero buffer*/
+        if(i=='W' || i=='w'){ //up
+            getchar();       //libero buffer
             tecla= up;
             
         }
-        else if(i=='D' || i=='d'){/*right*/
+        else if(i=='D' || i=='d'){//right
            getchar();
            tecla=right;
         }
-        else if(i=='S' || i=='s'){/*down*/
+        else if(i=='S' || i=='s'){//down
             getchar();
             tecla =down;
         }
-        else if(i=='A' || i=='a'){/*left*/
+        else if(i=='A' || i=='a'){//left
             getchar();
             tecla=left;
         }
@@ -650,7 +752,7 @@ void *entrad(){
             return 0;
         }
     }    
-}
+}/*
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                                //
