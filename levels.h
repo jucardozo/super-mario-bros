@@ -40,8 +40,8 @@ extern "C" {
 #define AGUA 0
 #define MOV_PULPO 4
 #define MAX_ENEM 18
-#define LARGO_ELEMENTO 40
-#define ALTO_ELEMENTO 34
+#define LARGO_ELEMENTO 40.0
+#define ALTO_ELEMENTO 34.0
     
     
 

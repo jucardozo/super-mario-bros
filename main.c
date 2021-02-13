@@ -364,14 +364,14 @@ void*  caida ( ){
         if(val==0){                  /*si el movimiento esta permitido , lo mueve efectivamente*/
             movimiento(*niveles[nivel-1],boton_aux); /*realza el movimiento efectivo, solo de Mario*/
             //printmat(*niveles[nivel-1]);
-            print_map_allegro(*niveles[nivel-1]);
+            //print_map_allegro(*niveles[nivel-1]);
         }
         else if(val==2){             /*recogio una moneda*/          
             puntaje+=10;
             printf("PUNTAJE:%d\n",puntaje);
             movimiento(*niveles[nivel-1],boton_aux);
             //printmat(*niveles[nivel-1]);
-            print_map_allegro(*niveles[nivel-1]);
+            //print_map_allegro(*niveles[nivel-1]);
         }
         else if(val==4){     
             puntaje+=100;

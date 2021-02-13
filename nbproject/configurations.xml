@@ -10,6 +10,21 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>agua.png</itemPath>
+      <itemPath>alga.png</itemPath>
+      <itemPath>bloque.png</itemPath>
+      <itemPath>final.png</itemPath>
+      <itemPath>lobby.jpg</itemPath>
+      <itemPath>mar.jpg</itemPath>
+      <itemPath>mario_adelante.png</itemPath>
+      <itemPath>mario_atras.png</itemPath>
+      <itemPath>moneda.png</itemPath>
+      <itemPath>musica.wav</itemPath>
+      <itemPath>nintendo.jpg</itemPath>
+      <itemPath>pes.png</itemPath>
+      <itemPath>pez.png</itemPath>
+      <itemPath>press_start.jpg</itemPath>
+      <itemPath>pulpo.png</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"

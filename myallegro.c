@@ -354,8 +354,8 @@ void destroy_allegro (void){
 
 void print_map_allegro(int arr [ALTURA][LARGO]){
  
-     int largo_elemento=0;
-     int alto_elemento=0;
+     float largo_elemento=0;
+     float alto_elemento=0;
  
     if(((16+pos[2])-pos[1])<=8){        //se lee la columna en donde esta mario y se mueve le mapa si esta en la mitad
         pos[2]+=4;                      //la cantidad de este movimineto se guarda en el tercer elemento del arreglo, se elije por default que se mueva de a 4
@@ -363,11 +363,12 @@ void print_map_allegro(int arr [ALTURA][LARGO]){
  
     for (int i=0;i<16;i++){
         for(int p=pos[2]; p<(16+pos[2]);p++){
+         
             switch(arr[i][p]){
                 case AGUA:
                     al_draw_bitmap(agua,largo_elemento,alto_elemento,0);
                     break;
-             /*   case BLOQUE:
+                case BLOQUE:
                     al_draw_bitmap(bloque,largo_elemento,alto_elemento,0);
                     break;
                 case ALGA:
@@ -392,7 +393,7 @@ void print_map_allegro(int arr [ALTURA][LARGO]){
                     al_draw_bitmap(mario_adelante,largo_elemento,alto_elemento,0);
                     break;
                 default:
-                    break;*/
+                    break;
             }
             largo_elemento += LARGO_ELEMENTO;
         }
