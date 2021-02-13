@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include "levels.h"         
 #include <allegro5/allegro5.h>
@@ -70,6 +71,8 @@ void * enemigo_pez();
 void * enemigo_pes();
 void * enemigo_pulpo();
 int menu();
+
+void creat_map_allegro(int arr [ALTURA][LARGO]);        //crrea mapa allegro
 
 
 /*Globales*/
@@ -312,10 +315,13 @@ int main() {
     /*SE ARRANCA A JUGAR*/
     al_draw_scaled_bitmap(mar,0, 0, al_get_bitmap_width(mar), al_get_bitmap_height(mar),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);      //CARGO BACKGROUND Y LO MUESTRO
     al_flip_display();
+    al_rest(2.0);
+    
     
     /*FIN DE ALLEGROOO*/
     
     int fin, boton=0 ,i;
+    
    
     niveles[0]=&lvl_1;
     niveles[1]=&lvl_2;
@@ -327,11 +333,16 @@ int main() {
     pthread_create(&th4,NULL,enemigo_pes,NULL);
     pthread_create(&th5,NULL,enemigo_pulpo,NULL);
     
+    
+    
     while(vida>0){
         switch(nivel){          //habilita el control, automatico, de cada enemigo en cada nivel//
             case 1 :
                     printf("**************NIVEL 1*****************\n");
                     creacionmap(nivel);
+                    pos[0]=0;
+                    pos[1]=0;
+                    pos[2]=0;                    
                     printmat(*niveles[0]);  //imprime el nivel                
                     i=0;fin=1; break;
             case 2 :
@@ -780,15 +791,15 @@ void * enemigo_pez(){           //este thread controla los movimientos del pez q
         pezes[7]= &lvl_2[10][43];
         pezes[8]= &lvl_2[12][58]; 
 
-        pezes[9]= &lvl_3[8][5];     //estas son las posiciones iniciales de los peces en la matriz
-        pezes[10]= &lvl_3[8][18];     //PARA EL NIVEL 3
-        pezes[11]= &lvl_3[6][24];
-        pezes[12]= &lvl_3[10][34];     
-        pezes[13]= &lvl_3[10][43];
-        pezes[14]= &lvl_3[12][58];
-        pezes[15]= &lvl_3[7][3];     
-        pezes[16]= &lvl_3[9][5];     
-        pezes[17]= &lvl_3[4][9];
+        pezes[9]= &lvl_3[4][14];     //estas son las posiciones iniciales de los peces en la matriz
+        pezes[10]= &lvl_3[10][16];     //PARA EL NIVEL 3
+        pezes[11]= &lvl_3[12][18];
+        pezes[12]= &lvl_3[6][22];     
+        pezes[13]= &lvl_3[8][24];
+        pezes[14]= &lvl_3[5][27];
+        pezes[15]= &lvl_3[11][29];     
+        pezes[16]= &lvl_3[7][48];     
+        pezes[17]= &lvl_3[3][56];
 
         int cant_pez = 3*nivel;           //cantidad de enemigos PEZ por nivel
         
@@ -897,7 +908,7 @@ void * enemigo_pes(){           //este thread controla los movimientos del pez q
         int pes = 1;                //variable que uso para el while
 
         int *peses [MAX_ENEM];             //creo arreglo de punteros para guardar las posiciones de los peces
-        int * dir_niveles [2] = {&lvl_1[0][0],&lvl_2[0][0]};       //arreglo depunteros que contiene la direccion del primer elemento de la matriz de cada nivel
+        int * dir_niveles [3] = {&lvl_1[0][0],&lvl_2[0][0], &lvl_3[0][0]};       //arreglo depunteros que contiene la direccion del primer elemento de la matriz de cada nivel
 
         peses[0]= &lvl_1[8][5];     //estas son las posiciones iniciales de los peces en la matriz
         peses[1]= &lvl_1[11][6];
@@ -910,15 +921,15 @@ void * enemigo_pes(){           //este thread controla los movimientos del pez q
         peses[7]= &lvl_2[4][46];
         peses[8]= &lvl_2[9][61];
 
-        peses[9]= &lvl_3[8][5];     //estas son las posiciones iniciales de los peces en la matriz
-        peses[10]= &lvl_3[8][18];     //PARA EL NIVEL 3
-        peses[11]= &lvl_3[6][24];
-        peses[12]= &lvl_3[10][34];     
-        peses[13]= &lvl_3[10][43];
-        peses[14]= &lvl_3[12][58];
-        peses[15]= &lvl_3[7][3];     
-        peses[16]= &lvl_3[9][5];     
-        peses[17]= &lvl_3[4][9];
+        peses[9]= &lvl_3[7][11];     //estas son las posiciones iniciales de los peces en la matriz
+        peses[10]= &lvl_3[11][16];     //PARA EL NIVEL 3
+        peses[11]= &lvl_3[13][17];
+        peses[12]= &lvl_3[3][20];     
+        peses[13]= &lvl_3[6][29];
+        peses[14]= &lvl_3[9][35];
+        peses[15]= &lvl_3[4][41];     
+        peses[16]= &lvl_3[8][56];     
+        peses[17]= &lvl_3[12][64];
 
         int cant_pes = 3*nivel;     //cantidad de enemigos PES por nivel 
 
@@ -1168,3 +1179,67 @@ void destroy_allegro (void){
     al_destroy_timer(timer);
     al_destroy_event_queue(event_queue); 
 }
+
+
+
+
+
+
+ 
+ void creat_map_allegro(int arr [ALTURA][LARGO]){
+ 
+     int largo_elemento=0;
+     int alto_elemento=0;
+ 
+    if(((16+pos[2])-pos[1])<=8){        //se lee la columna en donde esta mario y se mueve le mapa si esta en la mitad
+        pos[2]+=4;                      //la cantidad de este movimineto se guarda en el tercer elemento del arreglo, se elije por default que se mueva de a 4
+    }  
+ 
+    for (int i=0;i<16;i++){
+        for(int p=pos[2]; p<(16+pos[2]);p++){
+            switch(arr[i][p]){
+                case BLOQUE:
+                    al_draw_bitmap(bloque,largo_elemento,alto_elemento,0);
+                    break;
+                case ALGA:
+                    al_draw_bitmap(alga,largo_elemento,alto_elemento,0);
+                    break;
+                case FINAL:
+                    al_draw_bitmap(final,largo_elemento,alto_elemento,0);
+                    break;
+                case MONEDA:
+                    al_draw_bitmap(moneda,largo_elemento,alto_elemento,0);
+                    break;
+                case PEZ:
+                    al_draw_bitmap(pez,largo_elemento,alto_elemento,0);
+                    break;
+                case PES:
+                    al_draw_bitmap(pes,largo_elemento,alto_elemento,0);
+                    break;
+                case PULPO:
+                    al_draw_bitmap(pulpo,largo_elemento,alto_elemento,0);
+                    break;
+                case MARIO:
+                    al_draw_bitmap(mario_adelante,largo_elemento,alto_elemento,0);
+                    break;
+                default:
+                    break;
+            }
+            largo_elemento += LARGO_ELEMENTO;
+        }
+        largo_elemento = 0;
+        alto_elemento += ALTO_ELEMENTO;
+       
+    }
+     
+    al_flip_display();
+    al_rest(5.0);
+ 
+ }
+ 
+
+
+
+
+
+
