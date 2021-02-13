@@ -238,7 +238,7 @@ int main() {
         return -1;                                                                                                                          //
     }                                                                                                                                       //
                                                                                                                                             //
-    music = al_load_sample("musica.wav");                                                                                                      //
+    music = al_load_sample("musica.wav");                                                                                                   //
                                                                                                                                             //
     if (!music) {                                                                                                                           //
         printf("Audio clip sample not loaded!\n");                                                                                          //
@@ -255,12 +255,12 @@ int main() {
     event_queue = al_create_event_queue();                                                             //
     if (!event_queue) {                                                                                //
         fprintf(stderr, "failed to create event_queue!\n");                                            //
-        destroy_allegro();                                                                      //
+        destroy_allegro();                                                                             //
         return -1;                                                                                     //
     }                                                                                                  //
     if (!al_install_keyboard()) {                                                                      //
         fprintf(stderr, "failed to initialize the keyboard!\n");                                       //
-        destroy_allegro();
+        destroy_allegro();                                                                             //
         return -1;                                                                                     //
     }                                                                                                  //
     al_register_event_source(event_queue, al_get_keyboard_event_source());       //Evento teclado      //
