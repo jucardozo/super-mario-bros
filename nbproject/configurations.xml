@@ -9,20 +9,20 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
-      <itemPath>alga.jpg</itemPath>
-      <itemPath>bloque.jpg</itemPath>
-      <itemPath>final.jpg</itemPath>
+      <itemPath>alga.png</itemPath>
+      <itemPath>bloque.png</itemPath>
+      <itemPath>final.png</itemPath>
       <itemPath>lobby.jpg</itemPath>
       <itemPath>mar.jpg</itemPath>
-      <itemPath>mario_adelante.jpg</itemPath>
-      <itemPath>mario_atras.jpg</itemPath>
-      <itemPath>moneda.jpg</itemPath>
+      <itemPath>mario_adelante.png</itemPath>
+      <itemPath>mario_atras.png</itemPath>
+      <itemPath>moneda.png</itemPath>
       <itemPath>musica.wav</itemPath>
       <itemPath>nintendo.jpg</itemPath>
-      <itemPath>pes.jpg</itemPath>
-      <itemPath>pez.jpg</itemPath>
+      <itemPath>pes.png</itemPath>
+      <itemPath>pez.png</itemPath>
       <itemPath>press_start.jpg</itemPath>
-      <itemPath>pulpo.jpg</itemPath>
+      <itemPath>pulpo.png</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -104,11 +104,11 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="alga.jpg" ex="false" tool="3" flavor2="0">
+      <item path="alga.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="bloque.jpg" ex="false" tool="3" flavor2="0">
+      <item path="bloque.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="final.jpg" ex="false" tool="3" flavor2="0">
+      <item path="final.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="levels.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -120,23 +120,23 @@
       </item>
       <item path="mar.jpg" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="mario_adelante.jpg" ex="false" tool="3" flavor2="0">
+      <item path="mario_adelante.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="mario_atras.jpg" ex="false" tool="3" flavor2="0">
+      <item path="mario_atras.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="moneda.jpg" ex="false" tool="3" flavor2="0">
+      <item path="moneda.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="musica.wav" ex="false" tool="3" flavor2="0">
       </item>
       <item path="nintendo.jpg" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="pes.jpg" ex="false" tool="3" flavor2="0">
+      <item path="pes.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="pez.jpg" ex="false" tool="3" flavor2="0">
+      <item path="pez.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="press_start.jpg" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="pulpo.jpg" ex="false" tool="3" flavor2="0">
+      <item path="pulpo.png" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -159,11 +159,11 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="alga.jpg" ex="false" tool="3" flavor2="0">
+      <item path="alga.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="bloque.jpg" ex="false" tool="3" flavor2="0">
+      <item path="bloque.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="final.jpg" ex="false" tool="3" flavor2="0">
+      <item path="final.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="levels.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -175,23 +175,23 @@
       </item>
       <item path="mar.jpg" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="mario_adelante.jpg" ex="false" tool="3" flavor2="0">
+      <item path="mario_adelante.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="mario_atras.jpg" ex="false" tool="3" flavor2="0">
+      <item path="mario_atras.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="moneda.jpg" ex="false" tool="3" flavor2="0">
+      <item path="moneda.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="musica.wav" ex="false" tool="3" flavor2="0">
       </item>
       <item path="nintendo.jpg" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="pes.jpg" ex="false" tool="3" flavor2="0">
+      <item path="pes.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="pez.jpg" ex="false" tool="3" flavor2="0">
+      <item path="pez.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="press_start.jpg" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="pulpo.jpg" ex="false" tool="3" flavor2="0">
+      <item path="pulpo.png" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

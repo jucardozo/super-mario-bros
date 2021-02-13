@@ -218,7 +218,7 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
             lvl_2[4][46]=PES;
             lvl_2[9][61]=PES;
 
-            lvl_2[6][13]=PULPO;
+            lvl_2[7][13]=PULPO;
             lvl_2[11][22]=PULPO;
             lvl_2[7][31]=PULPO;
             lvl_2[8][38]=PULPO;
@@ -254,7 +254,7 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
                     lvl_2[15][j]=BLOQUE;
             }
             
-            for(int k=31;k<33;k++)
+            for(int k=30;k<33;k++)
             {
                     lvl_2[15][k]=PRECIPICIO;
             }
@@ -466,29 +466,39 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
        
         
         case 3:
-             lvl_2[10][0]=MARIO;
+             lvl_3[10][0]=MARIO;
             //ENEMIGOS
-            lvl_2[8][5]=PEZ;
-            lvl_2[8][18]=PEZ;
-            lvl_2[6][24]=PEZ;
-            lvl_2[10][34]=PEZ;
-            lvl_2[10][43]=PEZ;
-            lvl_2[12][58]=PEZ;
+            lvl_3[4][14]=PEZ;
+            lvl_3[10][16]=PEZ;
+            lvl_3[12][18]=PEZ;
+            lvl_3[6][22]=PEZ;
+            lvl_3[8][24]=PEZ;
+            lvl_3[5][27]=PEZ;
+            lvl_3[11][29]=PEZ;
+            lvl_3[7][48]=PEZ;
+            lvl_3[3][56]=PEZ;
 
-            lvl_2[12][9]=PES;
-            lvl_2[6][21]=PES;
-            lvl_2[11][28]=PES;
-            lvl_2[4][35]=PES;
-            lvl_2[4][46]=PES;
-            lvl_2[9][61]=PES;
+            lvl_3[7][11]=PES;
+            lvl_3[11][16]=PES;
+            lvl_3[13][17]=PES;
+            lvl_3[3][20]=PES;
+            lvl_3[6][29]=PES;
+            lvl_3[9][35]=PES;
+            lvl_3[4][41]=PES;
+            lvl_3[8][56]=PES;
+            lvl_3[12][64]=PES;
 
-            lvl_2[6][13]=PULPO;
-            lvl_2[11][22]=PULPO;
-            lvl_2[7][31]=PULPO;
-            lvl_2[8][38]=PULPO;
-            lvl_2[9][53]=PULPO;
-            lvl_2[9][63]=PULPO;
+            lvl_3[13][21]=PULPO;
+            lvl_3[7][26]=PULPO;
+            lvl_3[8][34]=PULPO;
+            lvl_3[1][36]=PULPO;
+            lvl_3[13][41]=PULPO;
+            lvl_3[10][42]=PULPO;
+            lvl_3[11][53]=PULPO;
+            lvl_3[10][55]=PULPO;
+            lvl_3[7][63]=PULPO;
             //
+            
             for(int i=0;i<(LARGO-5);i++)
             {
                     lvl_3[0][i]=SUPERFICIE; ///
@@ -574,8 +584,8 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
             }
             
 
-            lvl_2[2][6]=MONEDA;                 ///
-            lvl_2[10][10]=MONEDA;               ///
+            lvl_3[2][6]=MONEDA;                 ///
+            lvl_3[10][10]=MONEDA;               ///
 
             for(int k=11;k<13;k++)
             {
@@ -816,26 +826,26 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
             {
                     for(int k=2;k<10;k++)
                     {
-                            lvl_2[k][i]=BLOQUE;
-                            lvl_2[k][i]=BLOQUE;
+                            lvl_3[k][i]=BLOQUE;
+                            lvl_3[k][i]=BLOQUE;
                     }
             }
 
             for(int k=10;k<14;k++)
             {
-                    lvl_2[k][LARGO-1]=BLOQUE;
+                    lvl_3[k][LARGO-1]=BLOQUE;
             }
 
             for(int k=60;k<(LARGO-1);k++)
             {
-                    lvl_2[13][k]=BLOQUE;
+                    lvl_3[13][k]=BLOQUE;
             }
 
-            lvl_2[12][61]=MONEDA;
-            lvl_2[12][62]=MONEDA;
+            lvl_3[12][61]=MONEDA;
+            lvl_3[12][62]=MONEDA;
 
-            lvl_2[11][LARGO-2]=FINAL;
-            lvl_2[12][LARGO-2]=FINAL;
+            lvl_3[11][LARGO-2]=FINAL;
+            lvl_3[12][LARGO-2]=FINAL;
             break;
         default:
             break;
