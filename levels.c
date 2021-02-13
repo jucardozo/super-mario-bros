@@ -17,16 +17,16 @@ void creacionmap(int que_nivel){        //creacion de los mapas, niveles: 1,2 y 
         case 1:                             
             lvl_1[7][0]=MARIO;
             //ENEMIGOS
-            lvl_1[7][3]=PEZ;
-            lvl_1[9][5]=PEZ;
-            lvl_1[4][9]=PEZ;
+            lvl_1[4][24]=PEZ;
+            lvl_1[9][28]=PEZ;
+            lvl_1[7][39]=PEZ;
 
-            lvl_1[8][5]=PES;
-            lvl_1[11][6]=PES;
-            lvl_1[6][7]=PES;
+            lvl_1[5][14]=PES;
+            lvl_1[11][22]=PES;
+            lvl_1[6][48]=PES;
 
-            lvl_1[10][23]=PULPO;
-            lvl_1[12][25]=PULPO;
+            lvl_1[10][6]=PULPO;
+            lvl_1[12][28]=PULPO;
             lvl_1[11][45]=PULPO;
             //
             for(int i=0;i<(LARGO-5);i++)

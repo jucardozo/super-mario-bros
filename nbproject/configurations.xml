@@ -9,6 +9,7 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>agua.png</itemPath>
       <itemPath>alga.png</itemPath>
       <itemPath>bloque.png</itemPath>
       <itemPath>final.png</itemPath>
@@ -104,6 +105,8 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="agua.png" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="alga.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="bloque.png" ex="false" tool="3" flavor2="0">
@@ -159,6 +162,8 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="agua.png" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="alga.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="bloque.png" ex="false" tool="3" flavor2="0">

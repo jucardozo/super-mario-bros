@@ -40,7 +40,8 @@
 
 ALLEGRO_DISPLAY *display;                       //se crean  puntero hacia estrucuras de allegro
 ALLEGRO_BITMAP *mar;                         //que nos permitiran utilizar ciertas funciones de
-ALLEGRO_BITMAP *alga;                           //allegro.
+ALLEGRO_BITMAP *agua;                           //allegro.
+ALLEGRO_BITMAP *alga; 
 ALLEGRO_BITMAP *lobby;
 ALLEGRO_BITMAP *nintendo;
 ALLEGRO_BITMAP *press_start;
@@ -72,7 +73,7 @@ void * enemigo_pes();
 void * enemigo_pulpo();
 int menu();
 
-void creat_map_allegro(int arr [ALTURA][LARGO]);        //crrea mapa allegro
+void print_map_allegro(int arr [ALTURA][LARGO]);        //imprime mapa allegro
 
 
 /*Globales*/
@@ -141,6 +142,13 @@ int main() {
     }
     else if (!(mar = al_load_bitmap("mar.jpg"))) {              // se carga en un bitmap la imagen que usaremos de base
         fprintf(stderr, "Unable to load mar\n");
+        al_uninstall_system();
+        al_shutdown_image_addon();
+        al_destroy_display(display);
+        return -1;
+    }
+    else if (!(agua = al_load_bitmap("agua.png"))) {           //se carga imagen de agua
+        fprintf(stderr, "Unable to load agua\n");
         al_uninstall_system();
         al_shutdown_image_addon();
         al_destroy_display(display);
@@ -315,7 +323,7 @@ int main() {
     /*SE ARRANCA A JUGAR*/
     al_draw_scaled_bitmap(mar,0, 0, al_get_bitmap_width(mar), al_get_bitmap_height(mar),0, 0, LARGO_DISPLAY, ANCHO_DISPLAY,0);      //CARGO BACKGROUND Y LO MUESTRO
     al_flip_display();
-    al_rest(2.0);
+    al_rest(0.5);
     
     
     /*FIN DE ALLEGROOO*/
@@ -343,7 +351,9 @@ int main() {
                     pos[0]=0;
                     pos[1]=0;
                     pos[2]=0;                    
-                    printmat(*niveles[0]);  //imprime el nivel                
+                    printmat(*niveles[0]);  //imprime el nivel
+                    print_map_allegro(*niveles[0]);
+                    
                     i=0;fin=1; break;
             case 2 :
                     printf("**************NIVEL 2*****************\n");
@@ -352,6 +362,7 @@ int main() {
                     pos[1]=0;
                     pos[2]=0;
                     printmat(*niveles[1]);  //
+                    print_map_allegro(*niveles[1]);
                     i=1;fin=1;boton=0;break;
             case 3 :
                     printf("**************NIVEL 3*****************\n");
@@ -360,6 +371,7 @@ int main() {
                     pos[1]=0;
                     pos[2]=0;
                     printmat(*niveles[2]);  //
+                    print_map_allegro(*niveles[2]);
                     boton=0;i=2;fin=1;break;
         }
         
@@ -382,6 +394,7 @@ int main() {
                     
                     movimiento(*niveles[i],boton); /*realza el movimiento efectivo, solo de Mario*/
                     printmat(*niveles[i]);
+                    print_map_allegro(*niveles[i]);
                     tecla=0;
                 }
                 else if(val==2){             /*recogio una moneda*/   
@@ -389,6 +402,7 @@ int main() {
                     printf("PUNTAJE:%d\n",puntaje);
                     movimiento(*niveles[i],boton);
                     printmat(*niveles[i]);
+                    print_map_allegro(*niveles[i]);
                     tecla=0;
                 }
                 else if(val==4){    //paso de nivel
@@ -598,12 +612,14 @@ void*  caida ( ){
         if(val==0){                  /*si el movimiento esta permitido , lo mueve efectivamente*/
             movimiento(*niveles[nivel-1],boton_aux); /*realza el movimiento efectivo, solo de Mario*/
             printmat(*niveles[nivel-1]);
+            print_map_allegro(*niveles[nivel-1]);
         }
         else if(val==2){             /*recogio una moneda*/          
             puntaje+=10;
             printf("PUNTAJE:%d\n",puntaje);
             movimiento(*niveles[nivel-1],boton_aux);
             printmat(*niveles[nivel-1]);
+            print_map_allegro(*niveles[nivel-1]);
         }
         else if(val==4){     
             puntaje+=100;
@@ -780,9 +796,9 @@ void * enemigo_pez(){           //este thread controla los movimientos del pez q
         int *pezes [MAX_ENEM];             //creo arreglo de punteros para guardar las posiciones de los peces  
         int * dir_niveles [3] = {&lvl_1[0][0],&lvl_2[0][0],&lvl_3[0][0]};       //arreglo depunteros que contiene la direccion del primer elemento de la matriz de cada nivel
 
-        pezes[0]= &lvl_1[7][3];     //estas son las posiciones iniciales de los peces en la matriz
-        pezes[1]= &lvl_1[9][5];     //PARA EL NIVEL 1
-        pezes[2]= &lvl_1[4][9];  
+        pezes[0]= &lvl_1[4][24];     //estas son las posiciones iniciales de los peces en la matriz
+        pezes[1]= &lvl_1[9][28];     //PARA EL NIVEL 1
+        pezes[2]= &lvl_1[7][39];  
 
         pezes[3]= &lvl_2[8][5];     //estas son las posiciones iniciales de los peces en la matriz
         pezes[4]= &lvl_2[8][18];     //PARA EL NIVEL 2
@@ -910,9 +926,9 @@ void * enemigo_pes(){           //este thread controla los movimientos del pez q
         int *peses [MAX_ENEM];             //creo arreglo de punteros para guardar las posiciones de los peces
         int * dir_niveles [3] = {&lvl_1[0][0],&lvl_2[0][0], &lvl_3[0][0]};       //arreglo depunteros que contiene la direccion del primer elemento de la matriz de cada nivel
 
-        peses[0]= &lvl_1[8][5];     //estas son las posiciones iniciales de los peces en la matriz
-        peses[1]= &lvl_1[11][6];
-        peses[2]= &lvl_1[6][7];      
+        peses[0]= &lvl_1[5][14];     //estas son las posiciones iniciales de los peces en la matriz
+        peses[1]= &lvl_1[11][22];
+        peses[2]= &lvl_1[6][48];      
 
         peses[3]= &lvl_2[12][9];     //estas son las posiciones iniciales de los peces en la matriz
         peses[4]= &lvl_2[6][21];     //PARA EL NIVEL 2
@@ -1034,8 +1050,8 @@ void * enemigo_pulpo(){             ////este thread controla los movimientos del
 
         int *pulpos [MAX_ENEM];             //creo arreglo de punteros para guardar las posiciones de los pulpos
 
-        pulpos[0]= &lvl_1[10][23];     //estas son las posiciones iniciales de los pulpos en la matriz
-        pulpos[1]= &lvl_1[12][25];     //PARA EL NIVEL 1
+        pulpos[0]= &lvl_1[10][6];     //estas son las posiciones iniciales de los pulpos en la matriz
+        pulpos[1]= &lvl_1[12][28];     //PARA EL NIVEL 1
         pulpos[2]= &lvl_1[11][45];
 
         pulpos[3]= &lvl_2[6][13];     //estas son las posiciones iniciales de los pulpos en la matriz
@@ -1165,6 +1181,7 @@ void destroy_allegro (void){
     al_destroy_bitmap(lobby);
     al_destroy_bitmap(press_start);
     al_destroy_bitmap(mar);
+    al_destroy_bitmap(agua);
     al_destroy_bitmap(alga);
     al_destroy_bitmap(bloque);
     al_destroy_bitmap(mario_adelante);
@@ -1186,7 +1203,7 @@ void destroy_allegro (void){
 
 
  
- void creat_map_allegro(int arr [ALTURA][LARGO]){
+ void print_map_allegro(int arr [ALTURA][LARGO]){
  
      int largo_elemento=0;
      int alto_elemento=0;
@@ -1198,6 +1215,9 @@ void destroy_allegro (void){
     for (int i=0;i<16;i++){
         for(int p=pos[2]; p<(16+pos[2]);p++){
             switch(arr[i][p]){
+                case AGUA:
+                    al_draw_bitmap(agua,largo_elemento,alto_elemento,0);
+                    break;
                 case BLOQUE:
                     al_draw_bitmap(bloque,largo_elemento,alto_elemento,0);
                     break;
@@ -1233,8 +1253,6 @@ void destroy_allegro (void){
     }
      
     al_flip_display();
-    al_rest(5.0);
- 
  }
  
 
