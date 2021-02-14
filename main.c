@@ -36,7 +36,7 @@
 /* prototipos*/
 void bienvenida (void);
 
-void printmat(int arr[ALTURA][LARGO]); /*creo que no es necesario pasarle una arreglo*/
+//void printmat(int arr[ALTURA][LARGO]); /*creo que no es necesario pasarle una arreglo*/
 void movimiento(int arr[ALTURA][LARGO],int boton);  /*realiza el movimiento efectivo de mario*/
 void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]);  /*Funcion que busca la posicion de mario en el mapa (Matriz), se le pasa el nivel y la cantidad de movimiento del mapa*/
 int reglas (int arr[ALTURA][LARGO],int boton);      /*evalua la validez del movimietno del mario*/
@@ -87,7 +87,7 @@ int main() {
     niveles[1]=&lvl_2;
     niveles[2]=&lvl_3;
     
-    pthread_create(&th1,NULL,entrad_allegro,NULL);  //modificado para allegro
+    pthread_create(&th1,NULL,entradallegro,NULL);  //modificado para allegro
     pthread_create(&th2,NULL,caida,NULL);
     pthread_create(&th3,NULL,enemigo_pez,NULL);
     pthread_create(&th4,NULL,enemigo_pes,NULL);
@@ -103,8 +103,8 @@ int main() {
                     pos[0]=0;
                     pos[1]=0;
                     pos[2]=0;                    
-                    //printmat(*niveles[0]);  //imprime el nivel
-                    print_map_allegro(*niveles[0]);
+                    printmat(*niveles[0]);  //imprime el nivel
+                    //print_map_allegro(*niveles[0]);
                     
                     i=0;fin=1; break;
             case 2 :
@@ -113,8 +113,8 @@ int main() {
                     pos[0]=0;
                     pos[1]=0;
                     pos[2]=0;
-                    //printmat(*niveles[1]);  //
-                    print_map_allegro(*niveles[1]);
+                    printmat(*niveles[1]);  //
+                    //print_map_allegro(*niveles[1]);
                     i=1;fin=1;boton=0;break;
             case 3 :
                     printf("**************NIVEL 3*****************\n");
@@ -122,8 +122,8 @@ int main() {
                     pos[0]=0;
                     pos[1]=0;
                     pos[2]=0;
-                    //printmat(*niveles[2]);  //
-                    print_map_allegro(*niveles[2]);
+                    printmat(*niveles[2]);  //
+                    //print_map_allegro(*niveles[2]);
                     boton=0;i=2;fin=1;break;
         }
         
@@ -145,16 +145,16 @@ int main() {
                 if(val==0){                  /*si el movimiento esta permitido , lo mueve efectivamente*/
                     
                     movimiento(*niveles[i],boton); /*realza el movimiento efectivo, solo de Mario*/
-                    //printmat(*niveles[i]);
-                    print_map_allegro(*niveles[i]);
+                    printmat(*niveles[i]);
+                    //print_map_allegro(*niveles[i]);
                     tecla=0;
                 }
                 else if(val==2){             /*recogio una moneda*/   
                     puntaje+=10;
                     printf("PUNTAJE:%d\n",puntaje);
                     movimiento(*niveles[i],boton);
-                    //printmat(*niveles[i]);
-                    print_map_allegro(*niveles[i]);
+                    printmat(*niveles[i]);
+                    //print_map_allegro(*niveles[i]);
                     tecla=0;
                 }
                 else if(val==4){    //paso de nivel
@@ -262,18 +262,6 @@ void ctrl_posicion(int arr[ALTURA][LARGO],int pos[3]){  /*se le pasa la matriz n
     }
     pthread_mutex_unlock(&lock2);
 }
-/*
-void printmat(int arr[ALTURA][LARGO]){
-    if(((16+pos[2])-pos[1])<=8){        //se lee la columna en donde esta mario y se mueve le mapa si esta en la mitad
-        pos[2]+=4;                      //la cantidad de este movimineto se guarda en el tercer elemento del arreglo, se elije por default que se mueva de a 4
-    }  
-    for (int i=0;i<16;i++){
-        for(int p=pos[2]; p<(16+pos[2]);p++){
-            printf("%d",arr[i][p]);
-        }
-        printf("\n");
-    }
-}*/
 
 int reglas(int arr[ALTURA][LARGO],int boton){ /*se le pasa el nivel en el que se esta jugando, y el comando accionado*/
                             /*se devuelve 1 si el movimiento no esta permitido,2 si agarro una moneda,3 si murio 4 si llego al final y 0 si el movimineto esta permitido*/
@@ -823,11 +811,32 @@ void * enemigo_pulpo(){             ////este thread controla los movimientos del
 void bienvenida (void){
     printf("Bienvenido a la beta del super mario\n");
 }
+ 
+ /*
+void printmat(int arr[ALTURA][LARGO]){
+    if(((16+pos[2])-pos[1])<=8){        //se lee la columna en donde esta mario y se mueve le mapa si esta en la mitad
+        pos[2]+=4;                      //la cantidad de este movimineto se guarda en el tercer elemento del arreglo, se elije por default que se mueva de a 4
+        printf("\npos[1]:%d\n",pos[1]);
+    }  
+    if(pos[2]<56){
+        for (int i=0;i<16;i++){
+            for(int p=pos[2]; p<(16+pos[2]);p++){
+                printf("%d",arr[i][p]);
+            }
+            printf("\n");
+        }
+    }
+    else{
+        for (int i=0;i<16;i++){
+            for(int p=56; p<(70);p++){
+                printf("%d",arr[i][p]);
+            }
+            printf("\n");
+        }
+    }
+}*/
 
 
- 
- 
- 
 
 
 

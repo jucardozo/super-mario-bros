@@ -17,13 +17,13 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
- /*INCLUYO LIBRERIAS DE ALLEGRO*/
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_audio.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
 #include <allegro5/allegro_acodec.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
 #include"levels.h" //lo incluyo solo por los defines
+
+
 
 /*DEFINE,PARA SU USO EN ALLEGRO*/
 #define FPS    60.0
@@ -40,7 +40,7 @@ extern "C" {
 /*PROTOTIPOS*/
 int inicializacion (void);     //se inicializa todo lo que corresponde a allegro
 void destroy_allegro (void);   //se destruye todo lo propio de Allegro
-void * entrad_allegro(void);    /*recibe por comando el movimiento deseado por el jugador*/
+void * entradallegro();    /*recibe por comando el movimiento deseado por el jugador*/
 void print_map_allegro(int arr [ALTURA][LARGO]);        //imprime mapa allegro
 
 

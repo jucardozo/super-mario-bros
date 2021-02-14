@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 #include "myallegro.h"
+ /*INCLUYO LIBRERIAS DE ALLEGRO*/
 
 
 ALLEGRO_DISPLAY *display;                       //se crean  puntero hacia estrucuras de allegro
@@ -255,7 +256,7 @@ int inicializacion(){
     al_rest(0.5);  
  }
 
-void *entrad_allegro(){
+void *entradallegro(){
     enum MYKEYS {
     KEY_W, KEY_S, KEY_A, KEY_D,ESC,ENTER,ESPACIO //enumero mis letras oa q quede mas fachero el arrgelo
     };
@@ -360,47 +361,93 @@ void print_map_allegro(int arr [ALTURA][LARGO]){
     if(((16+pos[2])-pos[1])<=8){        //se lee la columna en donde esta mario y se mueve le mapa si esta en la mitad
         pos[2]+=4;                      //la cantidad de este movimineto se guarda en el tercer elemento del arreglo, se elije por default que se mueva de a 4
     }  
- 
-    for (int i=0;i<16;i++){
-        for(int p=pos[2]; p<(16+pos[2]);p++){
-         
-            switch(arr[i][p]){
-                case AGUA:
-                    al_draw_bitmap(agua,largo_elemento,alto_elemento,0);
-                    break;
-                case BLOQUE:
-                    al_draw_bitmap(bloque,largo_elemento,alto_elemento,0);
-                    break;
-                case ALGA:
-                    al_draw_bitmap(alga,largo_elemento,alto_elemento,0);
-                    break;
-                case FINAL:
-                    al_draw_bitmap(final,largo_elemento,alto_elemento,0);
-                    break;
-                case MONEDA:
-                    al_draw_bitmap(moneda,largo_elemento,alto_elemento,0);
-                    break;
-                case PEZ:
-                    al_draw_bitmap(pez,largo_elemento,alto_elemento,0);
-                    break;
-                case PES:
-                    al_draw_bitmap(pes,largo_elemento,alto_elemento,0);
-                    break;
-                case PULPO:
-                    al_draw_bitmap(pulpo,largo_elemento,alto_elemento,0);
-                    break;
-                case MARIO:
-                    al_draw_bitmap(mario_adelante,largo_elemento,alto_elemento,0);
-                    break;
-                default:
-                    break;
+    if(pos[2]<56){
+        for (int i=0;i<16;i++){
+            for(int p=pos[2]; p<(16+pos[2]);p++){
+
+                switch(arr[i][p]){
+                    case AGUA:
+                        al_draw_bitmap(agua,largo_elemento,alto_elemento,0);
+                        break;
+                    case BLOQUE:
+                        al_draw_bitmap(bloque,largo_elemento,alto_elemento,0);
+                        break;
+                    case ALGA:
+                        al_draw_bitmap(alga,largo_elemento,alto_elemento,0);
+                        break;
+                    case FINAL:
+                        al_draw_bitmap(final,largo_elemento,alto_elemento,0);
+                        break;
+                    case MONEDA:
+                        al_draw_bitmap(moneda,largo_elemento,alto_elemento,0);
+                        break;
+                    case PEZ:
+                        al_draw_bitmap(pez,largo_elemento,alto_elemento,0);
+                        break;
+                    case PES:
+                        al_draw_bitmap(pes,largo_elemento,alto_elemento,0);
+                        break;
+                    case PULPO:
+                        al_draw_bitmap(pulpo,largo_elemento,alto_elemento,0);
+                        break;
+                    case MARIO:
+                        al_draw_bitmap(mario_adelante,largo_elemento,alto_elemento,0);
+                        break;
+                    default:
+                        break;
+                }
+                largo_elemento += LARGO_ELEMENTO;
             }
-            largo_elemento += LARGO_ELEMENTO;
+            largo_elemento = 0;
+            alto_elemento += ALTO_ELEMENTO;
+
         }
-        largo_elemento = 0;
-        alto_elemento += ALTO_ELEMENTO;
-       
-    }
      
-    al_flip_display();
+        al_flip_display();
+    }
+    else{
+        for (int i=0;i<16;i++){
+            for(int p=56; p<(70);p++){
+
+                switch(arr[i][p]){
+                    case AGUA:
+                        al_draw_bitmap(agua,largo_elemento,alto_elemento,0);
+                        break;
+                    case BLOQUE:
+                        al_draw_bitmap(bloque,largo_elemento,alto_elemento,0);
+                        break;
+                    case ALGA:
+                        al_draw_bitmap(alga,largo_elemento,alto_elemento,0);
+                        break;
+                    case FINAL:
+                        al_draw_bitmap(final,largo_elemento,alto_elemento,0);
+                        break;
+                    case MONEDA:
+                        al_draw_bitmap(moneda,largo_elemento,alto_elemento,0);
+                        break;
+                    case PEZ:
+                        al_draw_bitmap(pez,largo_elemento,alto_elemento,0);
+                        break;
+                    case PES:
+                        al_draw_bitmap(pes,largo_elemento,alto_elemento,0);
+                        break;
+                    case PULPO:
+                        al_draw_bitmap(pulpo,largo_elemento,alto_elemento,0);
+                        break;
+                    case MARIO:
+                        al_draw_bitmap(mario_adelante,largo_elemento,alto_elemento,0);
+                        break;
+                    default:
+                        break;
+                }
+                largo_elemento += LARGO_ELEMENTO;
+            }
+            largo_elemento = 0;
+            alto_elemento += ALTO_ELEMENTO;
+
+        }
+     
+        al_flip_display();
+    }
+    
  }
